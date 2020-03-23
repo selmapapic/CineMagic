@@ -1,3 +1,4 @@
+![](images/logo_normalno_vol2.png)
 # Grupa4-CineMagic
 ### Tema: Kino
 
