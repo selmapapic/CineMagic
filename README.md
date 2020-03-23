@@ -1,5 +1,5 @@
 # Grupa4-CineMagic
-###Tema: Kino
+### Tema: Kino
 
 ## Članovi tima SiKTer 
 - [Šahović Tarik](https://github.com/tsahovic1 "Github")
