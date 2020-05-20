@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CineMagic", "CineMagic\CineMagic.csproj", "{FD785CDB-C7EA-463C-AF33-A22F94FCF51D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMagic.Dal", "CineMagic.Dal\CineMagic.Dal.csproj", "{F28DC9C4-1840-49F9-9B7F-746B37EE7067}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CineMagic.Dal", "CineMagic.Dal\CineMagic.Dal.csproj", "{F28DC9C4-1840-49F9-9B7F-746B37EE7067}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMagic.Facade", "CineMagic.Facade\CineMagic.Facade.csproj", "{23BFBF1C-3665-4191-B20E-3802476DC93A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMagic.Facade.Efc", "CineMagic.Facade.Efc\CineMagic.Facade.Efc.csproj", "{C4F78820-B912-4AE5-8140-2AD20411F81F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMagic.Facade.Models", "CineMagic.Facade.Models\CineMagic.Facade.Models.csproj", "{B0D337B9-07D5-4A69-8465-1B4F40FE2AF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{F28DC9C4-1840-49F9-9B7F-746B37EE7067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F28DC9C4-1840-49F9-9B7F-746B37EE7067}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F28DC9C4-1840-49F9-9B7F-746B37EE7067}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23BFBF1C-3665-4191-B20E-3802476DC93A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23BFBF1C-3665-4191-B20E-3802476DC93A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23BFBF1C-3665-4191-B20E-3802476DC93A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23BFBF1C-3665-4191-B20E-3802476DC93A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4F78820-B912-4AE5-8140-2AD20411F81F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4F78820-B912-4AE5-8140-2AD20411F81F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4F78820-B912-4AE5-8140-2AD20411F81F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4F78820-B912-4AE5-8140-2AD20411F81F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0D337B9-07D5-4A69-8465-1B4F40FE2AF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0D337B9-07D5-4A69-8465-1B4F40FE2AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0D337B9-07D5-4A69-8465-1B4F40FE2AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0D337B9-07D5-4A69-8465-1B4F40FE2AF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
