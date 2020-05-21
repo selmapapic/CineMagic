@@ -1,11 +1,11 @@
 ﻿using CineMagic.Dal.Context;
-using CineMaigc.Facade.Models.Movie;
 using CineMagic.Facade.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CineMagic.Facade.Models.Movie;
 
 namespace CineMagic.Facade.Efc.Repositories
 {
@@ -24,7 +24,7 @@ namespace CineMagic.Facade.Efc.Repositories
                 .Select(m => new MovieGetDetailsRes
                 {
                     Name = m.Name,
-                    TrailerURL = m.TrailerURL,
+                    TrailerURL = m.TrailerUrl,
                     Duration = m.Duration,
                     Synopsis = m.Synopsis,
                     Director = m.Director,
@@ -48,7 +48,7 @@ namespace CineMagic.Facade.Efc.Repositories
                 .Select(m => new MovieGetDetailsRes
                 {
                     Name = m.Name,
-                    TrailerURL = m.TrailerURL,
+                    TrailerURL = m.TrailerUrl,
                     Duration = m.Duration,
                     Synopsis = m.Synopsis,
                     Director = m.Director,
@@ -63,6 +63,11 @@ namespace CineMagic.Facade.Efc.Repositories
                 }).ToListAsync();
 
             return res;
+        }
+
+        Task<IList<MovieGetDetailsRes>> IMoviesRepository.GetAllMoviesAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
