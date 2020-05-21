@@ -22,9 +22,15 @@
     <p style="margin-top:10px"></p>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" >
     <div class="row">
-        <div class="col-5 offset-1">
+        <div class="col-4 offset-2" style="background-color:burlywood">
+
+        </div>
+        <br/>
+    </div>
+    <div class="row">
+        <div class="col-4 offset-2" style="background-color:burlywood">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -51,8 +57,14 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-6">
-
+        <div class="col-2 offset-3">
+            <b style="font-size:large">Cast</b>
+            <ul>
+                @foreach (var item in Model.ActorNames)
+                {
+                    <li><i>@item</i></li>
+                }
+            </ul>
         </div>
 
     </div>
