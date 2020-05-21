@@ -19,15 +19,23 @@ namespace CineMagic.Facade.Efc.Repositories
 
         public async Task<MovieGetDetailsRes> GetDetailsAsync(MovieGetDetailsReq req)
         {
+
+            IList<DateTime> dateTimes = await _dbContext.Projections
+                .Where(p => p.MovieId == req.Id)
+                .Select(p => p.ProjectionTime)
+                .ToListAsync();
+
             MovieGetDetailsRes res = await _dbContext.Movies
                 .Where(m => m.Id == req.Id)
                 .Select(m => new MovieGetDetailsRes
                 {
                     Name = m.Name,
                     TrailerURL = m.TrailerUrl,
+                    PosterURL = m.PosterUrl,
                     Duration = m.Duration,
                     Synopsis = m.Synopsis,
                     Director = m.Director,
+                    ProjectionsDateTime = dateTimes,
 
                     GenreNames = m.GenreLinks
                         .Select(mgl => mgl.MovieGenre.Name)
@@ -36,6 +44,7 @@ namespace CineMagic.Facade.Efc.Repositories
                     ActorNames = m.ActorMovieLinks
                         .Select(aml => aml.Actor.Name)
                         .ToList()
+
                 }).FirstOrDefaultAsync();
 
             return res;

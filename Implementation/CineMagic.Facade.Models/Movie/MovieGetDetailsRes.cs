@@ -12,6 +12,8 @@ namespace CineMagic.Facade.Models.Movie
 
         public IList<string> GenreNames { get; set; }
 
+        public IList<DateTime> ProjectionsDateTime { get; set; }
+
         public int Duration { get; set; }
         public string Synopsis { get; set; }
         public IList<string> ActorNames { get; set; }
