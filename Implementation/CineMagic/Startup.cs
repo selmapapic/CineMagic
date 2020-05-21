@@ -12,6 +12,9 @@ using CineMagic.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CineMagic.Facade.Repositories;
+using CineMagic.Facade.Efc.Repositories;
+using CineMagic.Dal.Context;
 
 namespace CineMagic
 {
@@ -35,7 +38,7 @@ namespace CineMagic
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddScoped<CinemaResDbContext, CinemaResDbContext>();
+            services.AddScoped<CineMagicDbContext, CineMagicDbContext>();
             services.AddScoped<IMoviesRepository, MoviesRepository>();
         }
 
