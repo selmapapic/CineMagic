@@ -4,4 +4,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CineMagic.Dal\CineMagic.Dal.csproj" />
+    <ProjectReference Include="..\CineMagic.Facade.Models\CineMagic.Facade.Models.csproj" />
+    <ProjectReference Include="..\CineMagic.Facade\CineMagic.Facade.csproj" />
+  </ItemGroup>
+
 </Project>

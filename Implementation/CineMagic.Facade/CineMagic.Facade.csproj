@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CineMagic.Facade.Models\CineMagic.Facade.Models.csproj" />
+  </ItemGroup>
+
 </Project>
