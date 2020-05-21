@@ -45,7 +45,7 @@
                         {
                         <tr>
                             <td>
-                                @item.ToString("dd/MM/yyyy")
+                                @item.ToString("dd/MM/yyyy"), @item.DayOfWeek
                             </td>
                             <td>
                                 @item.ToString("HH:mm")
@@ -65,6 +65,8 @@
                     <li><i>@item</i></li>
                 }
             </ul>
+            <p style="font-size:large"><b>Director: </b><i>@Model.Director</i></p>
+            <p style="font-size:large"><b>Duration: </b><i>@Model.Duration min</i></p>
         </div>
 
     </div>
