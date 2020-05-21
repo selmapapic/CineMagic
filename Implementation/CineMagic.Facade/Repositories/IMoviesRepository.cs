@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CineMagic.Facade.Models.Movie;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
