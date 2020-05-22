@@ -3,7 +3,7 @@
 }
     <body style="        background: url(https://wallpapercrafter.com/uploads/posts/2316-___red-seat-cinema-and-theatre-hd.jpg);
         background-size: 100% 100%;">
-        <div class="container-fluid" style="background-color:bisque">
+        <div class="container-fluid">
             <div class="row" style="background-color: bisque">
                 <div class="col-4 col">
                     <img class="img-fluid" src="~/images/logo_providno_2.png" alt="Logo" style="width:200px;height:150px; align-content: end">
@@ -25,38 +25,55 @@
             <div class="row">
                 <br />
             </div>
-            <div class="row" style="font-family: 'Book Antiqua'; margin-left:15px">
-                <h5>Trending now</h5>
-            </div>
             <div class="row">
                 <br />
             </div>
-            <div class="row">
-                <br />
-            </div>
-            <div class="row">
-                <div class="col-4 col">
-                    <img class="img-fluid" src="~/images/logo_providno_2.png" alt="Logo" style="width:200px;height:150px; align-content: end">
+            
+            <div class="container-fluid" style="background-color: bisque">
+                <div class="row">
+                    <br />
                 </div>
-                <div class="col-4 col">
-                    <img class="img-fluid" src="~/images/logo_providno_2.png" alt="Logo" style="width:200px;height:150px; align-content: end">
+                <div class="row" style="font-family: 'Book Antiqua'; margin-left:15px; text-underline-position:below; background-color:bisque">
+                    <h4><strong>TRENDING NOW</strong></h4>
                 </div>
-                <div class="col-4 col">
-                    <img class="img-fluid" src="~/images/logo_providno_2.png" alt="Logo" style="width:200px;height:150px; align-content: end">
+                <div class="row">
+                    <br />
                 </div>
-            </div>
-            <div class="row">
-                <br />
-            </div>
-            <div class="row">
-                <div class="col-4 col">
-                    <img class="img-fluid" src="~/images/logo_providno_2.png" alt="Logo" style="width:200px;height:150px; align-content: end">
-                </div>
-                <div class="col-4 col">
-                    <img class="img-fluid" src="~/images/logo_providno_2.png" alt="Logo" style="width:200px;height:150px; align-content: end">
-                </div>
-                <div class="col-4 col">
-                    <img class="img-fluid" src="~/images/logo_providno_2.png" alt="Logo" style="width:200px;height:150px; align-content: end">
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    @{var i = 0;}
+                                    @foreach (var item in Model)
+                                    {
+                                        @if (i < 3)
+                                        {
+                                            <td>
+                                                <img src="@Url.Content(@item.PosterURL)" style="width:300px;height:450px" />
+                                            </td>
+                                        }
+
+                                        i++;
+                                    }
+                                </tr>
+                                <tr>
+                                    @{i = 0;}
+                                    @foreach (var item in Model)
+                                    {
+                                        @if (i >= 3 && i < 6)
+                                        {
+                                            <td>
+                                                <img src="@Url.Content(@item.PosterURL)" style="width:300px;height:450px" />
+                                            </td>
+                                        }
+
+                                        i++;
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

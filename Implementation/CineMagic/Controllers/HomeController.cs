@@ -2,21 +2,32 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CineMagic.Models;
+using CineMagic.Facade.Models.Movie;
+using CineMagic.Facade.Repositories;
 
 namespace CineMagic.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private IMoviesRepository _moviesRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IMoviesRepository moviesRepository)
         {
             _logger = logger;
+            this._moviesRepository = moviesRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            IList<MovieGetDetailsRes> movies = await _moviesRepository.GetAllMoviesAsync();
+            var sorted = movies.OrderByDescending(id => id.Id).ToList();
+            foreach(var m in sorted)
+            {
+                Console.WriteLine(m.Name);
+            }
+            return View(sorted);
+
         }
 
         public IActionResult Privacy()

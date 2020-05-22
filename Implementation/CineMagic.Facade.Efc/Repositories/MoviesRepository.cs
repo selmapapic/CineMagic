@@ -56,8 +56,10 @@ namespace CineMagic.Facade.Efc.Repositories
             IList<MovieGetDetailsRes> res = await _dbContext.Movies
                 .Select(m => new MovieGetDetailsRes
                 {
+                    Id = m.Id,
                     Name = m.Name,
                     TrailerURL = m.TrailerUrl,
+                    PosterURL = m.PosterUrl,
                     Duration = m.Duration,
                     Synopsis = m.Synopsis,
                     Director = m.Director,
@@ -72,11 +74,6 @@ namespace CineMagic.Facade.Efc.Repositories
                 }).ToListAsync();
 
             return res;
-        }
-
-        Task<IList<MovieGetDetailsRes>> IMoviesRepository.GetAllMoviesAsync()
-        {
-            throw new NotImplementedException();
         }
     }
 }
