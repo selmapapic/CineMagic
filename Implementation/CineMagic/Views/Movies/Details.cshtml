@@ -13,7 +13,7 @@
             <p><i>@Model.Synopsis</i></p>
         </div>
         <div class="col-3 offset-1">
-            <img src="@Url.Content(@Model.PosterURL)" style="width:200px;height:150px/>
+            <img src="@Url.Content(@Model.PosterURL)" style="width:200px;height:150px  />
         </div>
     </div>
 </div>
@@ -22,58 +22,86 @@
     <p style="margin-top:10px"></p>
 </div>
 
-<div class="container-fluid" >
-    <div class="row">
-        <div class="col-4 offset-2" style="background-color:burlywood">
+<div class="container-fluid">
 
-        </div>
-        <br/>
+    <div class="row">
     </div>
     <div class="row">
-        <div class="col-4 offset-2" style="background-color:burlywood">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Projection Date</th>
-                        <th>Projection Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var item in Model.ProjectionsDateTime)
-                    {
-                        @if (DateTime.Compare(@item, DateTime.Now) > 0)
-                        {
-                        <tr>
-                            <td>
-                                @item.ToString("dd/MM/yyyy"), @item.DayOfWeek
-                            </td>
-                            <td>
-                                @item.ToString("HH:mm")
-
-                            </td>
-                        </tr>
-                            }
-                        }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-2 offset-3">
-            <b style="font-size:large">Cast</b>
-            <ul>
-                @foreach (var item in Model.ActorNames)
+        <div class="col-6 offset-1">
+            @foreach (var item in Model.GenreNames)
+            {
+                @if (Model.GenreNames[0] != item)
                 {
-                    <li><i>@item</i></li>
+                    <b style="margin-left:2.5em;font-size:large;font-family:'Copperplate Gothic'">@item</b>
                 }
-            </ul>
-            <p style="font-size:large"><b>Director: </b><i>@Model.Director</i></p>
+                else
+                {
+                    <b style="font-size:large;font-family:'Copperplate Gothic'">@item</b>
+                }
+
+            }
+        </div>
+        <div class="col-3 offset-2">
             <p style="font-size:large"><b>Duration: </b><i>@Model.Duration min</i></p>
         </div>
-
     </div>
 </div>
 
-<div class="footer">
-</div>
+
+    <!-- 'Copperplate Gothic' font -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4 offset-2" style="background-color:burlywood">
+
+            </div>
+            <br />
+        </div>
+        <div class="row">
+            <div class="col-4 offset-2" style="background-color:burlywood">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Projection Date</th>
+                            <th>Projection Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ProjectionsDateTime)
+                        {
+                            @if (DateTime.Compare(@item, DateTime.Now) > 0)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.ToString("dd/MM/yyyy"), @item.DayOfWeek
+                                    </td>
+                                    <td>
+                                        @item.ToString("HH:mm")
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2 offset-3">
+                <b style="font-size:large">Cast</b>
+                <ul>
+                    @foreach (var item in Model.ActorNames)
+                    {
+                        <li><i>@item</i></li>
+                    }
+                </ul>
+                <p style="font-size:large"><b>Director: </b><i>@Model.Director</i></p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+    </div>
 
 
 
