@@ -4,6 +4,10 @@ using Microsoft.Extensions.Logging;
 using CineMagic.Models;
 using CineMagic.Facade.Models.Movie;
 using CineMagic.Facade.Repositories;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace CineMagic.Controllers
 {
