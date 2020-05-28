@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using CineMagic.Facade.Models.Projection;
 
 namespace CineMagic.Controllers
 {
@@ -15,11 +16,13 @@ namespace CineMagic.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private IMoviesRepository _moviesRepository;
+        private IProjectionsRespository _projectionsRepository;
 
-        public HomeController(ILogger<HomeController> logger, IMoviesRepository moviesRepository)
+        public HomeController(ILogger<HomeController> logger, IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository)
         {
             _logger = logger;
             this._moviesRepository = moviesRepository;
+            this._projectionsRepository = projectionsRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -48,7 +51,7 @@ namespace CineMagic.Controllers
 
         public async Task<IActionResult> PlayingNow()
         {
-            IList<MovieGetDetailsRes> movies = await _moviesRepository.GetAllMoviesAsync();
+            IList<ProjectionGetDetailsRes> movies = await _projectionsRepository.GetAllProjectionsAsync();
            
             return View(movies);
         }
