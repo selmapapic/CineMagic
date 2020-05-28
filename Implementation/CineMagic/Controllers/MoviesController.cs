@@ -20,8 +20,6 @@ namespace CineMagic.Controllers
         public async Task<IActionResult> Details(MovieGetDetailsReq req)
         {
             MovieGetDetailsRes res = await _moviesRepository.GetDetailsAsync(req);
-            Console.WriteLine(res.PosterURL);
-
             return View(res);
         }
 
@@ -31,5 +29,13 @@ namespace CineMagic.Controllers
 
             return View(movies);
         }
+
+        
+        public IActionResult MovieReservation(MovieGetDetailsRes movie)
+        {
+            return View(movie);
+        }
+
+
     }
 }
