@@ -12,10 +12,12 @@ namespace CineMagic.Controllers
     public class MoviesController : Controller
     {
         private IMoviesRepository _moviesRepository;
+        private IProjectionsRespository _projectionsRespository;
 
-        public MoviesController(IMoviesRepository moviesRepository)
+        public MoviesController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRespository)
         {
             this._moviesRepository = moviesRepository;
+            this._projectionsRespository = projectionsRespository;
         }
 
         public async Task<IActionResult> Details(MovieGetDetailsReq req)
@@ -32,14 +34,17 @@ namespace CineMagic.Controllers
         }
 
         
-        public async Task<IActionResult> MovieReservation(ProjectionGetDetailsReq movie)
+        public async Task<IActionResult> MovieReservation(MovieGetDetailsReq req)
         {
-            MovieGetDetailsReq req = new MovieGetDetailsReq
-            {
-                Id = movie.MovieId
-            };
             MovieGetDetailsRes movieRes = await _moviesRepository.GetDetailsAsync(req);
-            return View(movieRes);
+            ProjectionGetDetailsReq projectionReq = new ProjectionGetDetailsReq
+            {
+                MovieId = movieRes.Id
+            };
+
+            IList<ProjectionGetDetailsRes> projectionsRes = await _projectionsRespository.GetProjectionsForMovieAsync(projectionReq);
+
+            return View(projectionsRes);
         }
 
 

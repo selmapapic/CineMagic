@@ -1,4 +1,5 @@
 ﻿using CineMagic.Dal.Context;
+using CineMagic.Dal.Entities;
 using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,14 @@ namespace CineMagic.Facade.Efc.Repositories
                 .Select(p => new ProjectionGetDetailsRes
                 {
                     ProjectionTime = p.ProjectionTime,
+                    MovieId = p.MovieId,
+                    MovieName = p.Movie.Name
+                    //CinemaHall =  _dbContext.CinemaHalls
+                    //    .Where(c => c.Id == p.CinemaHallId)
+                    //    .Select(c => new CinemaHall
+                    //    {
+
+                    //    }).FirstOrDefault(),
 
                 }).ToListAsync();
 
