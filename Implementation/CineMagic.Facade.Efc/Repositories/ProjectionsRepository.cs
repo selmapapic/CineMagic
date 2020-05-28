@@ -18,9 +18,17 @@ namespace CineMagic.Facade.Efc.Repositories
             this._dbContext = dbContext;
         }
 
-        public Task<IList<ProjectionGetDetailsRes>> GetAllProjectionsAsync()
+        public async Task<IList<ProjectionGetDetailsRes>> GetAllProjectionsAsync()
         {
-            throw new NotImplementedException();
+            IList<ProjectionGetDetailsRes> res = await _dbContext.Projections
+                .Select(p => new ProjectionGetDetailsRes
+                {
+                    ProjectionTime = p.ProjectionTime,
+
+                }).ToListAsync();
+
+
+            return res;
         }
 
         public async Task<IList<ProjectionGetDetailsRes>> GetProjectionsForMovieAsync(ProjectionGetDetailsReq req)
