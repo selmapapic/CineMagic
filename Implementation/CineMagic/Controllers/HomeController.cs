@@ -51,9 +51,9 @@ namespace CineMagic.Controllers
 
         public async Task<IActionResult> PlayingNow()
         {
-            IList<ProjectionGetDetailsRes> movies = await _projectionsRepository.GetAllProjectionsAsync();
+            IList<ProjectionGetDetailsRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
            
-            return View(movies);
+            return View(projections);
         }
     }
 }

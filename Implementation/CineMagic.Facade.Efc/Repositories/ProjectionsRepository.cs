@@ -24,6 +24,8 @@ namespace CineMagic.Facade.Efc.Repositories
                 .Select(p => new ProjectionGetDetailsRes
                 {
                     ProjectionTime = p.ProjectionTime,
+                    MovieId = p.MovieId,
+                    MovieName = p.Movie.Name
 
                 }).ToListAsync();
 
