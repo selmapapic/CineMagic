@@ -29,6 +29,7 @@ namespace CineMagic.Facade.Efc.Repositories
                 .Where(m => m.Id == req.Id)
                 .Select(m => new MovieGetDetailsRes
                 {
+                    Id = m.Id,
                     Name = m.Name,
                     TrailerURL = m.TrailerUrl,
                     PosterURL = m.PosterUrl,

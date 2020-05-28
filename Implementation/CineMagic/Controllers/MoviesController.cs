@@ -1,4 +1,5 @@
 ﻿using CineMagic.Facade.Models.Movie;
+using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -31,9 +32,14 @@ namespace CineMagic.Controllers
         }
 
         
-        public IActionResult MovieReservation(MovieGetDetailsRes movie)
+        public async Task<IActionResult> MovieReservation(ProjectionGetDetailsReq movie)
         {
-            return View(movie);
+            MovieGetDetailsReq req = new MovieGetDetailsReq
+            {
+                Id = movie.MovieId
+            };
+            MovieGetDetailsRes movieRes = await _moviesRepository.GetDetailsAsync(req);
+            return View(movieRes);
         }
 
 
