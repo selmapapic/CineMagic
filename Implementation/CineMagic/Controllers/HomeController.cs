@@ -46,7 +46,7 @@ namespace CineMagic.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> NowPlaying()
+        public async Task<IActionResult> PlayingNow()
         {
             IList<MovieGetDetailsRes> movies = await _moviesRepository.GetAllMoviesAsync();
            
