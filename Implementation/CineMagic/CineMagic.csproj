@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\images\bg1.jpg" />
     <None Include="wwwroot\images\logo_providno.png" />
   </ItemGroup>
 

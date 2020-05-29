@@ -20,5 +20,7 @@ namespace CineMagic.Facade.Models.Projection
 
         public IList<AvailableSeat> AvailableSeats { get; set; }
 
+        public string PosterURL { get; set; }
+
     }
 }

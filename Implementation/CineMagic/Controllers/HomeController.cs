@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using CineMagic.Facade.Models.Projection;
+using CineMagic.Facade.Models.PlayingNow;
 
 namespace CineMagic.Controllers
 {
@@ -51,8 +52,8 @@ namespace CineMagic.Controllers
 
         public async Task<IActionResult> PlayingNow()
         {
-            IList<ProjectionGetDetailsRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
-           
+            PlayingNowGetDetailsRes projections = await _projectionsRepository.GetAllProjectionsByDaysAsync();
+            Console.WriteLine(projections.MondayProjections.Count);
             return View(projections);
         }
     }

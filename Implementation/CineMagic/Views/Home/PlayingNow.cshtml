@@ -2,10 +2,10 @@
     ViewData["Title"] = "Playing Now";
 }
 
-<body style="        background: url(https://images-na.ssl-images-amazon.com/images/I/61hhkAf3LgL._AC_SL1000_.jpg);
-        background-size: 100% 100%;">
+<body style="        background: url(images/bg1.jpg);
+        background-size: 100% 100%">
     <div class="container-fluid">
-        <div class="row" style="background-color: bisque">
+        <div class="row" style="background-color: burlywood">
             <div class="col-4 col">
                 <img class="img-fluid" src="~/images/logo_providno_2.png" alt="Logo" style="width:200px;height:150px; align-content: end">
             </div>
@@ -31,13 +31,13 @@
         </div>
 
 
-        <div class="container-fluid" style="background-color: bisque">
+        <div class="container-fluid" style="background-color: burlywood">
             <div class="row">
                 <br />
             </div>
 
-            <div class="row" style="font-family: Arial; margin-left:15px; text-underline-position:below; background-color:bisque">
-                <h4><strong>MONDAY</strong></h4>
+            <div class="row" style="font-family: Arial; margin-left:15px; text-underline-position:below; background-color:burlywood">
+                <h4><strong><u>MONDAY</u></strong></h4>
             </div>
             <div class="row">
                 <br />
@@ -45,33 +45,86 @@
 
             <div id="carouselFadeExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <div class="row">
+
+
+                    @if (Model.MondayProjections.Count <= 3)
+                    {
+                        <div class="carousel-item active">
+                            @for (int i = 0; i < Model.MondayProjections.Count; i++)
+                            {
+                                <div class="col-sm">
+                                    <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i].PosterURL)" style="width:100px;height:300px" />
+                                </div>
+                                <div class="col-sm">
+                                    <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i + 1].PosterURL)" style="width:100px;height:300px" />
+                                </div>
+                                <div class="col-sm">
+                                    <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i + 2].PosterURL)" style="width:100px;height:300px" />
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    else if (Model.MondayProjections.Count > 3)
+                    {
+                <div class="carousel-item active">
+                    <div class="row">
+                        @for (int i = 0; ;)
+                        {
                             <div class="col-sm">
-                                <img class="d-block w-100" src="https://www.movieartarena.com/imgs/hp4ff.jpg" style="width:100px;height:150px" />
+                                <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i].PosterURL)" style="width:100px;height:300px" />
                             </div>
                             <div class="col-sm">
-                                <img class="d-block w-100" src="https://www.movieartarena.com/imgs/hp4ff.jpg" style="width:100px;height:150px" />
+                                <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i + 1].PosterURL)" style="width:100px;height:300px" />
                             </div>
                             <div class="col-sm">
-                                <img class="d-block w-100" src="https://www.movieartarena.com/imgs/hp4ff.jpg" style="width:100px;height:150px" />
+                                <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i + 2].PosterURL)" style="width:100px;height:300px" />
                             </div>
+                            break;
+                        }
                         </div>
                     </div>
-                    <div class="carousel-item">
-                        <div class="row">
-                            <div class="col-sm">
-                                <img class="d-block w-100" src="https://media.harrypotterfanzone.com/goblet-of-fire-wizarding-world-poster.jpg" style="width:100px;height:150px" />
-                            </div>
-                            <div class="col-sm">
-                                <img class="d-block w-100" src="https://media.harrypotterfanzone.com/goblet-of-fire-wizarding-world-poster.jpg" style="width:100px;height:150px" />
-                            </div>
-                            <div class="col-sm">
-                                <img class="d-block w-100" src="https://media.harrypotterfanzone.com/goblet-of-fire-wizarding-world-poster.jpg" style="width:100px;height:150px" />
+
+
+                    @for (int i = 3; i < Model.MondayProjections.Count; i += 3)
+                    {
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i].PosterURL)" style="width:100px;height:300px" />
+                                </div>
+                                @if (Model.MondayProjections.Count > i + 1)
+                                {
+                                    <div class="col-sm">
+                                        <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i + 1].PosterURL)" style="width:100px;height:300px" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm">
+                                        <img src="" style="opacity:0"/>
+                                    </div>
+                                }
+                                @if (Model.MondayProjections.Count > i + 2)
+                                {
+                                    <div class="col-sm">
+                                        <img class="d-block w-100" src="@Url.Content(Model.MondayProjections[i + 2].PosterURL)" style="width:100px;height:300px" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm">
+                                        <img src="" style="opacity:0"/>
+                                    </div>
+                                }
                             </div>
                         </div>
-                    </div>
+                    }
+
+                    }
                 </div>
+
+
 
                 <a class="carousel-control-next" href="#carouselFadeExampleIndicators" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
@@ -82,7 +135,7 @@
             <div class="row">
                 <br />
             </div>
-            <div class="row" style="font-family: Arial; margin-left:15px; text-underline-position:below; background-color:bisque">
+            <div class="row" style="font-family: Arial; margin-left:15px; text-underline-position:below; background-color:burlywood">
                 <h4><strong>TUESDAY</strong></h4>
             </div>
             <div class="row">
