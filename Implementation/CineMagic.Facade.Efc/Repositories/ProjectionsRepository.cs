@@ -7,12 +7,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CineMagic.Facade.Models.PlayingNow;
 
 namespace CineMagic.Facade.Efc.Repositories
 {
     public class ProjectionsRepository : IProjectionsRespository
     {
         private CineMagicDbContext _dbContext;
+        private IList<ProjectionGetDetailsRes> monday = new List<ProjectionGetDetailsRes> ();
+        private IList<ProjectionGetDetailsRes> tuesday = new List<ProjectionGetDetailsRes>();
+        private IList<ProjectionGetDetailsRes> wednesday = new List<ProjectionGetDetailsRes>();
+        private IList<ProjectionGetDetailsRes> thursday = new List<ProjectionGetDetailsRes>();
+        private IList<ProjectionGetDetailsRes> friday = new List<ProjectionGetDetailsRes>();
+        private IList<ProjectionGetDetailsRes> saturday = new List<ProjectionGetDetailsRes>();
+        private IList<ProjectionGetDetailsRes> sunday = new List<ProjectionGetDetailsRes>();
         public ProjectionsRepository(CineMagicDbContext dbContext)
         {
             this._dbContext = dbContext;
@@ -24,12 +32,59 @@ namespace CineMagic.Facade.Efc.Repositories
                 .Select(p => new ProjectionGetDetailsRes
                 {
                     ProjectionTime = p.ProjectionTime,
-
+                    MovieId = p.MovieId,
+                    MovieName = p.Movie.Name
                 }).ToListAsync();
 
 
             return res;
         }
+
+        private bool IsInThisWeek(DateTime date)
+        {
+            DayOfWeek now = DateTime.Now.DayOfWeek;
+            int daysTillToday = now - DayOfWeek.Monday;
+            DateTime thisWeekMonday = DateTime.Now.AddDays(-daysTillToday);
+            DateTime thisWeekSunday = thisWeekMonday.AddDays(6);
+            if (DateTime.Compare(date.Date, thisWeekMonday.Date) >= 0 && DateTime.Compare(date.Date, thisWeekSunday.Date) <= 0) return true;
+            return false;
+        }
+
+        public async Task<PlayingNowGetDetailsRes> GetAllProjectionsByDaysAsync()
+        {
+            IList<ProjectionGetDetailsRes> res = await _dbContext.Projections
+                .Select(p => new ProjectionGetDetailsRes
+                {
+                    ProjectionTime = p.ProjectionTime,
+                    MovieId = p.MovieId,
+                    MovieName = p.Movie.Name,
+                    PosterURL = p.Movie.PosterUrl
+                }).ToListAsync();
+
+            foreach(var item in res)
+            {
+                if (IsInThisWeek(item.ProjectionTime) && item.ProjectionTime.DayOfWeek == DayOfWeek.Monday) monday.Add(item);
+                else if (IsInThisWeek(item.ProjectionTime) && item.ProjectionTime.DayOfWeek == DayOfWeek.Tuesday) tuesday.Add(item);
+                else if (IsInThisWeek(item.ProjectionTime) && item.ProjectionTime.DayOfWeek == DayOfWeek.Wednesday) wednesday.Add(item);
+                else if (IsInThisWeek(item.ProjectionTime) && item.ProjectionTime.DayOfWeek == DayOfWeek.Thursday) thursday.Add(item);
+                else if (IsInThisWeek(item.ProjectionTime) && item.ProjectionTime.DayOfWeek == DayOfWeek.Friday) friday.Add(item);
+                else if (IsInThisWeek(item.ProjectionTime) && item.ProjectionTime.DayOfWeek == DayOfWeek.Saturday) saturday.Add(item);
+                else if (IsInThisWeek(item.ProjectionTime) && item.ProjectionTime.DayOfWeek == DayOfWeek.Sunday) sunday.Add(item);
+            }
+
+            return new PlayingNowGetDetailsRes
+            {
+                MondayProjections = monday,
+                TuesdayProjections = tuesday,
+                WednesdayProjections = wednesday,
+                ThursdayProjections = thursday,
+                FridayProjections = friday,
+                SaturdayProjections = saturday,
+                SundayProjections = sunday
+            };
+        }
+
+
 
         public async Task<IList<ProjectionGetDetailsRes>> GetProjectionsForMovieAsync(ProjectionGetDetailsReq req)
         {
