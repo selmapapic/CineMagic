@@ -1,4 +1,6 @@
-﻿using CineMagic.Facade.Models.Seat;
+﻿using CineMagic.Facade.Models.Projection;
+using CineMagic.Facade.Models.Reservation;
+using CineMagic.Facade.Models.Seat;
 using CineMagic.Facade.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -26,6 +28,24 @@ namespace CineMagic.Controllers
         {
             AvailableSeatGetDetailsRes availableSeatGetDetailsRes = await _availableSeatsRepository.GetAvailableSeatDetails(req);
             return View(availableSeatGetDetailsRes);
+        }
+
+        public async Task<IActionResult> TicketPayment(AvailableSeatGetDetailsReq req)
+        {
+            AvailableSeatGetDetailsRes availableSeatGetDetailsRes = await _availableSeatsRepository.GetAvailableSeatDetails(req);
+
+            ProjectionGetDetailsReq projectionGetDetailsReq = new ProjectionGetDetailsReq
+            {
+                Id = availableSeatGetDetailsRes.ProjectionId
+            };
+            ProjectionGetDetailsRes projectionGetDetailsRes = await _projectionsRepository.GetProjectionById(projectionGetDetailsReq);
+
+            ReservationGetDetailsRes reservation = new ReservationGetDetailsRes
+            {
+                Seat = availableSeatGetDetailsRes,
+                Projection = projectionGetDetailsRes
+            };
+            return View(reservation);
         }
     }
 }

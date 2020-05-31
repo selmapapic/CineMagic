@@ -1,0 +1,42 @@
+﻿<div class="row">
+    <div class="col-8 offset-2">
+        <div class="card">
+            <div class="card-header">
+                <h4>CineMagic TICKET</h4>
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted"><b>Movie: </b> @Model.Projection.MovieName</h6>
+                <h6 class="card-subtitle mb-2 text-muted"><b>Date: </b> @Model.Projection.ProjectionTime.ToString("dd/MM/yyyy"), @Model.Projection.ProjectionTime.DayOfWeek</h6>
+                <h6 class="card-subtitle mb-2 text-muted"><b>Time: </b> @Model.Projection.ProjectionTime.ToString("HH:mm")</h6>
+                <h6 class="card-subtitle mb-2 text-muted"><b>Cinema hall: </b> @Model.Projection.CinemaHall.Id</h6>
+                <h6 class="card-subtitle mb-2 text-muted"><b>Seat: </b> @Model.Seat.Name</h6>
+                <h6 class="card-subtitle mb-2 text-muted"><b>Ticket price: </b>7KM</h6>
+
+
+
+
+                <p class="card-text">
+                    <i>Thank you for using this Web Site for making reservation</i>
+                </p>
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div>
+    <br/>
+</div>
+
+<div class="row">
+    <div class="col-8 offset-2">
+        <form>
+                <b> <i>Enter your cinema card number to pay ticket: </i></b>
+                <br/>
+                <input type="email" class="form-control" id="inputEmail3" placeholder="cinema card number">
+                <br/>
+                <button type="submit" class="btn btn-primary">Confirm</button>
+        </form>
+    </div>
+</div>
