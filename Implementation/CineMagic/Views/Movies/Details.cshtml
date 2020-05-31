@@ -64,20 +64,26 @@
                         <tr>
                             <th>Projection Date</th>
                             <th>Projection Time</th>
+                            <th>Click to book the ticket</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.ProjectionsDateTime)
+                        @foreach (var item in Model.Projections)
                         {
-                            @if (DateTime.Compare(@item, DateTime.Now) > 0)
+                            @if (DateTime.Compare(@item.ProjectionTime, DateTime.Now) > 0)
                             {
                                 <tr>
                                     <td>
-                                        @item.ToString("dd/MM/yyyy"), @item.DayOfWeek
+                                        @item.ProjectionTime.ToString("dd/MM/yyyy"), @item.ProjectionTime.DayOfWeek
                                     </td>
                                     <td>
-                                        @item.ToString("HH:mm")
+                                        @item.ProjectionTime.ToString("HH:mm")
 
+                                    </td>
+                                    <td>
+                                        <a href="/Movies/MovieReservation/@item.Id">
+                                            <img class="img-fluid" src="~/images/ticket.jpg" width:50px;height:50px>
+                                        </a>
                                     </td>
                                 </tr>
                             }

@@ -1,41 +1,5 @@
-﻿<div class="row" style="text-align:center">
-
-    <h1>@Model[0].MovieName</h1>
-</div>
-
-<div class="row">
-    <div class="col-6">
-        <div>
-            <label for="datetime">Choose Date & Time of Projection:  </label>
-            <select id="datetime">
-                <option value="blank" style="display:none"></option>
-                @foreach (var item in Model)
-                {
-                    @if (DateTime.Compare(@item.ProjectionTime, DateTime.Now) > 0)
-                    {
-                        <option>@item.ProjectionTime.ToString("dd/MM/yyyy"), @item.ProjectionTime.ToString("HH:mm") @item.ProjectionTime.DayOfWeek</option>
-                    }
-                }
-
-            </select>
-        </div>
-        <div>
-            <label for="cinemahall">Cinemahall:  </label>
-            <select id="cinemahall">
-                <option value="blank" style="display:none"></option>
-                <option>cinemahall1</option>
-                <option>cinemahall2</option>
-            </select>
-        </div>
-        <p>Discount: 10%</p>
-        <p>Total: </p>
-        <div class="btn-danger">
-
-        </div>
-    </div>
-    <div class="col-6">
-        <img src="@Url.Content("https://www.dorkinghalls.co.uk/wp-content/uploads/2018/11/seating_plans_martineau_hall.jpg")" style="width:200px;height:150px"    />
-    </div>
+﻿<div>
+    Ovo je projekcija sa Id @Model.Id i za film @Model.MovieName
 </div>
 
 <div class="footer">

@@ -7,8 +7,9 @@ namespace CineMagic.Facade.Repositories
 {
     public interface IProjectionsRespository
     {
-        Task<IList<ProjectionGetDetailsRes>> GetProjectionsForMovieAsync(ProjectionGetDetailsReq req);
+        Task<IList<ProjectionGetDetailsRes>> GetProjectionsForMovieAsync(ProjectionGetDetailsByMovieIdReq req);
         Task<IList<ProjectionGetDetailsRes>> GetAllProjectionsAsync();
         Task<PlayingNowGetDetailsRes> GetAllProjectionsByDaysAsync();
+        Task<ProjectionGetDetailsRes> GetProjectionById(ProjectionGetDetailsReq req);
     }
 }

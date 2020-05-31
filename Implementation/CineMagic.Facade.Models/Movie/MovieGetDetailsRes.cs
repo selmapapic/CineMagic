@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CineMagic.Facade.Models.Projection;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace CineMagic.Facade.Models.Movie
 
         public IList<string> GenreNames { get; set; }
 
-        public IList<DateTime> ProjectionsDateTime { get; set; }
+        public IList<ProjectionGetDetailsRes> Projections { get; set; }
 
         public int Duration { get; set; }
         public string Synopsis { get; set; }
