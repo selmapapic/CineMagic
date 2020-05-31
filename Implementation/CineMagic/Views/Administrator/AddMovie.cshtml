@@ -1,0 +1,80 @@
+﻿@model CineMagic.Facade.Models.Movie.MovieGetDetailsRes
+
+@{
+	ViewData["Title"] = "Add New Movie";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Create">
+			<div class="form-group">
+				@Html.LabelFor(model => model.Name)
+				@Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(model => model.Duration)
+				@Html.TextBoxFor(model => model.Duration, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(model => model.Synopsis)
+				<div class="col-md-10">
+					@Html.TextBoxFor(model => model.Synopsis, new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(model => model.GenreNames)
+				@Html.TextBoxFor(model => model.GenreNames, new { @class = "form-control" })
+			</div>
+			
+			<div class="form-group">
+				@Html.LabelFor(model => model.Director)
+				@Html.TextBoxFor(model => model.Director, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(model => model.TrailerURL)
+				@Html.TextBoxFor(model => model.TrailerURL, new { @class = "form-control" })
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(model => model.PosterURL)
+				@Html.TextBoxFor(model => model.PosterURL, new { @class = "form-control" })
+			</div>
+		</form>
+
+	
+		<div>
+			<a asp-action="HomeAdmin">Back to Home Administrator Page</a>
+		</div>
+	</div>
+</div>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Duration)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Synopsis)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Director)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TrailerURL)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PosterURL)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	
+</table>

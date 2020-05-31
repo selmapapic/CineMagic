@@ -1,0 +1,95 @@
+﻿@model CineMagic.Facade.Models.Administrator.AdminMoviesAndProjections
+@{
+    ViewData["Title"] = "Administrator Page";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+        <table class="table">
+            <thead>
+        
+                <tr>
+                    <th>
+                        <p>Name</p>
+                    </th>
+                    <th>
+                        <p>Duration</p>
+                    </th>
+                    <th>
+                        <p>Picture</p>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AdminMovies)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Duration)
+                    </td>
+                    <td>
+                        <div class="col-sm">
+
+                            <img class="d-block w-50" src="@Url.Content(item.PosterURL)" style="width:50px;height:150px" />
+                        </div>
+                    </td>
+                    <td>
+                        <a asp-action="DeleteMovie" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+       </table>
+        <p>
+            <a asp-action="AddMovie">Add Movie</a>
+        </p>
+    </div>
+    <div class="col-6 ">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <p>Movie Name</p>
+                    </th>
+                    <th>
+                        <p>Projection Date&Time</p>
+                    </th>
+                    <th>
+                        <p>Cinema Hall</p>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+             <tbody>
+                @foreach (var item in Model.AdminProjections)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MovieName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectionTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CinemaHall)
+                    </td>
+                    <td>
+                        <a asp-action="DeleteProjection" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="EditProjection" asp-route-id="@item.Id">Edit</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <p>
+            <a asp-action="AddProjection">Add Projection</a>
+        </p>
+    </div>
+  </div>
+</div>

@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CineMagic", "CineMagic\Cine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CineMagic.Dal", "CineMagic.Dal\CineMagic.Dal.csproj", "{F28DC9C4-1840-49F9-9B7F-746B37EE7067}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMagic.Facade", "CineMagic.Facade\CineMagic.Facade.csproj", "{23BFBF1C-3665-4191-B20E-3802476DC93A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CineMagic.Facade", "CineMagic.Facade\CineMagic.Facade.csproj", "{23BFBF1C-3665-4191-B20E-3802476DC93A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMagic.Facade.Efc", "CineMagic.Facade.Efc\CineMagic.Facade.Efc.csproj", "{C4F78820-B912-4AE5-8140-2AD20411F81F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CineMagic.Facade.Efc", "CineMagic.Facade.Efc\CineMagic.Facade.Efc.csproj", "{C4F78820-B912-4AE5-8140-2AD20411F81F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CineMagic.Facade.Models", "CineMagic.Facade.Models\CineMagic.Facade.Models.csproj", "{B0D337B9-07D5-4A69-8465-1B4F40FE2AF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CineMagic.Facade.Models", "CineMagic.Facade.Models\CineMagic.Facade.Models.csproj", "{B0D337B9-07D5-4A69-8465-1B4F40FE2AF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
