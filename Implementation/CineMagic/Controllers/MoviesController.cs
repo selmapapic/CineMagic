@@ -43,6 +43,8 @@ namespace CineMagic.Controllers
             };
 
             IList<ProjectionGetDetailsRes> projectionsRes = await _projectionsRespository.GetProjectionsForMovieAsync(projectionReq);
+            projectionsRes = projectionsRes.OrderBy(p => p.ProjectionTime).ToList();
+            
 
             return View(projectionsRes);
         }

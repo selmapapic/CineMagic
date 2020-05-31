@@ -16,7 +16,7 @@ namespace CineMagic.Facade.Models.Projection
 
         public int MovieId { get; set; }
 
-        public CinemaHall CinemaHall { get; set; }
+       
 
         public IList<AvailableSeat> AvailableSeats { get; set; }
 
