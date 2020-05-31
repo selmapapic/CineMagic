@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +34,8 @@ namespace CineMagic
             services.AddScoped<CineMagicDbContext, CineMagicDbContext>();
             services.AddScoped<IMoviesRepository, MoviesRepository>();
             services.AddScoped<IProjectionsRespository, ProjectionsRepository>();
+            services.AddScoped<ICinemaHallRepository, CinemaHallRepository>();
+            services.AddScoped<IAvailableSeatsRepository, AvailableSeatsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

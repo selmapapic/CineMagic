@@ -8,12 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CineMagic.Facade.Models.PlayingNow;
+using CineMagic.Facade.Models.CinemaHall;
+using CineMagic.Facade.Models.Seat;
 
 namespace CineMagic.Facade.Efc.Repositories
 {
     public class ProjectionsRepository : IProjectionsRespository
     {
         private CineMagicDbContext _dbContext;
+        private ICinemaHallRepository _cinemaHallRepository;
+
         private IList<ProjectionGetDetailsRes> monday = new List<ProjectionGetDetailsRes> ();
         private IList<ProjectionGetDetailsRes> tuesday = new List<ProjectionGetDetailsRes>();
         private IList<ProjectionGetDetailsRes> wednesday = new List<ProjectionGetDetailsRes>();
@@ -22,9 +26,10 @@ namespace CineMagic.Facade.Efc.Repositories
         private IList<ProjectionGetDetailsRes> saturday = new List<ProjectionGetDetailsRes>();
         private IList<ProjectionGetDetailsRes> sunday = new List<ProjectionGetDetailsRes>();
 
-        public ProjectionsRepository(CineMagicDbContext dbContext)
+        public ProjectionsRepository(CineMagicDbContext dbContext, ICinemaHallRepository cinemaHallRepository)
         {
             this._dbContext = dbContext;
+            this._cinemaHallRepository = cinemaHallRepository;
         }
 
         public async Task<IList<ProjectionGetDetailsRes>> GetAllProjectionsAsync()
@@ -34,7 +39,8 @@ namespace CineMagic.Facade.Efc.Repositories
                 {
                     ProjectionTime = p.ProjectionTime,
                     MovieId = p.MovieId,
-                    MovieName = p.Movie.Name
+                    MovieName = p.Movie.Name,
+
                 }).ToListAsync();
 
 
@@ -112,6 +118,17 @@ namespace CineMagic.Facade.Efc.Repositories
 
         public async Task<ProjectionGetDetailsRes> GetProjectionById(ProjectionGetDetailsReq req)
         {
+            IList<AvailableSeatGetDetailsRes> seatGetDetailsRes = await _dbContext.AvailableSeats
+                .Where(avs => avs.ProjectionId == req.Id)
+                .Select(s => new AvailableSeatGetDetailsRes
+                {
+                    Id = s.Id,
+                    SeatId = s.SeatId,
+                    ProjectionId = req.Id,
+                    Name = s.Seat.Name
+                }).ToListAsync();
+            
+
             ProjectionGetDetailsRes res = await _dbContext.Projections
                 .Where(p => p.Id == req.Id)
                 .Select(p => new ProjectionGetDetailsRes
@@ -119,7 +136,13 @@ namespace CineMagic.Facade.Efc.Repositories
                     Id = p.Id,
                     ProjectionTime = p.ProjectionTime,
                     MovieId = p.MovieId,
-                    MovieName = p.Movie.Name
+                    MovieName = p.Movie.Name,
+                    CinemaHall = new CinemaHallGetDetailsRes
+                    {
+                        Id = p.CinemaHallId,
+                        HallImageUrl = p.CinemaHall.HallImageUrl
+                    },
+                    AvailableSeats = seatGetDetailsRes
                 }).FirstOrDefaultAsync();
 
             return res;
