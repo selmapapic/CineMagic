@@ -10,9 +10,9 @@ namespace CineMagic.Facade.Models.Administrator
 {
     public class AdminMoviesAndProjections
     {
-        public IList<ProjectionGetDetailsRes> AdminProjections { get; set; }
-        public IList<MovieGetDetailsRes> AdminMovies { get; set; }
-        public AdminMoviesAndProjections(IList<MovieGetDetailsRes> mov, IList<ProjectionGetDetailsRes> pro)
+        public IList<ProjectionRes> AdminProjections { get; set; }
+        public IList<MovieRes> AdminMovies { get; set; }
+        public AdminMoviesAndProjections(IList<MovieRes> mov, IList<ProjectionRes> pro)
         {
             AdminMovies = mov;
             AdminProjections = pro;

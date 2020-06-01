@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CineMagic.Facade.Models.Projection
 {
-    public class ProjectionGetDetailsRes
+    public class ProjectionRes
     {
         public int Id { get; set; }
 

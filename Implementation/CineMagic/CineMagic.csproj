@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Content Remove="Views\Administrator\AddMovie.cshtml" />
-    <Content Remove="Views\Administrator\AddProjection.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -27,58 +27,21 @@ namespace CineMagic.Controllers
         }
 
 
-        public async Task<IActionResult> IndexMovies()
-        {
-            IList<MovieGetDetailsRes> movies = await _moviesRepository.GetAllMoviesAsync();
-            var sorted = movies.OrderByDescending(id => id.Id).ToList();
-            foreach (var m in sorted)
-            {
-                Console.WriteLine(m.Name);
-            }
-            return View(sorted);
-
-        }
-        public async Task<IActionResult> IndexProjections()
-        {
-            IList<ProjectionGetDetailsRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
-            var sorted = projections.OrderByDescending(time => time.ProjectionTime).ToList();
-            foreach (var m in sorted)
-            {
-                Console.WriteLine(m.MovieName);
-                Console.WriteLine(m.ProjectionTime);
-            }
-            return View(sorted);
-
-        }
+      
         public async Task<IActionResult> HomeAdmin()
         {
-            IList<ProjectionGetDetailsRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
+            IList<ProjectionRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
             var sortedPro = projections.OrderByDescending(time => time.ProjectionTime).ToList();
-            foreach (var m in sortedPro)
-            {
-                Console.WriteLine(m.MovieName);
-                Console.WriteLine(m.ProjectionTime);
-            }
 
-            
-            IList<MovieGetDetailsRes> movies = await _moviesRepository.GetAllMoviesAsync();
+            IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
             var sortedMov = movies.OrderByDescending(id => id.Id).ToList();
-            foreach (var m in sortedMov)
-            {
-                Console.WriteLine(m.Name);
-            }
+            
             AdminMoviesAndProjections lista = new AdminMoviesAndProjections(movies, projections);
             return View(lista);
         }
 
         // GET: AdministratorController
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET:AdministratorController/Details/5
-        public ActionResult Details(int id)
         {
             return View();
         }
@@ -91,13 +54,26 @@ namespace CineMagic.Controllers
 
         public ActionResult AddMovie()
         {
-            return View();
+            return RedirectToAction("AddMovie", "Movies");
         }
-
         public ActionResult AddProjection()
         {
-            return View();
+            return RedirectToAction("AddProjection", "Projections");
         }
+
+        public ActionResult EditProjection(int id)
+        {
+            return RedirectToAction("EditProjection", "Projections");
+        }
+        public ActionResult DeleteProjection(int id)
+        {
+            return RedirectToAction("DeleteProjection", "Projections");
+        }
+        public ActionResult DeleteMovie(int id)
+        {
+            return RedirectToAction("DeleteMovie", "Movies");
+        }
+
         // POST: AdministratorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -114,10 +90,7 @@ namespace CineMagic.Controllers
         }
 
         // GET: AdministratorController/Edit/5
-        public ActionResult EditProjection(int id)
-        {
-            return View();
-        }
+        
 
         // POST:AdministratorController/Edit/5
         [HttpPost]
@@ -134,20 +107,10 @@ namespace CineMagic.Controllers
             }
         }
 
-        // GET: AdministratorController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-        public ActionResult DeleteMovie(int id)
-        {
-            return View();
-        }
 
-        public ActionResult DeleteProjection(int id)
-        {
-            return View();
-        }
+       
+
+        
         // POST: AdministratorController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]

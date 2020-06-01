@@ -14,22 +14,22 @@ namespace CineMagic.Facade.Efc.Repositories
     public class ProjectionsRepository : IProjectionsRespository
     {
         private CineMagicDbContext _dbContext;
-        private IList<ProjectionGetDetailsRes> monday = new List<ProjectionGetDetailsRes> ();
-        private IList<ProjectionGetDetailsRes> tuesday = new List<ProjectionGetDetailsRes>();
-        private IList<ProjectionGetDetailsRes> wednesday = new List<ProjectionGetDetailsRes>();
-        private IList<ProjectionGetDetailsRes> thursday = new List<ProjectionGetDetailsRes>();
-        private IList<ProjectionGetDetailsRes> friday = new List<ProjectionGetDetailsRes>();
-        private IList<ProjectionGetDetailsRes> saturday = new List<ProjectionGetDetailsRes>();
-        private IList<ProjectionGetDetailsRes> sunday = new List<ProjectionGetDetailsRes>();
+        private IList<ProjectionRes> monday = new List<ProjectionRes> ();
+        private IList<ProjectionRes> tuesday = new List<ProjectionRes>();
+        private IList<ProjectionRes> wednesday = new List<ProjectionRes>();
+        private IList<ProjectionRes> thursday = new List<ProjectionRes>();
+        private IList<ProjectionRes> friday = new List<ProjectionRes>();
+        private IList<ProjectionRes> saturday = new List<ProjectionRes>();
+        private IList<ProjectionRes> sunday = new List<ProjectionRes>();
         public ProjectionsRepository(CineMagicDbContext dbContext)
         {
             this._dbContext = dbContext;
         }
 
-        public async Task<IList<ProjectionGetDetailsRes>> GetAllProjectionsAsync()
+        public async Task<IList<ProjectionRes>> GetAllProjectionsAsync()
         {
-            IList<ProjectionGetDetailsRes> res = await _dbContext.Projections
-                .Select(p => new ProjectionGetDetailsRes
+            IList<ProjectionRes> res = await _dbContext.Projections
+                .Select(p => new ProjectionRes
                 {
                     ProjectionTime = p.ProjectionTime,
                     MovieId = p.MovieId,
@@ -52,8 +52,8 @@ namespace CineMagic.Facade.Efc.Repositories
 
         public async Task<PlayingNowGetDetailsRes> GetAllProjectionsByDaysAsync()
         {
-            IList<ProjectionGetDetailsRes> res = await _dbContext.Projections
-                .Select(p => new ProjectionGetDetailsRes
+            IList<ProjectionRes> res = await _dbContext.Projections
+                .Select(p => new ProjectionRes
                 {
                     ProjectionTime = p.ProjectionTime,
                     MovieId = p.MovieId,
@@ -86,12 +86,12 @@ namespace CineMagic.Facade.Efc.Repositories
 
 
 
-        public async Task<IList<ProjectionGetDetailsRes>> GetProjectionsForMovieAsync(ProjectionGetDetailsReq req)
+        public async Task<IList<ProjectionRes>> GetProjectionsForMovieAsync(ProjectionGetDetailsReq req)
         {
 
-            IList<ProjectionGetDetailsRes> res = await _dbContext.Projections
+            IList<ProjectionRes> res = await _dbContext.Projections
                 .Where(p => p.MovieId == req.MovieId)
-                .Select(p => new ProjectionGetDetailsRes
+                .Select(p => new ProjectionRes
                 {
                     ProjectionTime = p.ProjectionTime,
                     MovieId = p.MovieId,

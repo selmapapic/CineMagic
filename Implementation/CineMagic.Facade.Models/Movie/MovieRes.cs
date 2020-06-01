@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CineMagic.Facade.Models.Movie
 {
-    public class MovieGetDetailsRes
+    public class MovieRes
     {
         public int Id { get; set; }
 
