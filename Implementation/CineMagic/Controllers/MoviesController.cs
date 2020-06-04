@@ -13,16 +13,19 @@ namespace CineMagic.Controllers
     {
         private IMoviesRepository _moviesRepository;
         private IProjectionsRespository _projectionsRespository;
+        private IUserRepository _userRepository;
 
-        public MoviesController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRespository)
+        public MoviesController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRespository, IUserRepository userRepository)
         {
             this._moviesRepository = moviesRepository;
             this._projectionsRespository = projectionsRespository;
+            this._userRepository = userRepository;
         }
 
         public async Task<IActionResult> Details(MovieGetDetailsReq req)
         {
             MovieGetDetailsRes res = await _moviesRepository.GetDetailsAsync(req);
+            res.Projections = res.Projections.OrderBy(p => p.ProjectionTime).ToList();
             return View(res);
         }
 

@@ -17,17 +17,13 @@ namespace CineMagic.Facade.Efc.Repositories
 
         public MoviesRepository(CineMagicDbContext dbContext, IProjectionsRespository projectionsRespository)
         {
+            
             this._dbContext = dbContext;
             this._projectionsRepository = projectionsRespository;
         }
 
         public async Task<MovieGetDetailsRes> GetDetailsAsync(MovieGetDetailsReq req)
         {
-
-            IList<DateTime> dateTimes = await _dbContext.Projections
-                .Where(p => p.MovieId == req.Id)
-                .Select(p => p.ProjectionTime)
-                .ToListAsync();
 
             ProjectionGetDetailsByMovieIdReq projectionReq = new ProjectionGetDetailsByMovieIdReq
             {
