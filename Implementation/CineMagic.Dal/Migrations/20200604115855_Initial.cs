@@ -126,25 +126,25 @@ namespace CineMagic.Dal.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            name: "AspNetUserClaims",
+            columns: table => new
+            {
+                Id = table.Column<int>(nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                UserId = table.Column<string>(nullable: false),
+                ClaimType = table.Column<string>(nullable: true),
+                ClaimValue = table.Column<string>(nullable: true)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                table.ForeignKey(
+                    name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                    column: x => x.UserId,
+                    principalTable: "AspNetUsers",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Cascade);
+            });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
@@ -209,6 +209,27 @@ namespace CineMagic.Dal.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "CinemaCreditCards",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CinemaCreditCardNumber = table.Column<long>(nullable: false),
+                    Balance = table.Column<double>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CinemaCreditCards", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CinemaCreditCards_AspNetUsers_UserId",
+                        column: x => x.UserId,
+            principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+        });
 
             migrationBuilder.CreateTable(
                 name: "Seats",
@@ -362,6 +383,32 @@ namespace CineMagic.Dal.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(nullable: true),
+                    TicketId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Tickets_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Tickets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ActorMovieLinks_ActorId",
                 table: "ActorMovieLinks",
@@ -422,6 +469,11 @@ namespace CineMagic.Dal.Migrations
                 column: "SeatId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CinemaCreditCards_UserId",
+                table: "CinemaCreditCards",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GenreMovieLinks_MovieGenreId",
                 table: "GenreMovieLinks",
                 column: "MovieGenreId");
@@ -440,6 +492,16 @@ namespace CineMagic.Dal.Migrations
                 name: "IX_Projections_MovieId",
                 table: "Projections",
                 column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_TicketId",
+                table: "Reservations",
+                column: "TicketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_UserId",
+                table: "Reservations",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seats_CinemaHallId",
@@ -481,10 +543,13 @@ namespace CineMagic.Dal.Migrations
                 name: "AvailableSeats");
 
             migrationBuilder.DropTable(
+                name: "CinemaCreditCards");
+
+            migrationBuilder.DropTable(
                 name: "GenreMovieLinks");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
+                name: "Reservations");
 
             migrationBuilder.DropTable(
                 name: "Actors");
@@ -493,10 +558,13 @@ namespace CineMagic.Dal.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "MovieGenres");
 
             migrationBuilder.DropTable(
-                name: "MovieGenres");
+                name: "Tickets");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Projections");

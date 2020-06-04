@@ -79,6 +79,29 @@ namespace CineMagic.Dal.Migrations
                     b.ToTable("AvailableSeats");
                 });
 
+            modelBuilder.Entity("CineMagic.Dal.Entities.CinemaCreditCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Balance")
+                        .HasColumnType("float");
+
+                    b.Property<long>("CinemaCreditCardNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CinemaCreditCards");
+                });
+
             modelBuilder.Entity("CineMagic.Dal.Entities.CinemaHall", b =>
                 {
                     b.Property<int>("Id")
@@ -189,6 +212,28 @@ namespace CineMagic.Dal.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("Projections");
+                });
+
+            modelBuilder.Entity("CineMagic.Dal.Entities.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("CineMagic.Dal.Entities.Seat", b =>
@@ -463,6 +508,13 @@ namespace CineMagic.Dal.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CineMagic.Dal.Entities.CinemaCreditCard", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("CineMagic.Dal.Entities.GenreMovieLink", b =>
                 {
                     b.HasOne("CineMagic.Dal.Entities.MovieGenre", "MovieGenre")
@@ -491,6 +543,19 @@ namespace CineMagic.Dal.Migrations
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CineMagic.Dal.Entities.Reservation", b =>
+                {
+                    b.HasOne("CineMagic.Dal.Entities.Ticket", "Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("CineMagic.Dal.Entities.Seat", b =>

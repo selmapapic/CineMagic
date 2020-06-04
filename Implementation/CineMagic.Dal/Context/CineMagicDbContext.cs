@@ -21,5 +21,7 @@ namespace CineMagic.Dal.Context
         public DbSet<Seat> Seats { get; set; }
         public DbSet<ActorMovieLink> ActorMovieLinks { get; set; }
         public DbSet<AvailableSeat> AvailableSeats { get; set; }
+        public DbSet<CinemaCreditCard> CinemaCreditCards { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }
