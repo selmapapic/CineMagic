@@ -47,5 +47,10 @@ namespace CineMagic.Controllers
             };
             return View(reservation);
         }
+
+        public IActionResult AllReservationsUser ()
+        {
+            return View();
+        }
     }
 }
