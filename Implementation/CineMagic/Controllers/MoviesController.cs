@@ -39,17 +39,19 @@ namespace CineMagic.Controllers
         
         public async Task<IActionResult> MovieReservation(ProjectionGetDetailsReq req)
         {
-            //MovieGetDetailsRes movieRes = await _moviesRepository.GetDetailsAsync(req);
-            //ProjectionGetDetailsReq projectionReq = new ProjectionGetDetailsReq
-            //{
-            //    MovieId = movieRes.Id
-            //};
-
-            //IList<ProjectionGetDetailsRes> projectionsRes = await _projectionsRespository.GetProjectionsForMovieAsync(projectionReq);
-            //projectionsRes = projectionsRes.OrderBy(p => p.ProjectionTime).ToList();
             ProjectionGetDetailsRes res = await _projectionsRespository.GetProjectionById(req);
-            
-            return View(res);
+            MovieGetDetailsReq movieReq = new MovieGetDetailsReq
+            {
+                Id = res.MovieId
+            };
+            MovieGetDetailsRes movieRes = await _moviesRepository.GetDetailsAsync(movieReq);
+
+            if(await _userRepository.DoesUserExists())
+                return View(res);
+            else
+            {
+                return View("UserDoesNotExist");
+            }
         }
 
 
