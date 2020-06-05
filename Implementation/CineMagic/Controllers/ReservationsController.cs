@@ -62,11 +62,11 @@ namespace CineMagic.Controllers
             if(user.CinemaCreditCard.CardNumber == number && user.CinemaCreditCard.Balance >= 7.0)
             {
                 await _userRepository.CreateReservationAsync(model);
-                return View("Success");
+                return View("Successfully");
             }
             else
             {
-                return View("Unsuccess", model);
+                return View("Unsuccessfully", model);
             }
             
         }
