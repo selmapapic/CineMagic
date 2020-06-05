@@ -9,6 +9,6 @@ namespace CineMagic.Facade.Models.Reservation
     public class ReservationGetDetailsRes
     {
         public AvailableSeatGetDetailsRes Seat { get; set; }
-        public ProjectionGetDetailsRes Projection { get; set; }
+        public ProjectionRes Projection { get; set; }
     }
 }

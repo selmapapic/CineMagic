@@ -29,7 +29,7 @@ namespace CineMagic.Controllers
        
         public async Task<IActionResult> Details(MovieGetDetailsReq req)
         {
-            MovieGetDetailsRes res = await _moviesRepository.GetDetailsAsync(req);
+            MovieRes res = await _moviesRepository.GetDetailsAsync(req);
             res.Projections = res.Projections.OrderBy(p => p.ProjectionTime).ToList();
             return View(res);
         }
@@ -52,7 +52,7 @@ namespace CineMagic.Controllers
 
             //IList<ProjectionGetDetailsRes> projectionsRes = await _projectionsRespository.GetProjectionsForMovieAsync(projectionReq);
             //projectionsRes = projectionsRes.OrderBy(p => p.ProjectionTime).ToList();
-            ProjectionGetDetailsRes res = await _projectionsRespository.GetProjectionById(req);
+            ProjectionRes res = await _projectionsRespository.GetProjectionById(req);
             
             return View(res);
         }

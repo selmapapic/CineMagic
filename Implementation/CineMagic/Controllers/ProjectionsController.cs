@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CineMagic.Dal.Entities;
+using CineMagic.Facade.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +11,14 @@ namespace CineMagic.Controllers
 {
     public class ProjectionsController : Controller
     {
+        private IMoviesRepository _moviesRepository;
+        private IProjectionsRespository _projectionsRepository;
+
+        public ProjectionsController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository)
+        {
+            this._moviesRepository = moviesRepository;
+            this._projectionsRepository = projectionsRepository;
+        }
         // GET: ProjectionsController
         public ActionResult Index()
         {
@@ -21,25 +31,18 @@ namespace CineMagic.Controllers
             return View();
         }
 
-        // GET: ProjectionsController/Create
-        public ActionResult AddProjection()
-        {
-            return View();
-        }
-
+        
         // POST: ProjectionsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> AddProjection([Bind("Id,ProjectionTime, MovieId, MOvie, CinemaHallId, CinemaHall, AvailableSeats")] Projection projection)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                await _projectionsRepository.AddProjection(projection);
+                return RedirectToAction("HomeAdmin", "Administrator");
             }
-            catch
-            {
-                return View();
-            }
+            return View(projection);
         }
 
         // GET: ProjectionsController/Edit/5

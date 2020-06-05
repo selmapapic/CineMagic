@@ -31,7 +31,7 @@ namespace CineMagic.Facade.Efc.Repositories
             {
                 MovieId = req.Id 
             };
-            IList<ProjectionGetDetailsRes> projections = await _projectionsRepository.GetProjectionsForMovieAsync(projectionReq);
+            IList<ProjectionRes> projections = await _projectionsRepository.GetProjectionsForMovieAsync(projectionReq);
 
             MovieRes res = await _dbContext.Movies
                 .Where(m => m.Id == req.Id)

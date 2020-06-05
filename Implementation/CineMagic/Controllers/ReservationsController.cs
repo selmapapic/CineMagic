@@ -42,7 +42,7 @@ namespace CineMagic.Controllers
             {
                 Id = availableSeatGetDetailsRes.ProjectionId
             };
-            ProjectionGetDetailsRes projectionGetDetailsRes = await _projectionsRepository.GetProjectionById(projectionGetDetailsReq);
+            ProjectionRes projectionGetDetailsRes = await _projectionsRepository.GetProjectionById(projectionGetDetailsReq);
 
             ReservationGetDetailsRes reservation = new ReservationGetDetailsRes
             {
@@ -56,7 +56,7 @@ namespace CineMagic.Controllers
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);   //uzimam id trenutno logovanog usera
             
-            Rese
+            
 
             return View();
         }
