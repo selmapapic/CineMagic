@@ -38,6 +38,7 @@ namespace CineMagic
             services.AddScoped<IAvailableSeatsRepository, AvailableSeatsRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IReservationsRepository, ReservationsRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICinemaCreditCardRepository, CinemaCreditCardRepository>();
         }
 
