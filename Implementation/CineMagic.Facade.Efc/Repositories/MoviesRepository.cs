@@ -8,24 +8,30 @@ using System.Threading.Tasks;
 using CineMagic.Facade.Models.Movie;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using CineMagic.Dal.Entities;
+using CineMagic.Facade.Models.Projection;
 
 namespace CineMagic.Facade.Efc.Repositories
 {
     public class MoviesRepository : IMoviesRepository
     {
         private CineMagicDbContext _dbContext;
-        public MoviesRepository(CineMagicDbContext dbContext)
+        private IProjectionsRespository _projectionsRepository;
+
+        public MoviesRepository(CineMagicDbContext dbContext, IProjectionsRespository projectionsRespository)
         {
+            
             this._dbContext = dbContext;
+            this._projectionsRepository = projectionsRespository;
         }
 
         public async Task<MovieRes> GetDetailsAsync(MovieGetDetailsReq req)
         {
 
-            IList<DateTime> dateTimes = await _dbContext.Projections
-                .Where(p => p.MovieId == req.Id)
-                .Select(p => p.ProjectionTime)
-                .ToListAsync();
+            ProjectionGetDetailsByMovieIdReq projectionReq = new ProjectionGetDetailsByMovieIdReq
+            {
+                MovieId = req.Id 
+            };
+            IList<ProjectionGetDetailsRes> projections = await _projectionsRepository.GetProjectionsForMovieAsync(projectionReq);
 
             MovieRes res = await _dbContext.Movies
                 .Where(m => m.Id == req.Id)
@@ -38,7 +44,7 @@ namespace CineMagic.Facade.Efc.Repositories
                     Duration = m.Duration,
                     Synopsis = m.Synopsis,
                     Director = m.Director,
-                    ProjectionsDateTime = dateTimes,
+                    Projections = projections,
 
                     GenreNames = m.GenreLinks
                         .Select(mgl => mgl.MovieGenre.Name)

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CineMagic.Facade.Models.Projection
+namespace CineMagic.Facade.Models.Reservation
 {
-    public class ProjectionGetDetailsReq
+    public class ReservationGetDetailsReq
     {
         public int Id { get; set; }
+
     }
 }

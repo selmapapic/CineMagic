@@ -1,41 +1,32 @@
-﻿<div class="row" style="text-align:center">
-
-    <h1>@Model[0].MovieName</h1>
-</div>
-
-<div class="row">
+﻿<div class="row">
     <div class="col-6">
+        <img src="@Url.Content(@Model.CinemaHall.HallImageUrl)" style="width:500px;height:500px;align-content:center" />
+    </div>
+    <div class="col-6">
+        <h3 style="text-align:center"> <i>Look at the Cinema Hall picture and choose one of the available seats</i> </h3>
         <div>
-            <label for="datetime">Choose Date & Time of Projection:  </label>
-            <select id="datetime">
-                <option value="blank" style="display:none"></option>
-                @foreach (var item in Model)
+            <br/>
+        </div>
+        <div class="dropdown" style="text-align:center">
+            <button class="btn btn-secondary dropdown-toggle"
+                    type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                Choose your seat
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                @foreach (var item in Model.AvailableSeats)
                 {
-                    @if (DateTime.Compare(@item.ProjectionTime, DateTime.Now) > 0)
-                    {
-                        <option>@item.ProjectionTime.ToString("dd/MM/yyyy"), @item.ProjectionTime.ToString("HH:mm") @item.ProjectionTime.DayOfWeek</option>
-                    }
+                    <a class="dropdown-item" href="/Reservations/TicketPayment/@item.Id"> <b> <i> @item.Name  </i></b></a>
                 }
-
-            </select>
+            </div>
         </div>
-        <div>
-            <select>
-                <option>Available seats</option>
-                <option>seat1</option>
-                <option>seat2</option>
-            </select>
-        </div>
-        <p>Discount: 10%</p>
-        <p>Total: </p>
-        <div class="btn-danger">
-
-        </div>
-    </div>
-    <div class="col-6">
-        <img src="@Url.Content("https://www.dorkinghalls.co.uk/wp-content/uploads/2018/11/seating_plans_martineau_hall.jpg")" style="width:200px;height:150px"    />
     </div>
 </div>
+
+
+
+
+
 
 <div class="footer">
 </div>

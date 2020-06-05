@@ -52,32 +52,47 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-4 offset-2" style="background-color:burlywood">
+            <div class="col-5 offset-1" style="background-color:burlywood">
 
             </div>
             <br />
         </div>
         <div class="row">
-            <div class="col-4 offset-2" style="background-color:burlywood">
-                <table class="table">
+            <div class="col-5 offset-1" style="background-color:burlywood">
+                <table class="table" style="width:100%">
+                    <colgroup>
+                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 25%;">
+                    </colgroup>
                     <thead class="thead-dark">
                         <tr>
-                            <th>Projection Date</th>
-                            <th>Projection Time</th>
+                            <th style="vertical-align:middle">Projection Date</th>
+                            <th style="vertical-align:central">Projection Time</th>
+                            <th style="vertical-align:central">Make reservation</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.ProjectionsDateTime)
+                        @foreach (var item in Model.Projections)
                         {
-                            @if (DateTime.Compare(@item, DateTime.Now) > 0)
+                            @if (DateTime.Compare(@item.ProjectionTime, DateTime.Now) > 0)
                             {
                                 <tr>
                                     <td>
-                                        @item.ToString("dd/MM/yyyy"), @item.DayOfWeek
+                                        <b>
+                                            @item.ProjectionTime.ToString("dd/MM/yyyy"), @item.ProjectionTime.DayOfWeek
+                                        </b>
                                     </td>
                                     <td>
-                                        @item.ToString("HH:mm")
+                                        <b>
+                                            @item.ProjectionTime.ToString("HH:mm")
+                                        </b>
 
+                                    </td>
+                                    <td>
+                                        <a href="/Movies/MovieReservation/@item.Id">
+                                            <img class="img-fluid" src="~/images/ticket.png" width:5px;height:5px>
+                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -98,14 +113,20 @@
 
         </div>
 
-        <div class="row">
-            <div class="btn btn-danger">
-                @Html.ActionLink("BUTTON", "MovieReservation", "Movies",  new { @Model.Id } , null )
-            </div>
-        </div>
-
 
     </div>
+
+
+@if (ViewBag.AlerMess != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+    </div>
+}
+
 
     <div class="footer">
     </div>

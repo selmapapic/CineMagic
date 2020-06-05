@@ -18,16 +18,19 @@ namespace CineMagic.Controllers
         
         private IMoviesRepository _moviesRepository;
         private IProjectionsRespository _projectionsRespository;
+        private IUserRepository _userRepository;
 
-        public MoviesController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRespository)
+        public MoviesController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRespository, IUserRepository userRepository)
         {
             this._moviesRepository = moviesRepository;
             this._projectionsRespository = projectionsRespository;
+            this._userRepository = userRepository;
         }
        
         public async Task<IActionResult> Details(MovieGetDetailsReq req)
         {
-            MovieRes res = await _moviesRepository.GetDetailsAsync(req);
+            MovieGetDetailsRes res = await _moviesRepository.GetDetailsAsync(req);
+            res.Projections = res.Projections.OrderBy(p => p.ProjectionTime).ToList();
             return View(res);
         }
 
@@ -39,17 +42,19 @@ namespace CineMagic.Controllers
         }
 
         
-        public async Task<IActionResult> MovieReservation(MovieGetDetailsReq req)
+        public async Task<IActionResult> MovieReservation(ProjectionGetDetailsReq req)
         {
-            MovieRes movieRes = await _moviesRepository.GetDetailsAsync(req);
-            ProjectionGetDetailsReq projectionReq = new ProjectionGetDetailsReq
-            {
-                MovieId = movieRes.Id
-            };
+            //MovieGetDetailsRes movieRes = await _moviesRepository.GetDetailsAsync(req);
+            //ProjectionGetDetailsReq projectionReq = new ProjectionGetDetailsReq
+            //{
+            //    MovieId = movieRes.Id
+            //};
 
-            IList<ProjectionRes> projectionsRes = await _projectionsRespository.GetProjectionsForMovieAsync(projectionReq);
-
-            return View(projectionsRes);
+            //IList<ProjectionGetDetailsRes> projectionsRes = await _projectionsRespository.GetProjectionsForMovieAsync(projectionReq);
+            //projectionsRes = projectionsRes.OrderBy(p => p.ProjectionTime).ToList();
+            ProjectionGetDetailsRes res = await _projectionsRespository.GetProjectionById(req);
+            
+            return View(res);
         }
         
         public async Task<IActionResult> AddMovie([Bind("Id,Name,GenreNames,ProjectionsDateTime,Duration,Synopsis,ActorNames,Director,TrailerURL,PosterUrl")] Movie movie)

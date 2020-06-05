@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CineMagic.Facade.Models.Projection
+namespace CineMagic.Facade.Models.Seat
 {
-    public class ProjectionGetDetailsReq
+    public class AvailableSeatGetDetailsReq
     {
         public int Id { get; set; }
     }
