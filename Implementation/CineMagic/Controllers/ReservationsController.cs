@@ -18,13 +18,15 @@ namespace CineMagic.Controllers
         private IMoviesRepository _moviesRepository;
         private IProjectionsRespository _projectionsRepository;
         private IAvailableSeatsRepository _availableSeatsRepository;
+        private IReservationsRepository _reservationsRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ReservationsController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository, IAvailableSeatsRepository availableSeatsRepository, IHttpContextAccessor httpContextAccessor)
+        public ReservationsController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository, IAvailableSeatsRepository availableSeatsRepository, IReservationsRepository reservationsRepository, IHttpContextAccessor httpContextAccessor)
         {
             this._moviesRepository = moviesRepository;
             this._projectionsRepository = projectionsRepository;
             this._availableSeatsRepository = availableSeatsRepository;
+            this._reservationsRepository = reservationsRepository;
             this._httpContextAccessor = httpContextAccessor;
         }
 
@@ -52,13 +54,18 @@ namespace CineMagic.Controllers
             return View(reservation);
         }
 
-        public IActionResult AllReservationsUser ()
+        public async Task<IActionResult> AllReservationsUserAsync ()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);   //uzimam id trenutno logovanog usera
-            
-            
 
-            return View();
+            ReservationGetDetailsByUserIdReq reservationReq = new ReservationGetDetailsByUserIdReq
+            {
+                UserId = userId
+            };
+
+            IList<ReservationGetDetailsRes> userReservationsRes = await _reservationsRepository.GetUserReservationsAsync(reservationReq);
+
+            return View(userReservationsRes);
         }
     }
 }

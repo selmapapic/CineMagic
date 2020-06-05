@@ -5,9 +5,9 @@ using System.Text;
 
 namespace CineMagic.Facade.Models.Reservation
 {
-    class ReservationGetDetailsByUserIdReq
+    public class ReservationGetDetailsByUserIdReq
     {
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }
