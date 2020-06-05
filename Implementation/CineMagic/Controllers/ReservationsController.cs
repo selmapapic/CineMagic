@@ -65,6 +65,7 @@ namespace CineMagic.Controllers
             if (cardNumber == user.CinemaCreditCard.CardNumber && user.CinemaCreditCard.Balance >= 7.0)
             {
                 return View("Successfully");
+
             }
             else
                 return View("Unsuccessfully");
