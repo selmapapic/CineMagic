@@ -12,6 +12,11 @@ namespace CineMagic.Facade.Models.Movie
             Id = id;
         }
 
+        public MovieGetDetailsReq()
+        {
+
+        }
+
         [Required]
         public int? Id { get; set; }
     }
