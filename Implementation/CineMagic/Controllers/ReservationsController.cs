@@ -1,6 +1,7 @@
 ﻿using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Models.Reservation;
 using CineMagic.Facade.Models.Seat;
+using CineMagic.Facade.Models.User;
 using CineMagic.Facade.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,16 @@ namespace CineMagic.Controllers
         private IAvailableSeatsRepository _availableSeatsRepository;
         private IReservationsRepository _reservationsRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private IUserRepository _userRepository;
 
-        public ReservationsController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository, IAvailableSeatsRepository availableSeatsRepository, IReservationsRepository reservationsRepository, IHttpContextAccessor httpContextAccessor)
+        public ReservationsController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository, IAvailableSeatsRepository availableSeatsRepository, IReservationsRepository reservationsRepository, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
         {
             this._moviesRepository = moviesRepository;
             this._projectionsRepository = projectionsRepository;
             this._availableSeatsRepository = availableSeatsRepository;
             this._reservationsRepository = reservationsRepository;
             this._httpContextAccessor = httpContextAccessor;
+            this._userRepository = userRepository;
         }
 
         public async Task<IActionResult> MakeReservation(AvailableSeatGetDetailsReq req)
@@ -52,6 +55,20 @@ namespace CineMagic.Controllers
                 Projection = projectionGetDetailsRes
             };
             return View(reservation);
+        }
+
+        public async Task<IActionResult> CheckCardNumber(CheckReservationModel model)
+        {
+            UserGetDetailsRes user = await _userRepository.GetCurrentUser();
+
+            long cardNumber = Convert.ToInt64(model.cardNumber);
+            if (cardNumber == user.CinemaCreditCard.CardNumber && user.CinemaCreditCard.Balance >= 7.0)
+            {
+                return View("Successfully");
+            }
+            else
+                return View("Unsuccessfully");
+            
         }
 
         public async Task<IActionResult> AllReservationsUserAsync ()
