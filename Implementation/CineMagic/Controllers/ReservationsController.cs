@@ -81,9 +81,9 @@ namespace CineMagic.Controllers
                 UserId = userId
             };
 
-            IList<ReservationGetDetailsRes> userReservationsRes = await _reservationsRepository.GetUserReservationsAsync(reservationReq);
+            UserReservationModel Model = await _reservationsRepository.GetUserReservationsAsync(reservationReq);
 
-            return View(userReservationsRes);
+            return View(Model);
         }
     }
 }

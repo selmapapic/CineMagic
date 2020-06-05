@@ -8,6 +8,6 @@ namespace CineMagic.Facade.Repositories
 {
     public interface IReservationsRepository
     {
-        Task<IList<ReservationGetDetailsRes>> GetUserReservationsAsync(ReservationGetDetailsByUserIdReq req);
+        Task<UserReservationModel> GetUserReservationsAsync(ReservationGetDetailsByUserIdReq req);
     }
 }
