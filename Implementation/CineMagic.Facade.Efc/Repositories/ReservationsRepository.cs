@@ -26,7 +26,7 @@ namespace CineMagic.Facade.Efc.Repositories
                 Where(m => m.UserId == req.UserId)
                 .Select(m => new ReservationGetDetailsRes
                 {
-                    UserTicket = m.Ticket
+                    //UserTicket = m.Ticket
                 }).ToListAsync();
                 
             return reservations;

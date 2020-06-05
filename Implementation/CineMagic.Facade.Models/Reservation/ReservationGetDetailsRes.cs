@@ -12,7 +12,5 @@ namespace CineMagic.Facade.Models.Reservation
     {
         public AvailableSeatGetDetailsRes Seat { get; set; }
         public ProjectionRes Projection { get; set; }
-
-        public Ticket UserTicket { get; set; }
     }
 }
