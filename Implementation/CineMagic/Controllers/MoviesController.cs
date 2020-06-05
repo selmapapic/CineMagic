@@ -1,4 +1,6 @@
-﻿using CineMagic.Facade.Models.Movie;
+﻿using CineMagic.Dal.Context;
+using CineMagic.Dal.Entities;
+using CineMagic.Facade.Models.Movie;
 using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +13,9 @@ namespace CineMagic.Controllers
 {
     public class MoviesController : Controller
     {
+      
+
+        
         private IMoviesRepository _moviesRepository;
         private IProjectionsRespository _projectionsRespository;
         private IUserRepository _userRepository;
@@ -21,17 +26,17 @@ namespace CineMagic.Controllers
             this._projectionsRespository = projectionsRespository;
             this._userRepository = userRepository;
         }
-
+       
         public async Task<IActionResult> Details(MovieGetDetailsReq req)
         {
-            MovieGetDetailsRes res = await _moviesRepository.GetDetailsAsync(req);
+            MovieRes res = await _moviesRepository.GetDetailsAsync(req);
             res.Projections = res.Projections.OrderBy(p => p.ProjectionTime).ToList();
             return View(res);
         }
 
         public async Task<IActionResult> AllMovies()
         {
-            IList<MovieGetDetailsRes> movies = await _moviesRepository.GetAllMoviesAsync();
+            IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
 
             return View(movies);
         }
@@ -39,21 +44,54 @@ namespace CineMagic.Controllers
         
         public async Task<IActionResult> MovieReservation(ProjectionGetDetailsReq req)
         {
-            ProjectionGetDetailsRes res = await _projectionsRespository.GetProjectionById(req);
-            MovieGetDetailsReq movieReq = new MovieGetDetailsReq
-            {
-                Id = res.MovieId
-            };
-            MovieGetDetailsRes movieRes = await _moviesRepository.GetDetailsAsync(movieReq);
+            //MovieGetDetailsRes movieRes = await _moviesRepository.GetDetailsAsync(req);
+            //ProjectionGetDetailsReq projectionReq = new ProjectionGetDetailsReq
+            //{
+            //    MovieId = movieRes.Id
+            //};
 
-            if(await _userRepository.DoesUserExists())
-                return View(res);
-            else
+            //IList<ProjectionGetDetailsRes> projectionsRes = await _projectionsRespository.GetProjectionsForMovieAsync(projectionReq);
+            //projectionsRes = projectionsRes.OrderBy(p => p.ProjectionTime).ToList();
+            ProjectionRes res = await _projectionsRespository.GetProjectionById(req);
+            
+            return View(res);
+        }
+        
+        public async Task<IActionResult> AddMovie([Bind("Id,Name,GenreNames,ProjectionsDateTime,Duration,Synopsis,ActorNames,Director,TrailerURL,PosterUrl")] Movie movie)
+        {
+            if (ModelState.IsValid)
             {
-                return View("UserDoesNotExist");
+                await _moviesRepository.AddMovie(movie);
+                
+                return RedirectToAction("HomeAdmin", "Administrator");
+                
+                
             }
+            return View(movie);
         }
 
+        public IActionResult DeleteMovie()
+        {
+            return View();
+        }
+        public async Task<IActionResult> DeleteMovie(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            MovieRes movie = await _moviesRepository.GetDetailsAsync(new MovieGetDetailsReq(id));
+            if (_moviesRepository.DeleteMovie(movie).IsCompleted)
+            {
+                return RedirectToAction("HomeAdmin", "Administrator");
+            }
+            return View(movie);
+        }
+        public IActionResult HomeAdmin()
+        {
+            return RedirectToAction("HomeAdmin", "Administrator");
+        }
 
     }
 }

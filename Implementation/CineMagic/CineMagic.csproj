@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Administrator\AddMovie.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Home\JavaScript.js" />
   </ItemGroup>
 

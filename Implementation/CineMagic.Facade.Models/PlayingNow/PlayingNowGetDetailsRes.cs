@@ -8,12 +8,12 @@ namespace CineMagic.Facade.Models.PlayingNow
 {
     public class PlayingNowGetDetailsRes
     {
-        public IList<ProjectionGetDetailsRes> MondayProjections { get; set; }
-        public IList<ProjectionGetDetailsRes> TuesdayProjections { get; set; }
-        public IList<ProjectionGetDetailsRes> WednesdayProjections { get; set; }
-        public IList<ProjectionGetDetailsRes> ThursdayProjections { get; set; }
-        public IList<ProjectionGetDetailsRes> FridayProjections { get; set; }
-        public IList<ProjectionGetDetailsRes> SaturdayProjections { get; set; }
-        public IList<ProjectionGetDetailsRes> SundayProjections { get; set; }
+        public IList<ProjectionRes> MondayProjections { get; set; }
+        public IList<ProjectionRes> TuesdayProjections { get; set; }
+        public IList<ProjectionRes> WednesdayProjections { get; set; }
+        public IList<ProjectionRes> ThursdayProjections { get; set; }
+        public IList<ProjectionRes> FridayProjections { get; set; }
+        public IList<ProjectionRes> SaturdayProjections { get; set; }
+        public IList<ProjectionRes> SundayProjections { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using CineMagic.Facade.Models.Movie;
+﻿using CineMagic.Dal.Entities;
+using CineMagic.Facade.Models.Movie;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +8,10 @@ namespace CineMagic.Facade.Repositories
 {
     public interface IMoviesRepository
     {
-        Task<MovieGetDetailsRes> GetDetailsAsync(MovieGetDetailsReq req);
-        Task<IList<MovieGetDetailsRes>> GetAllMoviesAsync();
+        Task<MovieRes> GetDetailsAsync(MovieGetDetailsReq req);
+        Task<IList<MovieRes>> GetAllMoviesAsync();
+        public Task<Boolean> AddMovie(Movie movie);
+        public Task<Boolean> DeleteMovie(MovieRes movie);
+
     }
 }

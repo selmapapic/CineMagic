@@ -7,6 +7,16 @@ namespace CineMagic.Facade.Models.Movie
 {
     public class MovieGetDetailsReq
     {
+        public MovieGetDetailsReq(int id)
+        {
+            Id = id;
+        }
+
+        public MovieGetDetailsReq()
+        {
+
+        }
+
         [Required]
         public int? Id { get; set; }
     }

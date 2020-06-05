@@ -28,7 +28,7 @@ namespace CineMagic.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IList<MovieGetDetailsRes> movies = await _moviesRepository.GetAllMoviesAsync();
+            IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
             var sorted = movies.OrderByDescending(id => id.Id).ToList();
             foreach(var m in sorted)
             {

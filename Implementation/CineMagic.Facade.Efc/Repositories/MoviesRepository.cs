@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CineMagic.Facade.Models.Movie;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using CineMagic.Dal.Entities;
 using CineMagic.Facade.Models.Projection;
 
 namespace CineMagic.Facade.Efc.Repositories
@@ -22,18 +24,18 @@ namespace CineMagic.Facade.Efc.Repositories
             this._projectionsRepository = projectionsRespository;
         }
 
-        public async Task<MovieGetDetailsRes> GetDetailsAsync(MovieGetDetailsReq req)
+        public async Task<MovieRes> GetDetailsAsync(MovieGetDetailsReq req)
         {
 
             ProjectionGetDetailsByMovieIdReq projectionReq = new ProjectionGetDetailsByMovieIdReq
             {
                 MovieId = req.Id 
             };
-            IList<ProjectionGetDetailsRes> projections = await _projectionsRepository.GetProjectionsForMovieAsync(projectionReq);
+            IList<ProjectionRes> projections = await _projectionsRepository.GetProjectionsForMovieAsync(projectionReq);
 
-            MovieGetDetailsRes res = await _dbContext.Movies
+            MovieRes res = await _dbContext.Movies
                 .Where(m => m.Id == req.Id)
-                .Select(m => new MovieGetDetailsRes
+                .Select(m => new MovieRes
                 {
                     Id = m.Id,
                     Name = m.Name,
@@ -57,11 +59,11 @@ namespace CineMagic.Facade.Efc.Repositories
             return res;
         }
 
-        public async Task<IList<MovieGetDetailsRes>> GetAllMoviesAsync()
+        public async Task<IList<MovieRes>> GetAllMoviesAsync()
         {
 
-            IList<MovieGetDetailsRes> res = await _dbContext.Movies
-                .Select(m => new MovieGetDetailsRes
+            IList<MovieRes> res = await _dbContext.Movies
+                .Select(m => new MovieRes
                 {
                     Id = m.Id,
                     Name = m.Name,
@@ -82,5 +84,34 @@ namespace CineMagic.Facade.Efc.Repositories
 
             return res;
         }
+        public async Task<Boolean> AddMovie(Movie movie) 
+        {
+            try
+            {
+                _dbContext.Add(movie);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<Boolean> DeleteMovie(MovieRes movie)
+        {
+            try
+            {
+                _dbContext.Remove(movie);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        
+        }
+        
+
     }
 }

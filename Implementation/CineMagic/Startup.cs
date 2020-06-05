@@ -37,7 +37,7 @@ namespace CineMagic
             services.AddScoped<ICinemaHallRepository, CinemaHallRepository>();
             services.AddScoped<IAvailableSeatsRepository, AvailableSeatsRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ICinemaCreditCardRepository, CinemaCreditCardRepository>();
+            services.AddScoped<IReservationsRepository, ReservationsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
