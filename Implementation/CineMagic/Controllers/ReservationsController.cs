@@ -56,22 +56,33 @@ namespace CineMagic.Controllers
                 Seat = availableSeatGetDetailsRes,
                 Projection = projectionGetDetailsRes
             };
-            return View(reservation);
+            return View(reservation); 
         }
 
         public async Task<IActionResult> CheckCardNumber(CheckReservationModel model)
         {
             UserGetDetailsRes user = await _userRepository.GetCurrentUser();
+            String error1 = "Sorry, You don't have enough credits on your CineMagic Credit Card to buy this ticket.";
+            String error2 = "You entered wrong credit card number, click on a button and try again.";
 
             long cardNumber = Convert.ToInt64(model.cardNumber);
-            if (cardNumber == user.CinemaCreditCard.CardNumber && user.CinemaCreditCard.Balance >= 7.0)
+            if (cardNumber != user.CinemaCreditCard.CardNumber)
             {
-                return View("Successfully");
-
+                model.Error = error2;
+                return View("Unsuccessfully", model);
+            }
+            else if (user.CinemaCreditCard.Balance < 7.0)
+            {
+                model.Error = error1;
+                return View("Unsuccessfully", model);
             }
             else
-                return View("Unsuccessfully");
-            
+            {
+                await _userRepository.CreateReservationAsync(model);
+                return View("Successfully");
+            }
+
+
         }
 
         public async Task<IActionResult> AllReservationsUserAsync ()
