@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using CineMagic.Dal.Entities;
 
 namespace CineMagic.Facade.Efc.Repositories
 {
@@ -24,11 +25,14 @@ namespace CineMagic.Facade.Efc.Repositories
     {
         private CineMagicDbContext _dbContext;
         private IProjectionsRespository _projectionsRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ReservationsRepository(CineMagicDbContext dbContext, IProjectionsRespository projectionsRepository)
+
+        public ReservationsRepository(CineMagicDbContext dbContext, IProjectionsRespository projectionsRepository, IHttpContextAccessor httpContextAccessor)
         {
             this._dbContext = dbContext;
             this._projectionsRepository = projectionsRepository;
+            this._httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<UserReservationModel> GetUserReservationsAsync(ReservationGetDetailsByUserIdReq req)
@@ -79,6 +83,30 @@ namespace CineMagic.Facade.Efc.Repositories
             res.Projection = projectionRes;
 
             return res;
+        }
+
+        public async Task CancelReservation(CancelReservationModel model)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Reservation reservation = await _dbContext.Reservations
+                .Where(rs => rs.UserId == userId && rs.TicketId == model.TicketId)
+                .FirstOrDefaultAsync();
+
+            Ticket ticket = await _dbContext.Tickets
+                .Where(t => t.Id == model.TicketId)
+                .FirstOrDefaultAsync();
+
+            AvailableSeat availableSeat = new AvailableSeat
+            {
+                ProjectionId = model.ProjectionId,
+                SeatId = model.SeatId
+            };
+
+            _dbContext.Reservations.Remove(reservation);
+            _dbContext.Tickets.Remove(ticket);
+            _dbContext.AvailableSeats.Add(availableSeat);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

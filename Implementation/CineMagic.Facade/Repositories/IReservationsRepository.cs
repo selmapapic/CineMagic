@@ -12,5 +12,6 @@ namespace CineMagic.Facade.Repositories
     {
         Task<UserReservationModel> GetUserReservationsAsync(ReservationGetDetailsByUserIdReq req);
         Task<TicketGetDetailsRes> GetTicketForIdAsync(TicketGetDetailsReq req);
+        Task CancelReservation(CancelReservationModel model);
     }
 }

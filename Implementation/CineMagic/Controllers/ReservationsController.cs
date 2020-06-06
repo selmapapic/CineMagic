@@ -106,9 +106,9 @@ namespace CineMagic.Controllers
 
         }
 
-        public IActionResult CancelReservation(CancelReservationModel model)
+        public async Task<IActionResult> CancelReservation(CancelReservationModel model)
         {
-            //await _userRepository.CreateReservationAsync(model);
+            await _reservationsRepository.CancelReservation(model);
             return View("CancelReservation");
         }
     }
