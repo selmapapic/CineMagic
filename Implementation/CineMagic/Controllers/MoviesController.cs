@@ -70,10 +70,6 @@ namespace CineMagic.Controllers
             return View(movie);
         }
 
-        public IActionResult DeleteMovie()
-        {
-            return View();
-        }
         public async Task<IActionResult> DeleteMovie(int id)
         {
             if (id == null)
@@ -81,10 +77,39 @@ namespace CineMagic.Controllers
                 return NotFound();
             }
 
-            MovieRes movie = await _moviesRepository.GetDetailsAsync(new MovieGetDetailsReq(id));
-            if (_moviesRepository.DeleteMovie(movie).IsCompleted)
+            Movie movie = await _moviesRepository.GetMovieById(new MovieGetDetailsReq(id));
+            if (movie == null)
             {
+                return NotFound();
+            }
+
+            return View(movie);
+        }
+        [HttpPost, ActionName("DeleteMovie1")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteMovie1(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //MovieRes movie = await _moviesRepository.GetDetailsAsync(new MovieGetDetailsReq(id));
+            //if (_moviesRepository.DeleteMovie(movie).IsCompleted)
+            //{
+            //    return RedirectToAction("HomeAdmin", "Administrator");
+            // }
+            //return View(movie);
+           MovieRes movie = await _moviesRepository.GetDetailsAsync(new MovieGetDetailsReq(id));
+
+
+            if (ModelState.IsValid)
+            {
+                await _moviesRepository.DeleteMovie(id);
+
                 return RedirectToAction("HomeAdmin", "Administrator");
+
+
             }
             return View(movie);
         }

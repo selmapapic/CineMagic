@@ -97,11 +97,17 @@ namespace CineMagic.Facade.Efc.Repositories
                 return false;
             }
         }
-        public async Task<Boolean> DeleteMovie(MovieRes movie)
+
+        
+
+        public async Task<Boolean> DeleteMovie(int id)
         {
+            Movie movie = await _dbContext.Movies.Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
             try
             {
-                _dbContext.Remove(movie);
+
+                _dbContext.Movies.Remove(movie);
                 await _dbContext.SaveChangesAsync();
                 return true;
             }
@@ -111,7 +117,12 @@ namespace CineMagic.Facade.Efc.Repositories
             }
         
         }
-        
 
+        public async Task<Movie> GetMovieById(MovieGetDetailsReq req)
+        {
+            Movie movie = await _dbContext.Movies.Where(m => m.Id == req.Id)
+                .FirstOrDefaultAsync();
+            return movie;
+        }
     }
 }
