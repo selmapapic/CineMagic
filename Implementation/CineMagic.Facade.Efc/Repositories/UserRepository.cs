@@ -78,26 +78,31 @@ namespace CineMagic.Facade.Efc.Repositories
 
             if (await DoesUserExists(userId))
             {
+                AvailableSeat availableSeat = await _dbContext.AvailableSeats
+                   .Where(avs => avs.Id == model.AvailableSeatId)
+                   .FirstOrDefaultAsync();
+
                 Ticket ticket = new Ticket
                 {
                     ProjectionId = model.ProjectionId,
-                    SeatId = model.AvailableSeatId
+                    SeatId = availableSeat.SeatId,
+                    Price = 7.0
                 };
+
+                int seatId = availableSeat.SeatId;
                 
-                AvailableSeat availableSeat = await _dbContext.AvailableSeats
-                    .Where(avs => avs.Id == model.AvailableSeatId)
-                    .FirstOrDefaultAsync();
+               
 
                 _dbContext.Tickets.Add(ticket);
                 _dbContext.AvailableSeats.Remove(availableSeat);
                 await _dbContext.SaveChangesAsync();
-                await AddReservation(model);
+                await AddReservation(model, seatId);
 
             }
            
         }
 
-        private async Task AddReservation (CheckReservationModel model)
+        private async Task AddReservation (CheckReservationModel model, int seatId)
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -111,7 +116,7 @@ namespace CineMagic.Facade.Efc.Repositories
 
 
             Ticket ticket = await _dbContext.Tickets
-                .Where(t => t.ProjectionId == model.ProjectionId && t.SeatId == model.AvailableSeatId)
+                .Where(t => t.ProjectionId == model.ProjectionId && t.SeatId == seatId)
                 .FirstOrDefaultAsync();
 
             Reservation reservation = new Reservation
