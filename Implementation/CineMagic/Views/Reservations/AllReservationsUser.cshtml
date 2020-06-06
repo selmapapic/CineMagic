@@ -75,7 +75,28 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-danger" style="width:170px">Cancel reservation</button>
+
+
+                                        <script>
+                                            function ShowMessage() {
+                                                var result = confirm("Are you sure you want to cancel the reservation?");
+                                                if (result) {
+                                                    return true;
+                                                } else {
+                                                    return false;
+                                                }
+                                            }
+                                        </script>
+
+                                        <form asp-controller="Reservations" asp-action="CancelReservation" method="post">
+                                            <input type="hidden" id="ProjectionId" name="ProjectionId" value='@item.Projection.Id' />
+                                            <input type="hidden" id="SeatId" name="SeatId" value='@item.SeatId' />
+                                            <input type="hidden" id="TicketId" name="TicketId" value="@item.Id" />
+                                            <input type="hidden" id="SeatName" name="SeatName" value="@item.SeatName" />
+                                            <input type="submit" value="Cancel reservation" class="btn btn-outline-danger"  style="width:170px" name="cancelButton" onclick="javascript:return ShowMessage();" />
+<p>@item.SeatId</p>
+                                        </form>
+                                        
                                     </td>
                                 </tr>
                             }

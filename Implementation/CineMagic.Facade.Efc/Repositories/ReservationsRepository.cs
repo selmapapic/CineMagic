@@ -65,7 +65,8 @@ namespace CineMagic.Facade.Efc.Repositories
                     Id = t.Id,
                     Price = t.Price, 
                     ProjectionId = t.ProjectionId, 
-                    SeatName = t.Seat.Name
+                    SeatName = t.Seat.Name,
+                    SeatId = t.SeatId
                 }).FirstOrDefaultAsync();
 
             ProjectionGetDetailsReq projectionReq = new ProjectionGetDetailsReq

@@ -105,5 +105,11 @@ namespace CineMagic.Controllers
             return View(res);
 
         }
+
+        public IActionResult CancelReservation(CancelReservationModel model)
+        {
+            //await _userRepository.CreateReservationAsync(model);
+            return View("CancelReservation");
+        }
     }
 }
