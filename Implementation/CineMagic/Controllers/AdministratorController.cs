@@ -139,7 +139,7 @@ namespace CineMagic.Controllers
             }
         }
 
-        public async Task AddMovie(MovieSearch movieSearch)
+        public async Task<IActionResult> AddMovie(MovieSearch movieSearch)
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
@@ -173,7 +173,8 @@ namespace CineMagic.Controllers
             }
 
             await Add(theMovieDb, movieSearch);
-            
+            return RedirectToAction("HomeAdmin", "Administrator");
+
 
         }
 
@@ -199,7 +200,7 @@ namespace CineMagic.Controllers
 
         }
 
-        public async Task AddCast(TheMovieDb theMovieDb)
+        public async Task<IActionResult> AddCast(TheMovieDb theMovieDb)
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
@@ -278,10 +279,11 @@ namespace CineMagic.Controllers
 
            await _dbContext.SaveChangesAsync();
            await AddGenres(theMovieDb, movie.Id);
+            return RedirectToAction("HomeAdmin", "Administrator");
 
         }
 
-        public async Task AddGenres(TheMovieDb theMovieDb, int movieId)
+        public async Task<IActionResult> AddGenres(TheMovieDb theMovieDb, int movieId)
         {
             foreach(var gId in theMovieDb.Genre_ids)
             {
@@ -305,6 +307,7 @@ namespace CineMagic.Controllers
                 _dbContext.GenreMovieLinks.Add(gml);
                 await _dbContext.SaveChangesAsync();
             }
+            return RedirectToAction("HomeAdmin", "Administrator");
         }
 
         public async Task<string> GetGenreNameById(long id)
