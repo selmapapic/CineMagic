@@ -37,6 +37,7 @@ namespace CineMagic.Facade.Efc.Repositories
             IList<ProjectionRes> res = await _dbContext.Projections
                 .Select(p => new ProjectionRes
                 {
+                    Id = p.Id,
                     ProjectionTime = p.ProjectionTime,
                     MovieId = p.MovieId,
                     MovieName = p.Movie.Name,
@@ -71,6 +72,7 @@ namespace CineMagic.Facade.Efc.Repositories
             IList<ProjectionRes> res = await _dbContext.Projections
                 .Select(p => new ProjectionRes
                 {
+                    Id = p.Id,
                     ProjectionTime = p.ProjectionTime,
                     MovieId = p.MovieId,
                     MovieName = p.Movie.Name,
