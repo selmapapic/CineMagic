@@ -7,6 +7,8 @@ using CineMagic.Dal.Context;
 using CineMagic.Dal.Entities;
 using CineMagic.Facade.Models.Actor;
 using CineMagic.Facade.Models.Administrator;
+using CineMagic.Facade.Models.Genre;
+using CineMagic.Facade.Models.CinemaCreditCard;
 using CineMagic.Facade.Models.Movie;
 using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Repositories;
@@ -25,17 +27,19 @@ namespace CineMagic.Controllers
         private IMoviesRepository _moviesRepository;
         private IProjectionsRespository _projectionsRepository;
         private CineMagicDbContext _dbContext;
+        private IUserRepository _userRepository;
 
-        public AdministratorController(ILogger<AdministratorController> logger, IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository, CineMagicDbContext dbContext)
+        public AdministratorController(ILogger<AdministratorController> logger, IMoviesRepository moviesRepository, IUserRepository userRepository, IProjectionsRespository projectionsRepository, CineMagicDbContext dbContext)
         {
             _logger = logger;
             this._moviesRepository = moviesRepository;
             this._projectionsRepository = projectionsRepository;
+            this._userRepository = userRepository;
             _dbContext = dbContext;
         }
 
 
-      
+
         public async Task<IActionResult> HomeAdmin()
         {
             IList<ProjectionRes> projections = await _projectionsRepository.GetProjections();
@@ -61,9 +65,9 @@ namespace CineMagic.Controllers
             return View();
         }
 
-        public ActionResult AddMovies()
+        public IActionResult AddMovies()
         {
-            return RedirectToAction("AddMovies", "Movies");
+            return View();
         }
         public ActionResult AddProjection()
         {
@@ -99,7 +103,7 @@ namespace CineMagic.Controllers
         }
 
         // GET: AdministratorController/Edit/5
-        
+
 
         // POST:AdministratorController/Edit/5
         [HttpPost]
@@ -117,9 +121,9 @@ namespace CineMagic.Controllers
         }
 
 
-       
 
-        
+
+
         // POST: AdministratorController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -170,8 +174,7 @@ namespace CineMagic.Controllers
 
             await Add(theMovieDb, movieSearch);
             
-            //sad ovdje pozvati add metodu u koju ces proslijediti Add(theMovieDb, movieSearch.Trailer, movieSearch.Duration)
-            // u toj metodi kreirati Movie movie = new Movie i dodijeliti sve podatke koje imas 
+
         }
 
         public async Task Add(TheMovieDb theMovieDb, MovieSearch movieSearch)
@@ -203,7 +206,8 @@ namespace CineMagic.Controllers
             var baseAddress = new Uri("http://api.themoviedb.org/3/");
             List<ActorDb> actors = new List<ActorDb> { };
 
-            ///movie/671/credits?api_key=c1a1318b6fec8983ec3d16aa9efa6b79
+            string directorName = "";
+
             using (var httpClient = new HttpClient { BaseAddress = baseAddress })
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
@@ -216,27 +220,37 @@ namespace CineMagic.Controllers
 
                     var model = JsonConvert.DeserializeObject<RootObjectActors>(responseData);
 
-                    foreach (var result in model.Results)
+                    foreach (var result in model.Cast)
                     {
                         actors.Add(result);
                         if (actors.Count == 5) break;
 
+                    }
+
+                    foreach(var result in model.Crew)
+                    {
+                        if(result.Job == "Director")
+                        {
+                            directorName = result.Name;
+                        }
                     }
                 }
             }
 
 
             Movie movie = await _dbContext.Movies
-                .Where(m => m.Name == theMovieDb.Name)
+                .Where(m => m.Name == theMovieDb.Original_title)
                 .FirstOrDefaultAsync();
 
-            foreach(var actor in actors)
+            movie.Director = directorName;
+
+            foreach (var actor in actors)
             {
                 Actor ac = await _dbContext.Actors
                     .Where(a => a.Name == actor.Name)
                     .FirstOrDefaultAsync();
 
-                if(ac == null)
+                if (ac == null)
                 {
                     Actor newActor = new Actor
                     {
@@ -262,8 +276,96 @@ namespace CineMagic.Controllers
 
             }
 
+           await _dbContext.SaveChangesAsync();
+           await AddGenres(theMovieDb, movie.Id);
+
         }
 
+        public async Task AddGenres(TheMovieDb theMovieDb, int movieId)
+        {
+            foreach(var gId in theMovieDb.Genre_ids)
+            {
+                string genreName = await GetGenreNameById((Int64)gId);
+
+
+                MovieGenre mg = await _dbContext.MovieGenres
+                    .Where(mg => mg.Name == genreName)
+                    .FirstOrDefaultAsync();
+
+                Movie movie = await _dbContext.Movies
+                    .Where(m => m.Name == theMovieDb.Original_title)
+                    .FirstOrDefaultAsync();
+
+                GenreMovieLink gml = new GenreMovieLink
+                {
+                    MovieId = movie.Id,
+                    MovieGenreId = mg.Id
+                };
+
+                _dbContext.GenreMovieLinks.Add(gml);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<string> GetGenreNameById(long id)
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            var baseAddress = new Uri("http://api.themoviedb.org/3/");
+            List<GenreDb> genres = new List<GenreDb> { };
+
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+
+                // api_key can be requestred on TMDB website
+                using (var response = await httpClient.GetAsync("genre/movie/list?api_key=c1a1318b6fec8983ec3d16aa9efa6b79"))
+                {
+                    string responseData = await response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<RootObjectGenre>(responseData);
+
+                    foreach (var result in model.Genres)
+                    {
+                        genres.Add(result);
+                    }
+                }
+            }
+
+            foreach(var g in genres)
+            {
+                if (g.Id == id)
+                    return g.Name;
+            }
+
+            return "";
+        }
+
+        public async Task<IActionResult> AddCreditCardDb(CreditCardModel res)
+        {
+
+            await _userRepository.AddCreditCard(res);
+
+            CinemaCreditCardGetDetailsRes created = await _userRepository.GetUserCreditCard(res);
+
+            return View("CardAdded", (object)created);
+
+        }
+
+        public async Task<IActionResult> AddFunds()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> AddFundsDb(AddFundsModel res)
+        {
+
+            await _userRepository.AddFunds(res);
+
+            return RedirectToAction("HomeAdmin", "Administrator");
+
+        }
         
     }
 }
