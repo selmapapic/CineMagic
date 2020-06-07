@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/ooadcinemagic/databases/CineMagicDb",
+      "type": "mssql.azure",
+      "connectionId": "CineMagicDbContext",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
