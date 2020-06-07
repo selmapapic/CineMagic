@@ -28,6 +28,46 @@
                 <input asp-for="CinemaHallId" class="form-control" />
                 <span asp-validation-for="CinemaHallId" class="text-danger"></span>
             </div>
+            <div class="col-6">
+
+                <table class="table">
+                    <thead class="thead-dark">
+
+                        <tr>
+                            <th>
+                                <p class="text-center">Id</p>
+                            </th>
+                            <th>
+                                <p class="text-center">Number of seats</p>
+                            </th>
+                            <th>
+                                <p class="text-center">Picture</p>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.AllCinemaHalls)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.numberOfSeats)
+                                </td>
+                                <td style="align-content:center">
+                                    <div class="col">
+
+                                        <img class="d-block w-110" src="@Url.Content(item.HallImageUrl)" style="width:150x;height:250px" />
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
             <div class="form-group">
                 <input type="hidden" asp-for="Id" />

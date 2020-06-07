@@ -27,7 +27,8 @@ namespace CineMagic.Facade.Efc.Repositories
                 .Select(c => new CinemaHallGetDetailsRes
                 {
                     Id = c.Id,
-                    HallImageUrl = c.HallImageUrl
+                    HallImageUrl = c.HallImageUrl,
+                    numberOfSeats = c.AllSeats.Count()
                 }).FirstOrDefaultAsync();
 
             return res;

@@ -38,13 +38,14 @@ namespace CineMagic.Controllers
       
         public async Task<IActionResult> HomeAdmin()
         {
-            IList<ProjectionRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
+            IList<ProjectionRes> projections = await _projectionsRepository.GetProjections();
             var sortedPro = projections.OrderByDescending(time => time.ProjectionTime).ToList();
 
             IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
             var sortedMov = movies.OrderByDescending(id => id.Id).ToList();
             
-            AdminMoviesAndProjections lista = new AdminMoviesAndProjections(movies, projections);
+
+            AdminMoviesAndProjections lista = new AdminMoviesAndProjections(sortedMov, sortedPro);
             return View(lista);
         }
 
@@ -60,26 +61,26 @@ namespace CineMagic.Controllers
             return View();
         }
 
-        public ActionResult AddMovie()
+        public ActionResult AddMovies()
         {
-            return RedirectToAction("AddMovie", "Movies");
+            return RedirectToAction("AddMovies", "Movies");
         }
         public ActionResult AddProjection()
         {
-            return RedirectToAction("AddProjection", "Projections");
+            return RedirectToAction("AddProjections", "Projections");
         }
 
         public ActionResult EditProjection(int id)
         {
-            return RedirectToAction("EditProjection", "Projections");
+            return RedirectToAction("EditProjections", "Projections", new { id = id });
         }
         public ActionResult DeleteProjection(int id)
         {
-            return RedirectToAction("DeleteProjection", "Projections");
+            return RedirectToAction("DeleteProjections", "Projections", new { id = id });
         }
         public ActionResult DeleteMovie(int id)
         {
-            return RedirectToAction("DeleteMovie", "Movies");
+            return RedirectToAction("DeleteMovies", "Movies", new { id = id });
         }
 
         // POST: AdministratorController/Create
@@ -262,5 +263,7 @@ namespace CineMagic.Controllers
             }
 
         }
+
+        
     }
 }

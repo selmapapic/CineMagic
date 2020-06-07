@@ -7,134 +7,94 @@
 
 <h1 class="text-center" style="font-family:Verdana">Add Movie</h1>
 
-
-<div class="row">
-    <div class="col-8">
-        <form asp-action="AddMovies">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
-                <input asp-for="Duration" class="form-control" />
-                <span asp-validation-for="Duration" class="text-danger"></span>
-            </div>
-            @*
-            <div class="form-group">
-                <label asp-for="Synopsis" class="control-label"></label>
-                <input style="height:100px" asp-for="Synopsis" class="form-control" />
-                <span asp-validation-for="Synopsis" class="text-danger"></span>
-            </div>
+<div class="container-fluid">
 
 
-            @foreach (var item in Model.AllGenreNames)
-            {
-                <b style="margin-left: 2.5em; font-size: large; font-family: 'Copperplate Gothic'">@item.Name</b>
-            }
+    <div class="row">
+        <div class="col-8">
+            <form asp-action="AddMovies">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            @for (var i = 0; i < Model.CheckBoxes.Length; i++) {
-            <div>
-                 @Html.DisplayFor(x=>x.AllGenreNames[i].Name)
-                 @Html.HiddenFor(x => x.CheckBoxes[i].Id)
-                 @Html.CheckBoxFor(x => x.CheckBoxes[i].IsSelected)
-            </div>
-             }
-
-
-
-           <div class="form-group">
-           <div>
-              <p>Pick Genres</p>
-           </div>
-           <div class="col-4">
-               @Html.DropDownListFor(m => Model.Genre1, new SelectList(Model.GenreNames, "Genre", "Genre"), htmlAttributes: new { @class = "form-control", id = "Genre1" })
-           </div>
-           <div class="col-4">
-               @Html.DropDownListFor(m => Model.Genre2, new SelectList(Model.GenreNames, "Genre", "Genre"), htmlAttributes: new { @class = "form-control", id = "Genre2" })
-           </div>
-           <div class="col-4">
-               @Html.DropDownListFor(m => Model.Genre3, new SelectList(Model.GenreNames, "Genre", "Genre"), htmlAttributes: new { @class = "form-control", id = "Genre3" })
-           </div>
-
-
-        <   /div>
-            <div>
-            <p>Genres</p>
+                <div class="form-group">
+                    <label class="text-center" style="text-decoration-color:blue" asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-            <div class="row">
 
-                    <div class="col">
-                        <input asp-for="Genre1" class="form-control" />
-                        <span asp-validation-for="Genre1" class="text-danger"></span>
+                <div class="form-group">
+                    <label class="text-center" style="text-decoration-color:blue" asp-for="Duration" class="control-label"></label>
+                    <input asp-for="Duration" class="form-control" />
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+                @*
+
+
+                    @foreach (var item in Model.AllGenreNames)
+                    {
+                        <b style="margin-left: 2.5em; font-size: large; font-family: 'Copperplate Gothic'">@item.Name</b>
+                    }
+
+                    @for (var i = 0; i < Model.CheckBoxes.Length; i++) {
+                    <div>
+                         @Html.DisplayFor(x=>x.AllGenreNames[i].Name)
+                         @Html.HiddenFor(x => x.CheckBoxes[i].Id)
+                         @Html.CheckBoxFor(x => x.CheckBoxes[i].IsSelected)
                     </div>
-                    <div class="col">
-                        <input asp-for="Genre2" class="form-control" />
-                        <span asp-validation-for="Genre2" class="text-danger"></span>
+                     }
+
+
+                *@
+                <div class="form-group">
+                    <label class="text-center" style="text-decoration-color:blue" asp-for="TrailerURL" class="control-label"></label>
+                    <input asp-for="TrailerURL" class="form-control" />
+                    <span asp-validation-for="TrailerURL" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-center" style="text-decoration-color:blue" asp-for="PosterURL" class="control-label"></label>
+                    <input asp-for="PosterURL" class="form-control" />
+                    <span asp-validation-for="PosterURL" class="text-danger"></span>
+                </div>
+                @*
+                    <div class="form-group">
+                        <p>Input Actors Names</p>
+
+                        <div class="col">
+                            <input asp-for="Actor1" class="form-control" />
+                            <span asp-validation-for="Actor1" class="text-danger"></span>
+                        </div>
+
+                        <div class="col">
+                            <input asp-for="Actor2" class="form-control" />
+                            <span asp-validation-for="Actor2" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col">
+                            <input asp-for="Actor3" class="form-control" />
+                            <span asp-validation-for="Actor3" class="text-danger"></span>
+                        </div>
+
+                        <div class="col">
+                            <input asp-for="Actor4" class="form-control" />
+                            <span asp-validation-for="Actor4" class="text-danger"></span>
+                        </div>
+
                     </div>
-                    <div class="col">
-                        <input asp-for="Genre3" class="form-control" />
-                        <span asp-validation-for="Genre3" class="text-danger"></span>
-                    </div
-
-            <div class="form-group">
-                <label asp-for="Director" class="control-label"></label>
-                <input asp-for="Director" class="form-control" />
-                <span asp-validation-for="Director" class="text-danger"></span>
-            </div>>*@
-            <div class="form-group">
-                <label asp-for="TrailerURL" class="control-label"></label>
-                <input asp-for="TrailerURL" class="form-control" />
-                <span asp-validation-for="TrailerURL" class="text-danger"></span>
-            </div>
-            @*
-        <div class="form-group">
-            <label asp-for="PosterURL" class="control-label"></label>
-            <input asp-for="PosterURL" class="form-control" />
-            <span asp-validation-for="PosterURL" class="text-danger"></span>
+                *@
+                <div class="form-group">
+                    <input type="submit" value="Add Movie" class="btn btn-outline-primary" />
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-            <p>Input Actors Names</p>
-
-            <div class="col">
-                <input asp-for="Actor1" class="form-control" />
-                <span asp-validation-for="Actor1" class="text-danger"></span>
-            </div>
-
-            <div class="col">
-                <input asp-for="Actor2" class="form-control" />
-                <span asp-validation-for="Actor2" class="text-danger"></span>
-
-            </div>
-
-            <div class="col">
-                <input asp-for="Actor3" class="form-control" />
-                <span asp-validation-for="Actor3" class="text-danger"></span>
-            </div>
-
-            <div class="col">
-                <input asp-for="Actor4" class="form-control" />
-                <span asp-validation-for="Actor4" class="text-danger"></span>
-            </div>
-
-        </div>
-            *@
-            <div class="form-group">
-                <input type="submit" value="Add Movie" class="btn btn-primary" />
-            </div>
-        </form>
     </div>
-</div>
 
-<div>
-    <a asp-action="HomeAdmin">Back to Administrator Page</a>
-</div>
 
+    <div>
+        <a asp-action="HomeAdmin">Back to Administrator Page</a>
+    </div>
+
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
