@@ -1,0 +1,29 @@
+﻿<div>
+    <h1 style="text-align:center">Add Movie</h1>
+    <hr />
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form asp-controller="Administrator" asp-action="AddMovie" method="post">
+
+
+                <b>Enter movie name:</b>
+                <input type="text" class="form-control" id="Search" name="Search" required>
+                <b>Enter movie duration:</b>
+                <input type="text" class="form-control" id="Duration" name="Duration" required>
+                <b>Enter movie poster URL:</b>
+                <input type="text" class="form-control" id="Poster" name="Poster" required>
+                <b>Enter movie trailer URL:</b>
+                <input type="text" class="form-control" id="Trailer" name="Trailer" required>
+
+                <br />
+                <br />
+
+                <button type="submit" class="btn btn-primary" id="btn" style="margin-left:20px;">Add Movie</button>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
