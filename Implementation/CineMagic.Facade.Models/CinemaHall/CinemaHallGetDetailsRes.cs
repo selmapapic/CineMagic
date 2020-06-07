@@ -13,5 +13,6 @@ namespace CineMagic.Facade.Models.CinemaHall
 
         public IList<AvailableSeatGetDetailsRes> AllSeats { get; set; }
 
+        public int numberOfSeats { get; set; }
     }
 }

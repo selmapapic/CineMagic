@@ -10,8 +10,11 @@ namespace CineMagic.Facade.Repositories
     {
         Task<MovieRes> GetDetailsAsync(MovieGetDetailsReq req);
         Task<IList<MovieRes>> GetAllMoviesAsync();
-        public Task<Boolean> AddMovie(Movie movie);
-        public Task<Boolean> DeleteMovie(int id);
+       
+        
         public Task<Movie> GetMovieById(MovieGetDetailsReq req);
+        Task<Boolean> AddMovies(MovieRes movie);
+        Task<Boolean> DeleteMovies(int id);
+        Task<IList<GenreRes>> GetMovieGenres();
     }
 }
