@@ -14,10 +14,9 @@ namespace CineMagic.Facade.Repositories
         Task<IList<ProjectionRes>> GetAllProjectionsAsync();
         Task<PlayingNowGetDetailsRes> GetAllProjectionsByDaysAsync();
         Task<ProjectionRes> GetProjectionById(ProjectionGetDetailsReq req);
-        public Task<Boolean> AddProjection(Projection projection);
+        
         public Task<Projection> GetProjectionEntityClassWithId(ProjectionGetDetailsReq projectionGetDetailsReq);
-        Task<Boolean> DeleteProjection(int id);
-        Task<Boolean> EditProjection(Projection projection);
+       
 
         Task<IList<CinemaHallGetDetailsRes>> GetAllCinemaHalls();
         public Task<Boolean> AddProjections(ProjectionRes projection);

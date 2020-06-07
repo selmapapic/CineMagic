@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using CineMagic.Facade.Models.PlayingNow;
 using CineMagic.Facade.Models.CinemaHall;
 using CineMagic.Facade.Models.Seat;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace CineMagic.Facade.Efc.Repositories
 {
@@ -139,7 +141,16 @@ namespace CineMagic.Facade.Efc.Repositories
                     ProjectionId = req.Id,
                     Name = s.Seat.Name
                 }).ToListAsync();
-            
+
+
+            IList<CinemaHallGetDetailsRes> cinemaHalls = await _dbContext.CinemaHalls.Select
+            (c => new CinemaHallGetDetailsRes
+            {
+                Id = c.Id,
+                HallImageUrl = c.HallImageUrl,
+                numberOfSeats = c.AllSeats.Count()
+            }).ToListAsync();
+
 
             ProjectionRes res = await _dbContext.Projections
                 .Where(p => p.Id == req.Id)
@@ -154,7 +165,8 @@ namespace CineMagic.Facade.Efc.Repositories
                         Id = p.CinemaHallId,
                         HallImageUrl = p.CinemaHall.HallImageUrl
                     },
-                    AvailableSeats = seatGetDetailsRes
+                    AvailableSeats = seatGetDetailsRes,
+                    AllCinemaHalls = cinemaHalls
                 }).FirstOrDefaultAsync();
 
             return res;
@@ -166,20 +178,7 @@ namespace CineMagic.Facade.Efc.Repositories
             //IMPLEMENTIRATI OVO
         }
 
-        public async Task<Boolean> AddProjection(Projection projection)
-        {
-
-            try
-            {
-                _dbContext.Projections.Add(projection);
-                await _dbContext.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        
 
         public async Task<Projection> GetProjectionEntityClassWithId(ProjectionGetDetailsReq req)
         {
@@ -236,17 +235,54 @@ namespace CineMagic.Facade.Efc.Repositories
             {
                 Movie movie = await _dbContext.Movies.Where(m => m.Name == res.MovieName).FirstOrDefaultAsync();
                 CinemaHall cinHall = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).FirstOrDefaultAsync();
+
+                //IEnumerable<AvailableSeat> available = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).AllSeats.Select(p => new AvailableSeat
+                //{
+                //    ProjectionId = res.Id,
+                //    SeatId = p.SeatNumber
+                //};
+
+                
+
                 Projection projection = new Projection
                 {
                     
                     ProjectionTime = res.ProjectionTime,
                     MovieId = movie.Id,
-                    Movie = movie,
+                    
                     CinemaHallId = cinHall.Id,
-                    CinemaHall = cinHall
+                  
                 };
+                
+                
                 _dbContext.Add(projection);
                 await _dbContext.SaveChangesAsync();
+
+                Projection project =  _dbContext.Projections.Where(m => m.ProjectionTime == res.ProjectionTime && m.MovieId==movie.Id).FirstOrDefault();
+
+                foreach(var seat in cinHall.AllSeats)
+                {
+                    
+                    Seat seat1 = _dbContext.Seats.Where(m => m.Id == seat.Id).FirstOrDefault();
+                    if (seat1 == null)
+                    {
+                        Seat newSeat = new Seat
+                        {
+                            Name = seat.Name
+                        };
+                    _dbContext.Seats.Add(newSeat);
+                        await _dbContext.SaveChangesAsync();
+                    }
+
+                    Seat addedSeat = _dbContext.Seats.Where(m => m.Id == seat.Id).FirstOrDefault();
+                    AvailableSeat avl = new AvailableSeat
+                    {
+                        ProjectionId = project.Id,
+                        SeatId = addedSeat.Id
+                    };
+                    _dbContext.AvailableSeats.Add(avl);
+                }
+
                 return true;
             }
             catch
@@ -261,23 +297,79 @@ namespace CineMagic.Facade.Efc.Repositories
             {
                 Movie movie = await _dbContext.Movies.Where(m => m.Name == res.MovieName).FirstOrDefaultAsync();
                 CinemaHall cinHall = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).FirstOrDefaultAsync();
+
+                //IEnumerable<AvailableSeat> available = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).AllSeats.Select(p => new AvailableSeat
+                //{
+                //    ProjectionId = res.Id,
+                //    SeatId = p.SeatNumber
+                //};
+
+
+
                 Projection projection = new Projection
                 {
-                    Id=res.Id,
+
                     ProjectionTime = res.ProjectionTime,
                     MovieId = movie.Id,
-                    Movie = movie,
+
                     CinemaHallId = cinHall.Id,
-                    CinemaHall = cinHall
+
                 };
-                _dbContext.Update(projection);
+
+
+                _dbContext.Add(projection);
                 await _dbContext.SaveChangesAsync();
+
+                Projection project = _dbContext.Projections.Where(m => m.ProjectionTime == res.ProjectionTime && m.MovieId == movie.Id).FirstOrDefault();
+
+                foreach (var seat in cinHall.AllSeats)
+                {
+
+                    Seat seat1 = _dbContext.Seats.Where(m => m.Id == seat.Id).FirstOrDefault();
+                    if (seat1 == null)
+                    {
+                        Seat newSeat = new Seat
+                        {
+                            Name = seat.Name
+                        };
+                        _dbContext.Seats.Add(newSeat);
+                        await _dbContext.SaveChangesAsync();
+                    }
+
+                    Seat addedSeat = _dbContext.Seats.Where(m => m.Id == seat.Id).FirstOrDefault();
+                    AvailableSeat avl = new AvailableSeat
+                    {
+                        ProjectionId = project.Id,
+                        SeatId = addedSeat.Id
+                    };
+                    _dbContext.AvailableSeats.Add(avl);
+                }
+
                 return true;
             }
             catch
             {
                 return false;
             }
+            //    Movie movie = await _dbContext.Movies.Where(m => m.Name == res.MovieName).FirstOrDefaultAsync();
+            //    CinemaHall cinHall = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).FirstOrDefaultAsync();
+            //    Projection projection = new Projection
+            //    {
+            //        Id=res.Id,
+            //        ProjectionTime = res.ProjectionTime,
+            //        MovieId = movie.Id,
+            //        Movie = movie,
+            //        CinemaHallId = cinHall.Id,
+            //        CinemaHall = cinHall
+            //    };
+            //    _dbContext.Update(projection);
+            //    await _dbContext.SaveChangesAsync();
+            //    return true;
+            //}
+            //catch
+            //{
+            //    return false;
+        
             
         }
 
@@ -306,8 +398,19 @@ namespace CineMagic.Facade.Efc.Repositories
                 {
                     Id = c.Id,
                     HallImageUrl = c.HallImageUrl,
-                    numberOfSeats = c.AllSeats.Count()
+                    numberOfSeats = c.AllSeats.Count(),
+                    
                 }).ToListAsync();
+                    
+            //IList<AvailableSeatGetDetailsRes> seatGetDetailsRes = await _dbContext.AvailableSeats
+            //   .Where(avs => avs.ProjectionId == req.Id)
+            //   .Select(s => new AvailableSeatGetDetailsRes
+            //   {
+            //       Id = s.Id,
+            //       SeatId = s.SeatId,
+            //       ProjectionId = req.Id,
+            //       Name = s.Seat.Name
+            //   }).ToListAsync();
 
             IList<ProjectionRes> res = await _dbContext.Projections
                .Select(p => new ProjectionRes

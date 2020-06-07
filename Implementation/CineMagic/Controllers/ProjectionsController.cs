@@ -14,6 +14,7 @@ namespace CineMagic.Controllers
     {
         private IMoviesRepository _moviesRepository;
         private IProjectionsRespository _projectionsRepository;
+        
 
         public ProjectionsController(IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository)
         {
@@ -37,12 +38,16 @@ namespace CineMagic.Controllers
             projection.AllCinemaHalls = await _projectionsRepository.GetAllCinemaHalls();
             if (ModelState.IsValid)
             {
+                
                 await _projectionsRepository.AddProjections(projection);
 
+
+                
                 return RedirectToAction("HomeAdmin", "Administrator");
 
 
             }
+
             return View(projection);
         }
         public async Task<IActionResult> EditProjections(int id)
@@ -52,11 +57,14 @@ namespace CineMagic.Controllers
                 return NotFound();
             }
             ProjectionRes projection = await _projectionsRepository.GetProjectionById(new ProjectionGetDetailsReq { Id = id });
+           
             return View(projection);
         }
         [HttpPost]
         public async Task<IActionResult> EditProjections(int id, [Bind("MovieName, ProjectionTime, CinemaHallId")] ProjectionRes projection)
         {
+            projection.AllCinemaHalls = await _projectionsRepository.GetAllCinemaHalls();
+
             if (ModelState.IsValid)
             {
                 await _projectionsRepository.EditProjections(projection);

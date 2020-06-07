@@ -7,6 +7,7 @@ using CineMagic.Dal.Context;
 using CineMagic.Dal.Entities;
 using CineMagic.Facade.Models.Actor;
 using CineMagic.Facade.Models.Administrator;
+using CineMagic.Facade.Models.Genre;
 using CineMagic.Facade.Models.CinemaCreditCard;
 using CineMagic.Facade.Models.Movie;
 using CineMagic.Facade.Models.Projection;
@@ -41,13 +42,14 @@ namespace CineMagic.Controllers
 
         public async Task<IActionResult> HomeAdmin()
         {
-            IList<ProjectionRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
+            IList<ProjectionRes> projections = await _projectionsRepository.GetProjections();
             var sortedPro = projections.OrderByDescending(time => time.ProjectionTime).ToList();
 
             IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
             var sortedMov = movies.OrderByDescending(id => id.Id).ToList();
+            
 
-            AdminMoviesAndProjections lista = new AdminMoviesAndProjections(movies, projections);
+            AdminMoviesAndProjections lista = new AdminMoviesAndProjections(sortedMov, sortedPro);
             return View(lista);
         }
 
@@ -63,9 +65,9 @@ namespace CineMagic.Controllers
             return View();
         }
 
-        public ActionResult AddMovies()
+        public IActionResult AddMovies()
         {
-            return RedirectToAction("AddMovies", "Movies");
+            return View();
         }
         public ActionResult AddProjection()
         {
@@ -74,15 +76,15 @@ namespace CineMagic.Controllers
 
         public ActionResult EditProjection(int id)
         {
-            return RedirectToAction("EditProjections", "Projections");
+            return RedirectToAction("EditProjections", "Projections", new { id = id });
         }
         public ActionResult DeleteProjection(int id)
         {
-            return RedirectToAction("DeleteProjections", "Projections");
+            return RedirectToAction("DeleteProjections", "Projections", new { id = id });
         }
         public ActionResult DeleteMovie(int id)
         {
-            return RedirectToAction("DeleteMovies", "Movies");
+            return RedirectToAction("DeleteMovies", "Movies", new { id = id });
         }
 
         // POST: AdministratorController/Create
@@ -137,7 +139,7 @@ namespace CineMagic.Controllers
             }
         }
 
-        public async Task AddMovie(MovieSearch movieSearch)
+        public async Task<IActionResult> AddMovie(MovieSearch movieSearch)
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
@@ -171,9 +173,9 @@ namespace CineMagic.Controllers
             }
 
             await Add(theMovieDb, movieSearch);
+            return RedirectToAction("HomeAdmin", "Administrator");
 
-            //sad ovdje pozvati add metodu u koju ces proslijediti Add(theMovieDb, movieSearch.Trailer, movieSearch.Duration)
-            // u toj metodi kreirati Movie movie = new Movie i dodijeliti sve podatke koje imas 
+
         }
 
         public async Task Add(TheMovieDb theMovieDb, MovieSearch movieSearch)
@@ -198,14 +200,15 @@ namespace CineMagic.Controllers
 
         }
 
-        public async Task AddCast(TheMovieDb theMovieDb)
+        public async Task<IActionResult> AddCast(TheMovieDb theMovieDb)
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
             var baseAddress = new Uri("http://api.themoviedb.org/3/");
             List<ActorDb> actors = new List<ActorDb> { };
 
-            ///movie/671/credits?api_key=c1a1318b6fec8983ec3d16aa9efa6b79
+            string directorName = "";
+
             using (var httpClient = new HttpClient { BaseAddress = baseAddress })
             {
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
@@ -218,19 +221,29 @@ namespace CineMagic.Controllers
 
                     var model = JsonConvert.DeserializeObject<RootObjectActors>(responseData);
 
-                    foreach (var result in model.Results)
+                    foreach (var result in model.Cast)
                     {
                         actors.Add(result);
                         if (actors.Count == 5) break;
 
+                    }
+
+                    foreach(var result in model.Crew)
+                    {
+                        if(result.Job == "Director")
+                        {
+                            directorName = result.Name;
+                        }
                     }
                 }
             }
 
 
             Movie movie = await _dbContext.Movies
-                .Where(m => m.Name == theMovieDb.Name)
+                .Where(m => m.Name == theMovieDb.Original_title)
                 .FirstOrDefaultAsync();
+
+            movie.Director = directorName;
 
             foreach (var actor in actors)
             {
@@ -264,12 +277,72 @@ namespace CineMagic.Controllers
 
             }
 
+           await _dbContext.SaveChangesAsync();
+           await AddGenres(theMovieDb, movie.Id);
+            return RedirectToAction("HomeAdmin", "Administrator");
+
         }
 
-
-        public async Task<IActionResult> AddCreditCard()
+        public async Task<IActionResult> AddGenres(TheMovieDb theMovieDb, int movieId)
         {
-            return View();
+            foreach(var gId in theMovieDb.Genre_ids)
+            {
+                string genreName = await GetGenreNameById((Int64)gId);
+
+
+                MovieGenre mg = await _dbContext.MovieGenres
+                    .Where(mg => mg.Name == genreName)
+                    .FirstOrDefaultAsync();
+
+                Movie movie = await _dbContext.Movies
+                    .Where(m => m.Name == theMovieDb.Original_title)
+                    .FirstOrDefaultAsync();
+
+                GenreMovieLink gml = new GenreMovieLink
+                {
+                    MovieId = movie.Id,
+                    MovieGenreId = mg.Id
+                };
+
+                _dbContext.GenreMovieLinks.Add(gml);
+                await _dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("HomeAdmin", "Administrator");
+        }
+
+        public async Task<string> GetGenreNameById(long id)
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+            var baseAddress = new Uri("http://api.themoviedb.org/3/");
+            List<GenreDb> genres = new List<GenreDb> { };
+
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            {
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+
+                // api_key can be requestred on TMDB website
+                using (var response = await httpClient.GetAsync("genre/movie/list?api_key=c1a1318b6fec8983ec3d16aa9efa6b79"))
+                {
+                    string responseData = await response.Content.ReadAsStringAsync();
+
+                    var model = JsonConvert.DeserializeObject<RootObjectGenre>(responseData);
+
+                    foreach (var result in model.Genres)
+                    {
+                        genres.Add(result);
+                    }
+                }
+            }
+
+            foreach(var g in genres)
+            {
+                if (g.Id == id)
+                    return g.Name;
+            }
+
+            return "";
         }
 
         public async Task<IActionResult> AddCreditCardDb(CreditCardModel res)
