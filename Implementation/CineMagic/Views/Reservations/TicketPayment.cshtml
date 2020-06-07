@@ -1,4 +1,7 @@
-﻿<html>
+﻿@{
+    ViewData["Title"] = "Payment";
+}
+<html>
 <style>
     input[type=text] {
         width: 350px;
@@ -7,9 +10,9 @@
     }
 
 
-    input[type=text]:focus {
+        input[type=text]:focus {
             width: 725px;
-    }
+        }
 </style>
 <body>
     <div class="row" style="margin-top:40px;">
@@ -26,7 +29,7 @@
                     <h6 class="card-subtitle mb-2 text-muted"><b>Seat: </b> @Model.Seat.Name</h6>
                     <h6 class="card-subtitle mb-2 text-muted"><b>Ticket price: </b>7KM</h6>
                     <p class="card-text">
-                        <p style="color:firebrick">Thank you for using this Web Site for making reservation</p>
+                    <p style="color:firebrick">Thank you for using this Web Site for making reservation</p>
                     </p>
 
                 </div>
@@ -42,12 +45,12 @@
                 <input type="hidden" id="ProjectionId" name="ProjectionId" value='@Model.Projection.Id' />
                 <input type="hidden" id="AvailableSeatId" name="AvailableSeatId" value='@Model.Seat.Id' />
 
-                <br/>
-                <br/>
+                <br />
+                <br />
 
                 <b>Enter your cinema card number to pay ticket:</b>
                 <br />
-                <br/>
+                <br />
                 <input type="text" class="form-control" id="CardNumber" name="CardNumber" pattern="[0-9]{7}" placeholder="cinema card number" required maxlength="7">
                 <br />
                 <br />

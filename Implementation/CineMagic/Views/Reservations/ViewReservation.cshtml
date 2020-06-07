@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "View reservation";
+}
+<html>
+<div class="row offset-2">
+    <div class="col-4">
+        <h2><strong>This is your ticket</strong></h2>
+    </div>
+    <div class=" col-3">
+        @*<img src="https://img.icons8.com/plasticine/100/000000/right-down2.png" style="width:30px; height:30px"/>*@
+    </div>
+</div>
+
+<br />
+<body>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>CineMagic TICKET</h4>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Movie: </b> @Model.Projection.MovieName</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Date: </b> @Model.Projection.ProjectionTime.ToString("dd/MM/yyyy"), @Model.Projection.ProjectionTime.DayOfWeek</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Time: </b> @Model.Projection.ProjectionTime.ToString("HH:mm")</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Cinema hall: </b> @Model.Projection.CinemaHall.Id</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Seat: </b> @Model.SeatName</h6>
+                    <h6 class="card-subtitle mb-2 text-muted"><b>Ticket price: </b>7KM</h6>
+                    <p class="card-text">
+                        <i>Thank you for choosing CineMagic</i>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+        <br />
+    </div>
+
+    <div class="row">
+        <div class="col-8 offset-2">
+            <a href="/Reservations/AllReservationsUser">
+                <button type="button" class="btn btn-success" style="width:120px">Back</button>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

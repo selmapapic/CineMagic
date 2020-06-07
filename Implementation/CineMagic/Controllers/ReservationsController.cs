@@ -2,6 +2,7 @@
 using CineMagic.Facade.Models.Reservation;
 using CineMagic.Facade.Models.Seat;
 using CineMagic.Facade.Models.User;
+using CineMagic.Facade.Models.Ticket;
 using CineMagic.Facade.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CineMagic.Facade.Models.TicketModel;
 
 namespace CineMagic.Controllers
 {
@@ -92,9 +94,22 @@ namespace CineMagic.Controllers
                 UserId = userId
             };
 
-            IList<ReservationGetDetailsRes> userReservationsRes = await _reservationsRepository.GetUserReservationsAsync(reservationReq);
+            UserReservationModel Model = await _reservationsRepository.GetUserReservationsAsync(reservationReq);
 
-            return View(userReservationsRes);
+            return View(Model);
+        }
+
+        public async Task<IActionResult> ViewReservation(TicketGetDetailsReq req)
+        {
+            TicketGetDetailsRes res = await _reservationsRepository.GetTicketForIdAsync(req);
+            return View(res);
+
+        }
+
+        public async Task<IActionResult> CancelReservation(CancelReservationModel model)
+        {
+            await _reservationsRepository.CancelReservation(model);
+            return View("CancelReservation");
         }
     }
 }

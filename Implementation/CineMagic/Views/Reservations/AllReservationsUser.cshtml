@@ -1,10 +1,110 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Reservations";
+}
+<body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-7 offset-1">
-                <h3><strong>All upcoming reservations in one place</strong></h3>
+            <div class="col-8">
+                <h1 style="        font-family: 'Script MT'; font-size: 45px">Welcome</h1>
+                <h3>View all upcoming ticket reservations in one place</h3>
+            </div>
+            <div class=" col-3">
+                </br>
+                </br>
+                <img src="https://img.icons8.com/doodle/48/000000/ticket.png" />
             </div>
         </div>
-        <p>@Model[0].UserTicket.Price</p>
+        <div class="row">
+            <div class="col">
 
+            </div>
+            <br />
+        </div>
+
+        <div class="row">
+            <div class="col" style="background-color:burlywood">
+
+            </div>
+            <br />
+        </div>
+        <div class="row">
+            <div class="col" style="background-color:burlywood">
+                <table class="table" style="width:100%">
+                    <colgroup>
+                        <col span="1" style="width: 4.5%;">
+                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 10.5%;">
+                        <col span="1" style="width: 10.5%;">
+                    </colgroup>
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="vertical-align:middle">#</th>
+                            <th style="vertical-align:middle">Tickets info</th>
+                            <th style="vertical-align:central"></th>
+                            <th style="vertical-align:central"></th>
+                            <th style="vertical-align:central"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{var i = 1; }
+                        @foreach (var item in Model.Tickets)
+                        {
+                            @if (DateTime.Compare(@item.Projection.ProjectionTime, DateTime.Now) >= 0)
+                            {
+                                <tr>
+                                    <td>
+                                        <b>@i</b>
+
+                                    </td>
+                                    <td>
+                                        <b>
+                                            @item.Projection.MovieName, @item.Projection.ProjectionTime.ToString("dd/MM/yyyy"), @item.Projection.ProjectionTime.DayOfWeek, @item.Projection.ProjectionTime.ToString("HH:mm")
+                                        </b>
+                                    </td>
+                                    <td>
+                                        <b>
+
+
+                                        </b>
+
+                                    </td>
+                                    <td>
+                                        <a href="/Reservations/ViewReservation/@item.Id">
+                                            <button type="button" class="btn btn-outline-dark" style="width:120px">View</button>
+                                        </a>
+                                    </td>
+                                    <td>
+
+
+                                        <script>
+                                            function ShowMessage() {
+                                                var result = confirm("Are you sure you want to cancel the reservation?");
+                                                if (result) {
+                                                    return true;
+                                                } else {
+                                                    return false;
+                                                }
+                                            }
+                                        </script>
+
+                                        <form asp-controller="Reservations" asp-action="CancelReservation" method="post">
+                                            <input type="hidden" id="ProjectionId" name="ProjectionId" value='@item.Projection.Id' />
+                                            <input type="hidden" id="SeatId" name="SeatId" value='@item.SeatId' />
+                                            <input type="hidden" id="TicketId" name="TicketId" value="@item.Id" />
+                                            <input type="hidden" id="SeatName" name="SeatName" value="@item.SeatName" />
+                                            <input type="submit" value="Cancel reservation" class="btn btn-outline-danger"  style="width:170px" name="cancelButton" onclick="javascript:return ShowMessage();" />
+                                        </form>
+                                        
+                                    </td>
+                                </tr>
+                            }
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
+</body>

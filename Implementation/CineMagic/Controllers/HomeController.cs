@@ -53,7 +53,6 @@ namespace CineMagic.Controllers
         public async Task<IActionResult> PlayingNow()
         {
             PlayingNowGetDetailsRes projections = await _projectionsRepository.GetAllProjectionsByDaysAsync();
-            Console.WriteLine(projections.MondayProjections.Count);
             return View(projections);
         }
     }

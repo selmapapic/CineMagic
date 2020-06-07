@@ -79,8 +79,8 @@ namespace CineMagic.Facade.Efc.Repositories
             if (await DoesUserExists(userId))
             {
                 AvailableSeat availableSeat = await _dbContext.AvailableSeats
-                   .Where(avs => avs.Id == model.AvailableSeatId)
-                   .FirstOrDefaultAsync();
+                    .Where(avs => avs.Id == model.AvailableSeatId)
+                    .FirstOrDefaultAsync();
 
                 Ticket ticket = new Ticket
                 {
@@ -88,10 +88,8 @@ namespace CineMagic.Facade.Efc.Repositories
                     SeatId = availableSeat.SeatId,
                     Price = 7.0
                 };
-
                 int seatId = availableSeat.SeatId;
                 
-               
 
                 _dbContext.Tickets.Add(ticket);
                 _dbContext.AvailableSeats.Remove(availableSeat);

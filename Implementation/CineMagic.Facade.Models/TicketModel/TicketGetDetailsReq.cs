@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CineMagic.Facade.Models.Reservation
+namespace CineMagic.Facade.Models.TicketModel
 {
-    public class ReservationGetDetailsReq
+    public class TicketGetDetailsReq
     {
         public int Id { get; set; }
     }
