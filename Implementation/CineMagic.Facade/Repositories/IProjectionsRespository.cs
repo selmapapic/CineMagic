@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CineMagic.Facade.Models.PlayingNow;
 using CineMagic.Dal.Entities;
 using System;
+using CineMagic.Facade.Models.CinemaHall;
 
 namespace CineMagic.Facade.Repositories
 {
@@ -14,5 +15,14 @@ namespace CineMagic.Facade.Repositories
         Task<PlayingNowGetDetailsRes> GetAllProjectionsByDaysAsync();
         Task<ProjectionRes> GetProjectionById(ProjectionGetDetailsReq req);
         public Task<Boolean> AddProjection(Projection projection);
+        public Task<Projection> GetProjectionEntityClassWithId(ProjectionGetDetailsReq projectionGetDetailsReq);
+        Task<Boolean> DeleteProjection(int id);
+        Task<Boolean> EditProjection(Projection projection);
+
+        Task<IList<CinemaHallGetDetailsRes>> GetAllCinemaHalls();
+        public Task<Boolean> AddProjections(ProjectionRes projection);
+        Task<Boolean> EditProjections(ProjectionRes projection);
+        Task<Boolean> DeleteProjections(int id);
+        Task<IList<ProjectionRes>> GetProjections();
     }
 }

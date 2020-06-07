@@ -10,9 +10,6 @@ using System;
 using System.Linq;
 using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Models.PlayingNow;
-using System.Net.Http;
-using Newtonsoft.Json;
-using CineMagic.Dal.Entities;
 
 namespace CineMagic.Controllers
 {
@@ -58,9 +55,14 @@ namespace CineMagic.Controllers
             PlayingNowGetDetailsRes projections = await _projectionsRepository.GetAllProjectionsByDaysAsync();
             return View(projections);
         }
+        public IActionResult Administrator()
+        {
+            return RedirectToAction("HomeAdmin", "Administrator");
+        }
 
-
-
-
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
     }
 }

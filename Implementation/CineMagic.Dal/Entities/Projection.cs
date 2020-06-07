@@ -12,7 +12,7 @@ namespace CineMagic.Dal.Entities
         public DateTime ProjectionTime { get; set; }
 
         public int MovieId { get; set; }
-
+        [Required]
         public virtual Movie Movie { get; set; }
 
         public int CinemaHallId { get; set; }
@@ -20,5 +20,7 @@ namespace CineMagic.Dal.Entities
         public virtual CinemaHall CinemaHall { get; set; }
 
         public virtual IEnumerable<AvailableSeat> AvailableSeats { get; set; }
+
+       
     }
 }

@@ -1,0 +1,85 @@
+﻿@model CineMagic.Facade.Models.Projection.ProjectionRes
+
+@{
+    ViewData["Title"] = "AddProjections";
+}
+
+<h1  class="text-center" style="font-family:Verdana">Add Projection</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddProjections">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MovieName" class="control-label">Move Name</label>
+                <input asp-for="MovieName" class="form-control" />
+                <span asp-validation-for="MovieName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectionTime" class="control-label">Projection Time</label>
+                <input asp-for="ProjectionTime" class="form-control" />
+                <span asp-validation-for="ProjectionTime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CinemaHallId" class="control-label">Cinema Hall Id</label>
+                <input asp-for="CinemaHallId" class="form-control" />
+                <span asp-validation-for="CinemaHallId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Add Projection" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+   *<div class="col-6">
+
+        <table class="table">
+            <thead class="thead-dark">
+
+                <tr>
+                    <th>
+                        <p class="text-body">Id</p>
+                    </th>
+                    <th>
+                        <p>Number of seats</p>
+                    </th>
+                    <th>
+                        <p class="text-center">Picture</p>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AllCinemaHalls)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.numberOfSeats)
+                        </td>
+                        <td style="align-content:center">
+                            <div class="col">
+
+                                <img class="d-block w-100" src="@Url.Content(item.HallImageUrl)" style="width:90px;height:250px" />
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+     </div>
+    
+</div>
+    <div>
+        <a asp-action="HomeAdmin">Back to Administrator Page</a>
+    </div>
+    
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

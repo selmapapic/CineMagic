@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CineMagic.Dal.Entities;
+using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,70 +26,84 @@ namespace CineMagic.Controllers
             return View();
         }
 
-        // GET: ProjectionsController/Details/5
-        public ActionResult Details(int id)
+       
+        public ActionResult HomeAdmin()
         {
-            return View();
+            return RedirectToAction("HomeAdmin", "Administrator");
         }
 
-        
-        // POST: ProjectionsController/Create
+        public async Task<IActionResult> AddProjections([Bind("MovieName, ProjectionTime, CinemaHallId")] ProjectionRes projection)
+        {
+            projection.AllCinemaHalls = await _projectionsRepository.GetAllCinemaHalls();
+            if (ModelState.IsValid)
+            {
+                await _projectionsRepository.AddProjections(projection);
+
+                return RedirectToAction("HomeAdmin", "Administrator");
+
+
+            }
+            return View(projection);
+        }
+        public async Task<IActionResult> EditProjections(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ProjectionRes projection = await _projectionsRepository.GetProjectionById(new ProjectionGetDetailsReq { Id = id });
+            return View(projection);
+        }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProjection([Bind("Id,ProjectionTime, MovieId, MOvie, CinemaHallId, CinemaHall, AvailableSeats")] Projection projection)
+        public async Task<IActionResult> EditProjections(int id, [Bind("MovieName, ProjectionTime, CinemaHallId")] ProjectionRes projection)
         {
             if (ModelState.IsValid)
             {
-                await _projectionsRepository.AddProjection(projection);
+                await _projectionsRepository.EditProjections(projection);
+
                 return RedirectToAction("HomeAdmin", "Administrator");
+
+
             }
             return View(projection);
         }
 
-        // GET: ProjectionsController/Edit/5
-        public ActionResult EditProjection(int id)
+        public async Task<IActionResult> DeleteProjections(int id)
         {
-            return View();
-        }
+            if (id == null)
+            {
+                return NotFound();
+            }
+            
+            ProjectionRes projection = await _projectionsRepository.GetProjectionById(new ProjectionGetDetailsReq { Id = id });
+            if (projection == null)
+            {
+                return NotFound();
+            }
 
-        // POST:ProjectionsController/Edit/5
-        [HttpPost]
+            return View(projection);
+        }
+        [HttpPost, ActionName("DeleteProjections1")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteProjections1(int id)
         {
-            try
+            if (id == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET:ProjectionsController/Delete/5
-        public ActionResult DeleteProjection(int id)
-        {
-            return View();
-        }
 
-        // POST: ProjectionsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+
+            ProjectionRes projection = await _projectionsRepository.GetProjectionById(new ProjectionGetDetailsReq { Id = id });
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                await _projectionsRepository.DeleteProjections(id);
+
+                return RedirectToAction("HomeAdmin", "Administrator");
+
+
             }
-            catch
-            {
-                return View();
-            }
-        }
-        public ActionResult HomeAdmin()
-        {
-            return RedirectToAction("HomeAdmin", "Administrator");
+            return View(projection);
         }
     }
 }
