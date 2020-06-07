@@ -236,51 +236,44 @@ namespace CineMagic.Facade.Efc.Repositories
                 Movie movie = await _dbContext.Movies.Where(m => m.Name == res.MovieName).FirstOrDefaultAsync();
                 CinemaHall cinHall = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).FirstOrDefaultAsync();
 
-                //IEnumerable<AvailableSeat> available = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).AllSeats.Select(p => new AvailableSeat
-                //{
-                //    ProjectionId = res.Id,
-                //    SeatId = p.SeatNumber
-                //};
 
-                
 
                 Projection projection = new Projection
                 {
-                    
+
                     ProjectionTime = res.ProjectionTime,
                     MovieId = movie.Id,
-                    
+
                     CinemaHallId = cinHall.Id,
-                  
+
                 };
-                
-                
+
+
                 _dbContext.Add(projection);
                 await _dbContext.SaveChangesAsync();
 
-                Projection project =  _dbContext.Projections.Where(m => m.ProjectionTime == res.ProjectionTime && m.MovieId==movie.Id).FirstOrDefault();
+                Projection project = _dbContext.Projections.Where(m => m.ProjectionTime == res.ProjectionTime && m.MovieId == movie.Id).FirstOrDefault();
 
-                foreach(var seat in cinHall.AllSeats)
-                {
-                    
-                    Seat seat1 = _dbContext.Seats.Where(m => m.Id == seat.Id).FirstOrDefault();
-                    if (seat1 == null)
-                    {
-                        Seat newSeat = new Seat
-                        {
-                            Name = seat.Name
-                        };
-                    _dbContext.Seats.Add(newSeat);
-                        await _dbContext.SaveChangesAsync();
-                    }
-
-                    Seat addedSeat = _dbContext.Seats.Where(m => m.Id == seat.Id).FirstOrDefault();
-                    AvailableSeat avl = new AvailableSeat
+                List<AvailableSeatGetDetailsRes> avalSeats = await _dbContext.Seats
+                    .Where(s => s.CinemaHallId == project.CinemaHallId)
+                    .Select(avs => new AvailableSeatGetDetailsRes
                     {
                         ProjectionId = project.Id,
-                        SeatId = addedSeat.Id
+                        SeatId = avs.Id,
+                        Name = avs.Name
+                    }).ToListAsync();
+
+                foreach (var avSeat in avalSeats)
+                {
+                    AvailableSeat availableSeat = new AvailableSeat
+                    {
+                        ProjectionId = avSeat.ProjectionId,
+                        SeatId = avSeat.SeatId
                     };
-                    _dbContext.AvailableSeats.Add(avl);
+
+                    _dbContext.AvailableSeats.Add(availableSeat);
+                    await _dbContext.SaveChangesAsync();
+
                 }
 
                 return true;

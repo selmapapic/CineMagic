@@ -6,6 +6,8 @@ namespace CineMagic.Dal.Entities
     {
         public int Id { get; set; }
 
+        public int CinemaHallId { get; set; }
+
         [Required]
         public string Name { get; set; }
     }

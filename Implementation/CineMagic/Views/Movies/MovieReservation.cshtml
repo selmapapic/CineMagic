@@ -2,6 +2,13 @@
     ViewData["Title"] = "Seat selection";
 }
 <html>
+<style>
+    .scrollable-menu {
+        height: auto;
+        max-height: 200px;
+        overflow-x: hidden;
+    }
+</style>
 <body>
     <div class="container-fluid" style="margin-top:50px;">
         <div class="row">
@@ -19,7 +26,7 @@
                             aria-haspopup="true" aria-expanded="false">
                         Choose your seat
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <div class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="dropdownMenu1">
                         @foreach (var item in Model.AvailableSeats)
                         {
                             <a class="dropdown-item" href="/Reservations/TicketPayment/@item.Id"> <b> <i> @item.Name  </i></b></a>
