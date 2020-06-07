@@ -58,17 +58,18 @@ namespace CineMagic.Controllers
         }
         public ActionResult AddProjection()
         {
-            return RedirectToAction("AddProjection", "Projections");
+            return RedirectToAction("AddProjections", "Projections");
+            //ovdje mijenjao
         }
 
         public ActionResult EditProjection(int id)
         {
-            return RedirectToAction("EditProjection", "Projections", new { @id = id });
+            return RedirectToAction("EditProjections", "Projections", new { @id = id });
         }
         
         public ActionResult DeleteProjection(int id)
         {
-            return RedirectToAction("DeleteProjection", "Projections", new { @id = id });
+            return RedirectToAction("DeleteProjections", "Projections", new { @id = id });
         }
         public ActionResult DeleteMovie(int id)
         {

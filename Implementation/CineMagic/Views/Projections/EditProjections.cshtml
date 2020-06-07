@@ -1,0 +1,85 @@
+﻿@model CineMagic.Facade.Models.Projection.ProjectionRes
+
+@{
+    ViewData["Title"] = "EditProjections";
+}
+
+<h1>Edit Projection</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditProjections">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MovieName" class="control-label"></label>
+                <input asp-for="MovieName" class="form-control" />
+                <span asp-validation-for="MovieName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectionTime" class="control-label"></label>
+                <input asp-for="ProjectionTime" class="form-control" />
+                <span asp-validation-for="ProjectionTime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CinemaHallId" class="control-label"></label>
+                <input asp-for="CinemaHallId" class="form-control" />
+                <span asp-validation-for="CinemaHallId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    @*<div class="col-6">
+
+        <table class="table">
+            <thead class="thead-dark">
+
+                <tr>
+                    <th>
+                        <p>Id</p>
+                    </th>
+                    <th>
+                        <p>Number of seats</p>
+                    </th>
+                    <th>
+                        <p>Picture</p>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AllCinemaHalls)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.numberOfSeats)
+                        </td>
+                        <td>
+                            <div class="col-sm">
+
+                                <img class="d-block w-50" src="@Url.Content(item.HallImageUrl)" style="width:50px;height:150px" />
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    *@
+</div>
+<div>
+    <a asp-action="HomeAdmin">Back to Administrator Page</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

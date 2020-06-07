@@ -16,6 +16,7 @@ namespace CineMagic.Facade.Efc.Repositories
     public class ProjectionsRepository : IProjectionsRespository
     {
         private CineMagicDbContext _dbContext;
+        
         private ICinemaHallRepository _cinemaHallRepository;
 
         private IList<ProjectionRes> monday = new List<ProjectionRes> ();
@@ -30,6 +31,7 @@ namespace CineMagic.Facade.Efc.Repositories
         {
             this._dbContext = dbContext;
             this._cinemaHallRepository = cinemaHallRepository;
+           
         }
 
         public async Task<IList<ProjectionRes>> GetAllProjectionsAsync()
@@ -205,6 +207,85 @@ namespace CineMagic.Facade.Efc.Repositories
             try
             {
                 _dbContext.Update(projection);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<IList<CinemaHallGetDetailsRes>> GetAllCinemaHalls()
+        {
+            IList<CinemaHallGetDetailsRes> cinemaHalls = await _dbContext.CinemaHalls.Select
+                ( c => new CinemaHallGetDetailsRes
+                {
+                    Id = c.Id,
+                    HallImageUrl = c.HallImageUrl,
+                    numberOfSeats = c.AllSeats.Count()
+                }).ToListAsync();
+
+            return cinemaHalls;
+        }
+
+        public async Task<bool> AddProjections(ProjectionRes res)
+        {
+            try
+            {
+                Movie movie = await _dbContext.Movies.Where(m => m.Name == res.MovieName).FirstOrDefaultAsync();
+                CinemaHall cinHall = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).FirstOrDefaultAsync();
+                Projection projection = new Projection
+                {
+                    Id=res.Id,
+                    ProjectionTime = res.ProjectionTime,
+                    MovieId = movie.Id,
+                    Movie = movie,
+                    CinemaHallId = cinHall.Id,
+                    CinemaHall = cinHall
+                };
+                _dbContext.Add(projection);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> EditProjections(ProjectionRes res)
+        {
+            try
+            {
+                Movie movie = await _dbContext.Movies.Where(m => m.Name == res.MovieName).FirstOrDefaultAsync();
+                CinemaHall cinHall = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).FirstOrDefaultAsync();
+                Projection projection = new Projection
+                {
+                    ProjectionTime = res.ProjectionTime,
+                    Movie = movie,
+                    CinemaHall = cinHall
+                };
+                _dbContext.Update(projection);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
+
+        public  async Task<bool> DeleteProjections(int id)
+        {
+
+            
+            Projection projection = await _dbContext.Projections.Where(p => p.Id == id).FirstOrDefaultAsync();
+            try
+            {
+
+                _dbContext.Projections.Remove(projection);
                 await _dbContext.SaveChangesAsync();
                 return true;
             }

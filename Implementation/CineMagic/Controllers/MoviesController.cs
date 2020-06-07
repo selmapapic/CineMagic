@@ -59,7 +59,7 @@ namespace CineMagic.Controllers
 
         }
         
-        public async Task<IActionResult> AddMovie([Bind("Id,Name,GenreNames,ProjectionsDateTime,Duration,Synopsis,ActorNames,Director,TrailerURL,PosterUrl")] Movie movie)
+        public async Task<IActionResult> AddMovie([Bind("Id,Name,ProjectionsDateTime,Duration,Synopsis,ActorNames,Director,TrailerURL,PosterUrl, GenreLinks, ActorMovieLinks")] Movie movie)
         {
             if (ModelState.IsValid)
             {
