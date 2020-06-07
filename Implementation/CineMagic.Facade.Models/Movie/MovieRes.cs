@@ -22,14 +22,11 @@ namespace CineMagic.Facade.Models.Movie
         public string Director { get; set; }
         public string TrailerURL { get; set; }
         public string PosterURL { get; set; }
-
-        public string Genre1 { get; set; }
-        public string Genre2 { get; set; }
-        public string Genre3 { get; set; }
         public string Actor1 { get; set; }
         public string Actor2 { get; set; }
         public string Actor3 { get; set; }
         public string Actor4 { get; set; }
-        public string Actor5 { get; set; }
+        public IList<GenreRes> AllGenreNames { get; set; }
+        public CheckBoxModel[] CheckBoxes { get; set; }
     }
 }

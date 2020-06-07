@@ -4,7 +4,7 @@
     ViewData["Title"] = "AddProjections";
 }
 
-<h1>Add Projection</h1>
+<h1  class="text-center" style="font-family:Verdana">Add Projection</h1>
 
 
 <hr />
@@ -13,41 +13,41 @@
         <form asp-action="AddProjections">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="MovieName" class="control-label"></label>
+                <label asp-for="MovieName" class="control-label">Move Name</label>
                 <input asp-for="MovieName" class="form-control" />
                 <span asp-validation-for="MovieName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProjectionTime" class="control-label"></label>
+                <label asp-for="ProjectionTime" class="control-label">Projection Time</label>
                 <input asp-for="ProjectionTime" class="form-control" />
                 <span asp-validation-for="ProjectionTime" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="CinemaHallId" class="control-label"></label>
+                <label asp-for="CinemaHallId" class="control-label">Cinema Hall Id</label>
                 <input asp-for="CinemaHallId" class="form-control" />
                 <span asp-validation-for="CinemaHallId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="AddProjections" class="btn btn-primary" />
+                <input type="submit" value="Add Projection" class="btn btn-primary" />
             </div>
         </form>
     </div>
-    @*<div class="col-6">
+   *<div class="col-6">
 
         <table class="table">
             <thead class="thead-dark">
 
                 <tr>
                     <th>
-                        <p>Id</p>
+                        <p class="text-body">Id</p>
                     </th>
                     <th>
                         <p>Number of seats</p>
                     </th>
                     <th>
-                        <p>Picture</p>
+                        <p class="text-center">Picture</p>
                     </th>
                     <th></th>
                 </tr>
@@ -62,10 +62,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.numberOfSeats)
                         </td>
-                        <td>
-                            <div class="col-sm">
+                        <td style="align-content:center">
+                            <div class="col">
 
-                                <img class="d-block w-50" src="@Url.Content(item.HallImageUrl)" style="width:50px;height:150px" />
+                                <img class="d-block w-100" src="@Url.Content(item.HallImageUrl)" style="width:90px;height:250px" />
                             </div>
                         </td>
 
@@ -73,8 +73,8 @@
                 }
             </tbody>
         </table>
-        </div>
-    *@
+     </div>
+    
 </div>
     <div>
         <a asp-action="HomeAdmin">Back to Administrator Page</a>

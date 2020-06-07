@@ -34,6 +34,7 @@ namespace CineMagic.Controllers
 
         public async Task<IActionResult> AddProjections([Bind("MovieName, ProjectionTime, CinemaHallId")] ProjectionRes projection)
         {
+            projection.AllCinemaHalls = await _projectionsRepository.GetAllCinemaHalls();
             if (ModelState.IsValid)
             {
                 await _projectionsRepository.AddProjections(projection);

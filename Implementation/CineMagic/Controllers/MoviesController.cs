@@ -65,10 +65,29 @@ namespace CineMagic.Controllers
             return RedirectToAction("HomeAdmin", "Administrator");
         }
 
-        public async Task<IActionResult> AddMovies([Bind("Id,Name,Duration,Synopsis,Director,TrailerURL,PosterUrl,Genre1, Genre2, Genre3, Actor1,  Actor2,  Actor3,  Actor4,  Actor5")] MovieRes movie)
+        public async Task<IActionResult> AddMovies([Bind("Id,Name,Duration,Synopsis,Director,TrailerURL,PosterUrl,CheckBoxes, Actor1,  Actor2,  Actor3,  Actor4")] MovieRes movie)
         {
-            if (ModelState.IsValid)
+            movie.AllGenreNames = await _moviesRepository.GetMovieGenres();
+            movie.CheckBoxes = new CheckBoxModel[movie.AllGenreNames.Count];
+            for (var i = 0; i < movie.AllGenreNames.Count; i++)
             {
+                movie.CheckBoxes[i] = new CheckBoxModel
+                {
+                    Id = movie.AllGenreNames[i].Id,
+                    IsSelected = false
+                };
+            }
+
+                if (ModelState.IsValid)
+            {
+                for( var i = 0;i<movie.AllGenreNames.Count;i++)
+                {
+                    if (movie.AllGenreNames[i].Id == movie.CheckBoxes[i].Id && movie.CheckBoxes[i].IsSelected)
+                    {
+                        movie.GenreNames.Add(movie.AllGenreNames[i].Name);
+                    }
+                }
+
                 await _moviesRepository.AddMovies(movie);
 
                 return RedirectToAction("HomeAdmin", "Administrator");
@@ -120,6 +139,8 @@ namespace CineMagic.Controllers
             }
             return View(movie);
         }
+
+        
     }
 }
 

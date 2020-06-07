@@ -26,6 +26,6 @@ namespace CineMagic.Facade.Models.Projection
 
         public string PosterURL { get; set; }
 
-        public IList<CinemaHallGetDetailsRes> AllCinemaHalls { get; set; }
+         public IList<CinemaHallGetDetailsRes> AllCinemaHalls { get; set; }
     }
 }

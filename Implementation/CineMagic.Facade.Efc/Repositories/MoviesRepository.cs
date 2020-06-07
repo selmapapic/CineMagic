@@ -58,6 +58,7 @@ namespace CineMagic.Facade.Efc.Repositories
 
             return res;
         }
+        
 
         public async Task<IList<MovieRes>> GetAllMoviesAsync()
         {
@@ -80,6 +81,7 @@ namespace CineMagic.Facade.Efc.Repositories
                     ActorNames = m.ActorMovieLinks
                         .Select(aml => aml.Actor.Name)
                         .ToList()
+                   
                 }).ToListAsync();
 
             return res;
@@ -97,26 +99,19 @@ namespace CineMagic.Facade.Efc.Repositories
                 return false;
             }
         }
-
-        
-
-        public async Task<Boolean> DeleteMovie(int id)
+        /*
+        public async Task<Actor> GetActorByName(string name)
         {
-            Movie movie = await _dbContext.Movies.Where(m => m.Id == id)
-                .FirstOrDefaultAsync();
-            try
-            {
-
-                _dbContext.Movies.Remove(movie);
-                await _dbContext.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        
+            Actor actor =  _dbContext.Actors.Where(a => a.Name == name).FirstOrDefault();
+            return actor;
         }
+
+        public async Task<int> GetActorsId(string name)
+        {
+            Actor actor =  _dbContext.Actors.Where(a => a.Name == name).FirstOrDefault();
+            return actor.Id;
+        }*/
+        
 
         public async Task<Movie> GetMovieById(MovieGetDetailsReq req)
         {
@@ -126,26 +121,18 @@ namespace CineMagic.Facade.Efc.Repositories
             
         }
 
+
         public async Task<Boolean> AddMovies(MovieRes res)
         {
             try
             {
+
+                /* Actor actor1 = _dbContext.Actors.Where(a => a.Name == res.Actor1).FirstOrDefault();
+                 Actor actor2 = _dbContext.Actors.Where(a => a.Name == res.Actor2).FirstOrDefault();
+                 Actor actor3 = _dbContext.Actors.Where(a => a.Name == res.Actor3).FirstOrDefault();
+                 Actor actor4 = _dbContext.Actors.Where(a => a.Name == res.Actor4).FirstOrDefault();
                 
-
-                
-                MovieGenre genre1 = _dbContext.MovieGenres.Where(m => m.Name == res.Genre1).FirstOrDefault();
-                MovieGenre genre2 = _dbContext.MovieGenres.Where(m => m.Name == res.Genre2).FirstOrDefault();
-                MovieGenre genre3 = _dbContext.MovieGenres.Where(m => m.Name == res.Genre3).FirstOrDefault();
-
-                Actor actor1 = _dbContext.Actors.Where(a => a.Name == res.Actor1).FirstOrDefault();
-                Actor actor2 = _dbContext.Actors.Where(a => a.Name == res.Actor2).FirstOrDefault();
-                Actor actor3 = _dbContext.Actors.Where(a => a.Name == res.Actor3).FirstOrDefault();
-                Actor actor4 = _dbContext.Actors.Where(a => a.Name == res.Actor4).FirstOrDefault();
-                Actor actor5 = _dbContext.Actors.Where(a => a.Name == res.Actor5).FirstOrDefault();
-
-
-
-                
+                 */
                 Movie movie = new Movie
                 {
                     Name = res.Name,
@@ -156,12 +143,62 @@ namespace CineMagic.Facade.Efc.Repositories
                     PosterUrl = res.PosterURL,
 
                 };
+                _dbContext.Add(movie);
+
+                await _dbContext.SaveChangesAsync();
+
+                /*
+
+                int id = _dbContext.Movies.Where(m => m.Name == movie.Name).FirstOrDefault().Id;
+                
+
+                if (GetActorByName(res.Actor1)!=null)
+                {
+                    Actor actor1 = new Actor
+                    {
+                        Name = res.Actor1
+                    };
+                    _dbContext.Actors.Add(actor1);
+                    ActorMovieLink aml1 = new ActorMovieLink
+                    {
+                        MovieId = id
+                    };
+                    
+                }
+                if (GetActorByName(res.Actor2) != null)
+                {
+                    Actor actor2 = new Actor
+                    {
+                        Name = res.Actor2
+                    };
+                    _dbContext.Actors.Add(actor2);
+                }
+                if (GetActorByName(res.Actor3) != null)
+                {
+                    Actor actor3 = new Actor
+                    {
+                        Name = res.Actor3
+                    };
+                    _dbContext.Actors.Add(actor3);
+                }
+                if (GetActorByName(res.Actor4) != null)
+                {
+                    Actor actor4 = new Actor
+                    {
+                        Name = res.Actor4
+                    };
+                    _dbContext.Actors.Add(actor4);
+                }
+                
+                
+
                
 
              
-                _dbContext.Add(movie);
                 await _dbContext.SaveChangesAsync();
 
+
+                */
 
                 return true;
             }
@@ -187,6 +224,16 @@ namespace CineMagic.Facade.Efc.Repositories
             {
                 return false;
             }
+        }
+
+        public async Task<IList<GenreRes>> GetMovieGenres()
+        {
+            IList<GenreRes> genres = await _dbContext.MovieGenres.Select(m => new GenreRes
+            {
+                Id = m.Id,
+                Name = m.Name
+            }).ToListAsync();
+            return genres;
         }
     }
 }

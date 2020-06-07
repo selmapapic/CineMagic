@@ -23,5 +23,6 @@ namespace CineMagic.Facade.Repositories
         public Task<Boolean> AddProjections(ProjectionRes projection);
         Task<Boolean> EditProjections(ProjectionRes projection);
         Task<Boolean> DeleteProjections(int id);
+        Task<IList<ProjectionRes>> GetProjections();
     }
 }

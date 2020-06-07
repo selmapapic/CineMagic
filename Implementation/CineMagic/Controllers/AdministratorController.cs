@@ -30,7 +30,8 @@ namespace CineMagic.Controllers
       
         public async Task<IActionResult> HomeAdmin()
         {
-            IList<ProjectionRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
+            //IList<ProjectionRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
+            IList<ProjectionRes> projections = await _projectionsRepository.GetProjections();
             var sortedPro = projections.OrderByDescending(time => time.ProjectionTime).ToList();
 
             IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
@@ -54,7 +55,7 @@ namespace CineMagic.Controllers
 
         public ActionResult AddMovie()
         {
-            return RedirectToAction("AddMovie", "Movies");
+            return RedirectToAction("AddMovies", "Movies");
         }
         public ActionResult AddProjection()
         {

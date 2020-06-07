@@ -39,6 +39,7 @@ namespace CineMagic.Facade.Efc.Repositories
             IList<ProjectionRes> res = await _dbContext.Projections
                 .Select(p => new ProjectionRes
                 {
+                    Id=p.Id,
                     ProjectionTime = p.ProjectionTime,
                     MovieId = p.MovieId,
                     MovieName = p.Movie.Name,
@@ -296,6 +297,38 @@ namespace CineMagic.Facade.Efc.Repositories
             {
                 return false;
             }
+        }
+
+        public async Task<IList<ProjectionRes>> GetProjections()
+        {
+            IList<CinemaHallGetDetailsRes> cinemaHalls = await _dbContext.CinemaHalls.Select
+                (c => new CinemaHallGetDetailsRes
+                {
+                    Id = c.Id,
+                    HallImageUrl = c.HallImageUrl,
+                    numberOfSeats = c.AllSeats.Count()
+                }).ToListAsync();
+
+            IList<ProjectionRes> res = await _dbContext.Projections
+               .Select(p => new ProjectionRes
+               {
+                   Id = p.Id,
+                   ProjectionTime = p.ProjectionTime,
+                   MovieId = p.MovieId,
+                   MovieName = p.Movie.Name,
+                   CinemaHallId = p.CinemaHallId,
+                   CinemaHall = new CinemaHallGetDetailsRes
+                   {
+                       Id = p.CinemaHall.Id,
+                       HallImageUrl = p.CinemaHall.HallImageUrl,
+                      numberOfSeats = p.CinemaHall.SeatNumber
+                   },
+                   AllCinemaHalls = cinemaHalls
+                  
+                }).ToListAsync();
+
+
+            return res;
         }
     }
 }
