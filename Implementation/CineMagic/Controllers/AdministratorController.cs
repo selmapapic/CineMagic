@@ -8,6 +8,7 @@ using CineMagic.Dal.Entities;
 using CineMagic.Facade.Models.Actor;
 using CineMagic.Facade.Models.Administrator;
 using CineMagic.Facade.Models.Genre;
+using CineMagic.Facade.Models.CinemaCreditCard;
 using CineMagic.Facade.Models.Movie;
 using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Repositories;
@@ -26,17 +27,19 @@ namespace CineMagic.Controllers
         private IMoviesRepository _moviesRepository;
         private IProjectionsRespository _projectionsRepository;
         private CineMagicDbContext _dbContext;
+        private IUserRepository _userRepository;
 
-        public AdministratorController(ILogger<AdministratorController> logger, IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository, CineMagicDbContext dbContext)
+        public AdministratorController(ILogger<AdministratorController> logger, IMoviesRepository moviesRepository, IUserRepository userRepository, IProjectionsRespository projectionsRepository, CineMagicDbContext dbContext)
         {
             _logger = logger;
             this._moviesRepository = moviesRepository;
             this._projectionsRepository = projectionsRepository;
+            this._userRepository = userRepository;
             _dbContext = dbContext;
         }
 
 
-      
+
         public async Task<IActionResult> HomeAdmin()
         {
             IList<ProjectionRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
@@ -44,7 +47,7 @@ namespace CineMagic.Controllers
 
             IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
             var sortedMov = movies.OrderByDescending(id => id.Id).ToList();
-            
+
             AdminMoviesAndProjections lista = new AdminMoviesAndProjections(movies, projections);
             return View(lista);
         }
@@ -67,20 +70,20 @@ namespace CineMagic.Controllers
         }
         public ActionResult AddProjection()
         {
-            return RedirectToAction("AddProjection", "Projections");
+            return RedirectToAction("AddProjections", "Projections");
         }
 
         public ActionResult EditProjection(int id)
         {
-            return RedirectToAction("EditProjection", "Projections");
+            return RedirectToAction("EditProjections", "Projections");
         }
         public ActionResult DeleteProjection(int id)
         {
-            return RedirectToAction("DeleteProjection", "Projections");
+            return RedirectToAction("DeleteProjections", "Projections");
         }
         public ActionResult DeleteMovie(int id)
         {
-            return RedirectToAction("DeleteMovie", "Movies");
+            return RedirectToAction("DeleteMovies", "Movies");
         }
 
         // POST: AdministratorController/Create
@@ -99,7 +102,7 @@ namespace CineMagic.Controllers
         }
 
         // GET: AdministratorController/Edit/5
-        
+
 
         // POST:AdministratorController/Edit/5
         [HttpPost]
@@ -117,9 +120,9 @@ namespace CineMagic.Controllers
         }
 
 
-       
 
-        
+
+
         // POST: AdministratorController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -241,12 +244,13 @@ namespace CineMagic.Controllers
             movie.Director = directorName;
 
             foreach(var actor in actors)
+            foreach (var actor in actors)
             {
                 Actor ac = await _dbContext.Actors
                     .Where(a => a.Name == actor.Name)
                     .FirstOrDefaultAsync();
 
-                if(ac == null)
+                if (ac == null)
                 {
                     Actor newActor = new Actor
                     {
@@ -337,5 +341,31 @@ namespace CineMagic.Controllers
 
             return "";
         }
+
+        public async Task<IActionResult> AddCreditCardDb(CreditCardModel res)
+        {
+
+            await _userRepository.AddCreditCard(res);
+
+            CinemaCreditCardGetDetailsRes created = await _userRepository.GetUserCreditCard(res);
+
+            return View("CardAdded", (object)created);
+
+        }
+
+        public async Task<IActionResult> AddFunds()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> AddFundsDb(AddFundsModel res)
+        {
+
+            await _userRepository.AddFunds(res);
+
+            return RedirectToAction("HomeAdmin", "Administrator");
+
+        }
+        
     }
 }
