@@ -48,6 +48,7 @@ namespace CineMagic.Controllers
             if (await _userRepository.DoesUserExists())
             {
                 ProjectionRes res = await _projectionsRespository.GetProjectionById(req);
+                res.AvailableSeats = res.AvailableSeats.OrderBy(r => r.Name).ToList();
                 return View(res);
 
             }

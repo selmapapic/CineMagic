@@ -66,7 +66,7 @@ namespace CineMagic.Controllers
             String error2 = "You entered wrong credit card number, click on a button and try again.";
 
             long cardNumber = Convert.ToInt64(model.cardNumber);
-            if (cardNumber != user.CinemaCreditCard.CardNumber)
+            if (user.CinemaCreditCard == null || cardNumber != user.CinemaCreditCard.CardNumber)
             {
                 model.Error = error2;
                 return View("Unsuccessfully", model);
