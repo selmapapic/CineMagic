@@ -345,6 +345,12 @@ namespace CineMagic.Controllers
             return "";
         }
 
+        public async Task<IActionResult> AddCreditCard()
+        {
+            return View();
+        }
+
+
         public async Task<IActionResult> AddCreditCardDb(CreditCardModel res)
         {
 
