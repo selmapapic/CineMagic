@@ -59,5 +59,10 @@ namespace CineMagic.Controllers
         {
             return RedirectToAction("HomeAdmin", "Administrator");
         }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
     }
 }
