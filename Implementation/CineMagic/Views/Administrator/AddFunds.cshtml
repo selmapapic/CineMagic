@@ -1,5 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<body>
+    <div class="row">
+        <div class="col">
+            <h2 style="text-align:center">Add Funds to CineMagic Credit Card</h2>
+        </div>
+    </div>
+    <div class="row">
+        </br>
+    </div>
+    <div class="row">
+        <div class="col col-4">
+
+        </div>
+        <div class="col col-4" id="login">
+            <form asp-controller="Administrator" asp-action="AddFundsDb" method="post">
+
+                <input type="number" class="form-control" id="CardNumber" name="CardNumber" placeholder="Card number" required>
+                <br />
+                <input type="number" class="form-control" id="Balance" name="Balance" placeholder="Balance" required>
+
+                <br />
+                <br />
+                <button type="submit" class="btn btn-primary" id="btn" style="width:350px">Submit</button>
+
+            </form>
+
+        </div>
+        <div class="col col-4">
+
+        </div>
+    </div>
+</body>

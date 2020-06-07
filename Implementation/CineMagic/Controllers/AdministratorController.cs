@@ -7,6 +7,7 @@ using CineMagic.Dal.Context;
 using CineMagic.Dal.Entities;
 using CineMagic.Facade.Models.Actor;
 using CineMagic.Facade.Models.Administrator;
+using CineMagic.Facade.Models.CinemaCreditCard;
 using CineMagic.Facade.Models.Movie;
 using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Repositories;
@@ -25,17 +26,19 @@ namespace CineMagic.Controllers
         private IMoviesRepository _moviesRepository;
         private IProjectionsRespository _projectionsRepository;
         private CineMagicDbContext _dbContext;
+        private IUserRepository _userRepository;
 
-        public AdministratorController(ILogger<AdministratorController> logger, IMoviesRepository moviesRepository, IProjectionsRespository projectionsRepository, CineMagicDbContext dbContext)
+        public AdministratorController(ILogger<AdministratorController> logger, IMoviesRepository moviesRepository, IUserRepository userRepository, IProjectionsRespository projectionsRepository, CineMagicDbContext dbContext)
         {
             _logger = logger;
             this._moviesRepository = moviesRepository;
             this._projectionsRepository = projectionsRepository;
+            this._userRepository = userRepository;
             _dbContext = dbContext;
         }
 
 
-      
+
         public async Task<IActionResult> HomeAdmin()
         {
             IList<ProjectionRes> projections = await _projectionsRepository.GetAllProjectionsAsync();
@@ -43,7 +46,7 @@ namespace CineMagic.Controllers
 
             IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
             var sortedMov = movies.OrderByDescending(id => id.Id).ToList();
-            
+
             AdminMoviesAndProjections lista = new AdminMoviesAndProjections(movies, projections);
             return View(lista);
         }
@@ -60,26 +63,26 @@ namespace CineMagic.Controllers
             return View();
         }
 
-        public ActionResult AddMovie()
+        public ActionResult AddMovies()
         {
-            return RedirectToAction("AddMovie", "Movies");
+            return RedirectToAction("AddMovies", "Movies");
         }
         public ActionResult AddProjection()
         {
-            return RedirectToAction("AddProjection", "Projections");
+            return RedirectToAction("AddProjections", "Projections");
         }
 
         public ActionResult EditProjection(int id)
         {
-            return RedirectToAction("EditProjection", "Projections");
+            return RedirectToAction("EditProjections", "Projections");
         }
         public ActionResult DeleteProjection(int id)
         {
-            return RedirectToAction("DeleteProjection", "Projections");
+            return RedirectToAction("DeleteProjections", "Projections");
         }
         public ActionResult DeleteMovie(int id)
         {
-            return RedirectToAction("DeleteMovie", "Movies");
+            return RedirectToAction("DeleteMovies", "Movies");
         }
 
         // POST: AdministratorController/Create
@@ -98,7 +101,7 @@ namespace CineMagic.Controllers
         }
 
         // GET: AdministratorController/Edit/5
-        
+
 
         // POST:AdministratorController/Edit/5
         [HttpPost]
@@ -116,9 +119,9 @@ namespace CineMagic.Controllers
         }
 
 
-       
 
-        
+
+
         // POST: AdministratorController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -168,7 +171,7 @@ namespace CineMagic.Controllers
             }
 
             await Add(theMovieDb, movieSearch);
-            
+
             //sad ovdje pozvati add metodu u koju ces proslijediti Add(theMovieDb, movieSearch.Trailer, movieSearch.Duration)
             // u toj metodi kreirati Movie movie = new Movie i dodijeliti sve podatke koje imas 
         }
@@ -229,13 +232,13 @@ namespace CineMagic.Controllers
                 .Where(m => m.Name == theMovieDb.Name)
                 .FirstOrDefaultAsync();
 
-            foreach(var actor in actors)
+            foreach (var actor in actors)
             {
                 Actor ac = await _dbContext.Actors
                     .Where(a => a.Name == actor.Name)
                     .FirstOrDefaultAsync();
 
-                if(ac == null)
+                if (ac == null)
                 {
                     Actor newActor = new Actor
                     {
@@ -262,5 +265,37 @@ namespace CineMagic.Controllers
             }
 
         }
+
+
+        public async Task<IActionResult> AddCreditCard()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> AddCreditCardDb(CreditCardModel res)
+        {
+
+            await _userRepository.AddCreditCard(res);
+
+            CinemaCreditCardGetDetailsRes created = await _userRepository.GetUserCreditCard(res);
+
+            return View("CardAdded", (object)created);
+
+        }
+
+        public async Task<IActionResult> AddFunds()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> AddFundsDb(AddFundsModel res)
+        {
+
+            await _userRepository.AddFunds(res);
+
+            return RedirectToAction("HomeAdmin", "Administrator");
+
+        }
+        
     }
 }

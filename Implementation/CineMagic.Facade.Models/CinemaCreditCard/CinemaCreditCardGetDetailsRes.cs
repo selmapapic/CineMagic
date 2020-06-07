@@ -7,5 +7,6 @@
         public long CardNumber { get; set; }
 
         public double Balance { get; set; }
+        public string UserId { get; set; }
     }
 }

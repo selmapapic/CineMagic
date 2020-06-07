@@ -126,5 +126,58 @@ namespace CineMagic.Facade.Efc.Repositories
             _dbContext.Reservations.Add(reservation);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task AddCreditCard(CreditCardModel res)
+        {
+            string userId = await _dbContext.Users
+                .Where(u => u.Email == res.UserMail)
+                .Select(u => u.Id)
+                .FirstOrDefaultAsync();
+
+            CinemaCreditCard card = new CinemaCreditCard
+            {
+                UserId = userId,
+                Balance = res.Balance,
+                CinemaCreditCardNumber = GetCardNumber()
+            };
+
+            _dbContext.Add(card);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private long GetCardNumber ()
+        {
+            int _min = 1000000;
+            int _max = 9999999;
+            Random _rdm = new Random();
+            return _rdm.Next(_min, _max);
+        }
+
+        public async Task AddFunds(AddFundsModel res)
+        {
+            CinemaCreditCard card = await _dbContext.CinemaCreditCards
+                .Where(u => u.CinemaCreditCardNumber == res.CardNumber)
+                .FirstOrDefaultAsync();
+
+            card.Balance = card.Balance + res.Balance;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<CinemaCreditCardGetDetailsRes> GetUserCreditCard(CreditCardModel res)
+        {
+            IdentityUser user = await _dbContext.Users
+                .Where(u => u.Email == res.UserMail)
+                .FirstOrDefaultAsync();
+
+            CinemaCreditCard card = await _dbContext.CinemaCreditCards
+                .Where(u => u.UserId == user.Id)
+                .FirstOrDefaultAsync();
+
+            return new CinemaCreditCardGetDetailsRes
+            {
+                CardNumber = card.CinemaCreditCardNumber
+            };
+        }
     }
 }
