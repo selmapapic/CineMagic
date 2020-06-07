@@ -1,7 +1,21 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Payment";
+}
 <html>
+<style>
+    input[type=text] {
+        width: 350px;
+        -webkit-transition: width .35s ease-in-out;
+        transition: width .35s ease-in-out;
+    }
+
+
+        input[type=text]:focus {
+            width: 725px;
+        }
+</style>
 <body>
-    <div class="row">
+    <div class="row" style="margin-top:40px;">
         <div class="col-8 offset-2">
             <div class="card">
                 <div class="card-header">
@@ -15,7 +29,7 @@
                     <h6 class="card-subtitle mb-2 text-muted"><b>Seat: </b> @Model.Seat.Name</h6>
                     <h6 class="card-subtitle mb-2 text-muted"><b>Ticket price: </b>7KM</h6>
                     <p class="card-text">
-                        <i>Thank you for using this Web Site for making reservation</i>
+                    <p style="color:firebrick">Thank you for using this Web Site for making reservation</p>
                     </p>
 
                 </div>
@@ -31,17 +45,25 @@
                 <input type="hidden" id="ProjectionId" name="ProjectionId" value='@Model.Projection.Id' />
                 <input type="hidden" id="AvailableSeatId" name="AvailableSeatId" value='@Model.Seat.Id' />
 
+                <br />
+                <br />
 
-                <b> <i>Enter your cinema card number to pay ticket: </i></b>
+                <b>Enter your cinema card number to pay ticket:</b>
+                <br />
                 <br />
                 <input type="text" class="form-control" id="CardNumber" name="CardNumber" pattern="[0-9]{7}" placeholder="cinema card number" required maxlength="7">
                 <br />
                 <br />
-                <div id="error"> </div>
-                <button type="submit" class="btn btn-primary" id="btn">Confirm</button>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary" id="btn" style="margin-left:20px;">Confirm</button>
+                    <a href="/Movies/Details/@Model.Projection.MovieId">
+                        <button type="button" class="btn btn-primary" style="margin-left:40px;"> Cancel</button>
+                    </a>
+                </div>
             </form>
         </div>
     </div>
+
 
     <div>
         <br />
@@ -49,9 +71,7 @@
 
     <div class="row">
         <div class="col-8 offset-2">
-            <a href="/Movies/Details/@Model.Projection.MovieId">
-                <button type="button" class="btn btn-danger">Cancel</button>
-            </a>
+
         </div>
 
     </div>

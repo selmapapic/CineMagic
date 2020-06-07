@@ -32,6 +32,7 @@ namespace CineMagic.Controllers
             MovieRes res = await _moviesRepository.GetDetailsAsync(req);
             res.Projections = res.Projections.OrderBy(p => p.ProjectionTime).ToList();
             return View(res);
+
         }
 
         public async Task<IActionResult> AllMovies()
@@ -44,17 +45,18 @@ namespace CineMagic.Controllers
         
         public async Task<IActionResult> MovieReservation(ProjectionGetDetailsReq req)
         {
-            //MovieGetDetailsRes movieRes = await _moviesRepository.GetDetailsAsync(req);
-            //ProjectionGetDetailsReq projectionReq = new ProjectionGetDetailsReq
-            //{
-            //    MovieId = movieRes.Id
-            //};
+            if (await _userRepository.DoesUserExists())
+            {
+                ProjectionRes res = await _projectionsRespository.GetProjectionById(req);
+                return View(res);
 
-            //IList<ProjectionGetDetailsRes> projectionsRes = await _projectionsRespository.GetProjectionsForMovieAsync(projectionReq);
-            //projectionsRes = projectionsRes.OrderBy(p => p.ProjectionTime).ToList();
-            ProjectionRes res = await _projectionsRespository.GetProjectionById(req);
-            
-            return View(res);
+            }
+            else
+            {
+                return View("UserDoesNotExist");
+            }
+
+
         }
         
         public async Task<IActionResult> AddMovie([Bind("Id,Name,GenreNames,ProjectionsDateTime,Duration,Synopsis,ActorNames,Director,TrailerURL,PosterUrl")] Movie movie)

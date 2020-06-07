@@ -1,64 +1,86 @@
 ﻿@{
     ViewData["Title"] = "Movie Detail";
 }
+<html>
+<style>
+    body {
+        background-image: url("/images/logo_providno_2.png");
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-position: 0px 120px;
+        background-size: 280px 250px;
+        background-attachment: fixed;
+    }
+</style>
+<body>
 <div class="container-fluid">
     <div class="row">
         <div class="col-7 offset-1">
-            <h1><strong>@Model.Name</strong></h1>
+            <h1 style="font-family:'Copperplate Gothic'"><strong>@Model.Name</strong></h1>
         </div>
     </div>
     <div class="row">
         <div class="col-7 offset-1">
-            <b style="font-size:large">Synopsis</b>
-            <p><i>@Model.Synopsis</i></p>
+            <b style="font-size:large;font-family:'Copperplate Gothic'">Synopsis</b>
+            <p>@Model.Synopsis</p>
+            <br/>
+            <b style="font-size:large;font-family:'Copperplate Gothic'">GENRE ? </b>
+
+            @foreach (var item in Model.GenreNames)
+            {
+                <b style="margin-left: 2.5em; font-size: large; font-family: 'Copperplate Gothic'">@item</b>
+            }
+
+            <br/>
+            <br/>
+
+            <iframe width="600" height="315" src="@Model.TrailerURL" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
         </div>
         <div class="col-3 offset-1">
-            <img src="@Url.Content(@Model.PosterURL)" style="width:200px;height:150px"  />
+            <img src="@Url.Content(@Model.PosterURL)" style="width:200px;height:300px" />
+
+            <br />
+            <br />
+
+            <p style="font-size:large"><b style="font-family:'Copperplate Gothic'">Duration: </b>@Model.Duration min</p>
+
+            <br />
+
+            <b style="font-size:large;font-family:'Copperplate Gothic'">Cast</b>
+            <ul>
+                @foreach (var item in Model.ActorNames)
+                {
+                    <li>@item</li>
+                }
+            </ul>
+
+            <br />
+
+            <p style="font-size:large"><b style="font-family:'Copperplate Gothic'">Director: </b>@Model.Director</p>
+
+
         </div>
     </div>
 </div>
 
 <div style="margin-top:10px">
     <p style="margin-top:10px"></p>
+    <br/>
 </div>
-
-<div class="container-fluid">
-
-    <div class="row">
-    </div>
-    <div class="row">
-        <div class="col-6 offset-1">
-            @foreach (var item in Model.GenreNames)
-            {
-                @if (Model.GenreNames[0] != item)
-                {
-                    <b style="margin-left:2.5em;font-size:large;font-family:'Copperplate Gothic'">@item</b>
-                }
-                else
-                {
-                    <b style="font-size:large;font-family:'Copperplate Gothic'">@item</b>
-                }
-
-            }
-        </div>
-        <div class="col-3 offset-2">
-            <p style="font-size:large"><b>Duration: </b><i>@Model.Duration min</i></p>
-        </div>
-    </div>
-</div>
-
 
     <!-- 'Copperplate Gothic' font -->
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-5 offset-1" style="background-color:burlywood">
+            <div class="col-5 offset-2" style="background-color:burlywood">
 
             </div>
             <br />
         </div>
         <div class="row">
-            <div class="col-5 offset-1" style="background-color:burlywood">
+            <div class="col-5 offset-2" style="background-color:burlywood">
                 <table class="table" style="width:100%">
                     <colgroup>
                         <col span="1" style="width: 50%;">
@@ -100,36 +122,15 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-2 offset-3">
-                <b style="font-size:large">Cast</b>
-                <ul>
-                    @foreach (var item in Model.ActorNames)
-                    {
-                        <li><i>@item</i></li>
-                    }
-                </ul>
-                <p style="font-size:large"><b>Director: </b><i>@Model.Director</i></p>
-            </div>
-
         </div>
 
 
     </div>
 
-
-@if (ViewBag.AlertMess == null )
-{
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-    </div>
-}
-
-
     <div class="footer">
     </div>
+    </body>
+</html>
 
 
 

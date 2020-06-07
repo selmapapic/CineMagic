@@ -50,7 +50,16 @@ namespace CineMagic.Facade.Efc.Repositories
         private bool IsInThisWeek(DateTime date)
         {
             DayOfWeek now = DateTime.Now.DayOfWeek;
-            int daysTillToday = now - DayOfWeek.Monday;
+            int daysTillToday;
+
+            if (now == DayOfWeek.Sunday)
+            {
+                daysTillToday = 6;
+            }
+            else
+            {
+                daysTillToday = now - DayOfWeek.Monday;
+            }
             DateTime thisWeekMonday = DateTime.Now.AddDays(-daysTillToday);
             DateTime thisWeekSunday = thisWeekMonday.AddDays(6);
             if (DateTime.Compare(date.Date, thisWeekMonday.Date) >= 0 && DateTime.Compare(date.Date, thisWeekSunday.Date) <= 0) return true;

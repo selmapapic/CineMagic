@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Unsuccessful";
+}
+<!DOCTYPE html>
 <html>
 <head>
     <style>
@@ -6,40 +9,59 @@
             background-image: url("/images/logo_providno_2.png");
             background-repeat: no-repeat;
             background-position: left top;
-            background-position: 0px 70px;
+            background-position: 0px 120px;
             background-attachment: fixed;
         }
+
         div.polaroid {
-            margin-left:200px;
+            margin-left: 200px;
             width: 800px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            text-align: center;
         }
-
-        
     </style>
 </head>
 <body>
     <!--  background: linear-gradient(#93B874 10%, #C9DCB9 70%, #000000 90%); -->
     <!--  background: linear-gradient(to right, rgba(147,184,116,0), rgba(147,184,116,1))  -->
-    <div class="polaroid">
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
-        <h1>neuspjesno</h1>
+    <div class="polaroid" style="background-color:burlywood">
+        <div class="row" style="margin-top:65px;text-align:center">
+            <div class="col-8">
+                <h1 style="margin-top:10px;"> <b style="color:darkorange">SORRY</b> </h1>
+                <h2 style="        text-align: center;
+        vertical-align: middle; color:white">
+                    There are some problems about your CineMagic Credit Card!
+                </h2>
+            </div>
+            <div class="col-4" style="text-align:center">
+                <img class="img-fluid" src="https://www.shareicon.net/data/2015/11/22/676232_paper_512x512.png" alt="Logo" style="width:150px;height:150px; align-content: end;vertical-align:top; margin-top:5px;">
+            </div>
+        </div>
+        <div>
+            <br />
+            <br />
+        </div>
+        <div class="row">
+            <div class="col-10">
+                <h4 style="margin-left:30px;">I don't have CineMagic Credit Card. What should I do?</h4>
+                <p style="margin-left:30px;">Click here, and find more information about CineMagic Credit Card.</p>
+                <br />
+                <h4 style="margin-left:30px;">I already have CineMagic Credit Card, what is wrong?</h4>
+                @if (@Model.Error.Contains("button"))
+                {
+                    <p style="margin-left:30px;">@Model.Error</p>
+                    <a href="/Reservations/TicketPayment/@Model.AvailableSeatId">
+                        <button type="button" class="btn btn-warning" style="margin-left:225px;"><b>Try again</b></button>
+                    </a>
+                }
+                else
+                {
+                    <p style="margin-left:30px;">@Model.Error</p>
+                }
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
 
     </div>
 

@@ -1,32 +1,37 @@
-﻿<div class="row">
-    <div class="col-6">
-        <img src="@Url.Content(@Model.CinemaHall.HallImageUrl)" style="width:500px;height:500px;align-content:center" />
-    </div>
-    <div class="col-6">
-        <h3 style="text-align:center"> <i>Look at the Cinema Hall picture and choose one of the available seats</i> </h3>
-        <div>
-            <br/>
-        </div>
-        <div class="dropdown" style="text-align:center">
-            <button class="btn btn-secondary dropdown-toggle"
-                    type="button" id="dropdownMenu1" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                Choose your seat
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                @foreach (var item in Model.AvailableSeats)
-                {
-                    <a class="dropdown-item" href="/Reservations/TicketPayment/@item.Id"> <b> <i> @item.Name  </i></b></a>
-                }
+﻿@{
+    ViewData["Title"] = "Seat selection";
+}
+<html>
+<body>
+    <div class="container-fluid" style="margin-top:50px;">
+        <div class="row">
+            <div class="col-6">
+                <img src="@Url.Content(@Model.CinemaHall.HallImageUrl)" style="width:500px;height:500px;align-content:center" />
+            </div>
+            <div class="col-6" style="background-color:burlywood;">
+                <h3 style="text-align:center;margin-top:20px;"> Look at the Cinema Hall picture and choose one of the available seats </h3>
+                <div>
+                    <br />
+                </div>
+                <div class="dropdown" style="text-align:center">
+                    <button class="btn btn-secondary dropdown-toggle"
+                            type="button" id="dropdownMenu1" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        Choose your seat
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        @foreach (var item in Model.AvailableSeats)
+                        {
+                            <a class="dropdown-item" href="/Reservations/TicketPayment/@item.Id"> <b> <i> @item.Name  </i></b></a>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
+
+
+        <div class="footer">
+        </div>
     </div>
-</div>
-
-
-
-
-
-
-<div class="footer">
-</div>
+</body>
+</html>
