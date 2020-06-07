@@ -103,6 +103,12 @@ namespace CineMagic.Facade.Efc.Repositories
                 SeatId = model.SeatId
             };
 
+            CinemaCreditCard card = await _dbContext.CinemaCreditCards
+                .Where(u => u.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            card.Balance = card.Balance + 7;
+
             _dbContext.Reservations.Remove(reservation);
             _dbContext.Tickets.Remove(ticket);
             _dbContext.AvailableSeats.Add(availableSeat);
