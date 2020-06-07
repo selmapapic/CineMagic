@@ -123,6 +123,70 @@ namespace CineMagic.Facade.Efc.Repositories
             Movie movie = await _dbContext.Movies.Where(m => m.Id == req.Id)
                 .FirstOrDefaultAsync();
             return movie;
+            
+        }
+
+        public async Task<Boolean> AddMovies(MovieRes res)
+        {
+            try
+            {
+                
+
+                
+                MovieGenre genre1 = _dbContext.MovieGenres.Where(m => m.Name == res.Genre1).FirstOrDefault();
+                MovieGenre genre2 = _dbContext.MovieGenres.Where(m => m.Name == res.Genre2).FirstOrDefault();
+                MovieGenre genre3 = _dbContext.MovieGenres.Where(m => m.Name == res.Genre3).FirstOrDefault();
+
+                Actor actor1 = _dbContext.Actors.Where(a => a.Name == res.Actor1).FirstOrDefault();
+                Actor actor2 = _dbContext.Actors.Where(a => a.Name == res.Actor2).FirstOrDefault();
+                Actor actor3 = _dbContext.Actors.Where(a => a.Name == res.Actor3).FirstOrDefault();
+                Actor actor4 = _dbContext.Actors.Where(a => a.Name == res.Actor4).FirstOrDefault();
+                Actor actor5 = _dbContext.Actors.Where(a => a.Name == res.Actor5).FirstOrDefault();
+
+
+
+                
+                Movie movie = new Movie
+                {
+                    Name = res.Name,
+                    Duration = res.Duration,
+                    Synopsis = res.Synopsis,
+                    Director = res.Director,
+                    TrailerUrl = res.TrailerURL,
+                    PosterUrl = res.PosterURL,
+
+                };
+               
+
+             
+                _dbContext.Add(movie);
+                await _dbContext.SaveChangesAsync();
+
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
+
+        public async Task<bool> DeleteMovies(int id)
+        {
+            Movie movie = await _dbContext.Movies.Where(m => m.Id == id)
+               .FirstOrDefaultAsync();
+            try
+            {
+
+                _dbContext.Movies.Remove(movie);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

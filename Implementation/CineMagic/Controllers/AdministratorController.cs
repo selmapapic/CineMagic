@@ -36,7 +36,7 @@ namespace CineMagic.Controllers
             IList<MovieRes> movies = await _moviesRepository.GetAllMoviesAsync();
             var sortedMov = movies.OrderByDescending(id => id.Id).ToList();
             
-            AdminMoviesAndProjections lista = new AdminMoviesAndProjections(movies, projections);
+            AdminMoviesAndProjections lista = new AdminMoviesAndProjections(sortedMov, sortedPro);
             return View(lista);
         }
 
@@ -73,59 +73,9 @@ namespace CineMagic.Controllers
         }
         public ActionResult DeleteMovie(int id)
         {
-            return RedirectToAction("DeleteMovie", "Movies", new { @id = id });
+            return RedirectToAction("DeleteMovies", "Movies", new { @id = id });
         }
-
-        // POST: AdministratorController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AdministratorController/Edit/5
-        
-
-        // POST:AdministratorController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
-       
 
         
-        // POST: AdministratorController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

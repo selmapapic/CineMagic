@@ -2,100 +2,104 @@
 @{
     ViewData["Title"] = "Administrator Page";
 }
-<h1>@ViewData["Title"]</h1>
+
+<h1 class="text-center">@ViewData["Title"]</h1>
 
 <div class="container">
 
-  <div class="row">
-      
-      <div class="col-6">
-          <h4> Movies </h4>
-          <table class="table">
-              <thead class="thead-dark">
+    <div class="row">
 
-                  <tr>
-                      <th>
-                          <p>Name</p>
-                      </th>
-                      <th>
-                          <p>Duration</p>
-                      </th>
-                      <th>
-                          <p>Picture</p>
-                      </th>
-                      <th></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach (var item in Model.AdminMovies)
-                  {
-                      <tr>
-                          <td>
-                              @Html.DisplayFor(modelItem => item.Name)
-                          </td>
-                          <td>
-                              @Html.DisplayFor(modelItem => item.Duration)
-                          </td>
-                          <td>
-                              <div class="col-sm">
+        <div class="col-6">
+            <h4> Movies </h4>
+            <table class="table" style=" text-align:center">
+                <thead class="thead-dark">
 
-                                  <img class="d-block w-50" src="@Url.Content(item.PosterURL)" style="width:50px;height:150px" />
-                              </div>
-                          </td>
-                          <td>
-                              <a asp-action="DeleteMovie" asp-route-id="@item.Id">Delete</a>
-                          </td>
-                      </tr>
-                  }
-              </tbody>
-          </table>
-          <p>
-              @*<a asp-action="AddMovie">Add Movie</a>*@
-              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='@Url.Action("AddMovie", "Administrator")'">Add Movie</button>
-          </p>
-      </div>
-      <div class="col-6 ">
-          <h4> Movies </h4>
-          <table class="table">
-              <thead class="thead-dark">
-                  <tr>
-                      <th>
-                          <p>Movie Name</p>
-                      </th>
-                      <th>
-                          <p>Projection Date&Time</p>
-                      </th>
-                      <th>
-                          <p>Cinema Hall</p>
-                      </th>
-                      <th></th>
-                  </tr>
-                  </theadclass="thead-dark">
-              <tbody>
-                  @foreach (var item in Model.AdminProjections)
-                  {
-                      <tr>
-                          <td>
-                              @Html.DisplayFor(modelItem => item.MovieName)
-                          </td>
-                          <td>
-                              @Html.DisplayFor(modelItem => item.ProjectionTime)
-                          </td>
-                          <td>
-                              @Html.DisplayFor(modelItem => item.CinemaHall)
-                          </td>
-                          <td>
-                              <a asp-action="DeleteProjection" asp-route-id="@item.Id">Delete</a>
-                              <a asp-action="EditProjection" asp-route-id="@item.Id">Edit</a>
-                          </td>
-                      </tr>
-                  }
-              </tbody>
-          </table>
-          <p>
-              @*<a asp-action="AddProjection">Add Projection</a>*@
-              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='@Url.Action("AddProjection", "Administrator")'">Add Projection</button>
-          </p>
-      </div>
-  </div>
+                    <tr>
+                        <th>
+                            <p class="text-center">Name</p>
+                        </th>
+                        <th>
+                            <p class="text-center">Duration</p>
+                        </th>
+                        <th>
+                            <p class="text-center">Picture</p>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.AdminMovies)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Duration)
+                            </td>
+                            <td class="align-content-center">
+                                <div class="col-sm">
+
+                                    <img class="d-block w-50" src="@Url.Content(item.PosterURL)" style="width:50px;height:150px" />
+                                </div>
+                            </td>
+                            <td class="align-content-center">
+                                <a class="text-danger" asp-action="DeleteMovie" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <p>
+                @*<a asp-action="AddMovie">Add Movie</a>*@
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='@Url.Action("AddMovie", "Administrator")'">Add Movie</button>
+            </p>
+        </div>
+        <div class="col-6 ">
+            <h4> Projections </h4>
+            <table class="table"  style=" text-align:center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            <p class="text-center">Movie Name</p>
+                        </th>
+                        <th>
+                            <p class="text-center">Projection Date&Time</p>
+                        </th>
+                        <th>
+                            <p class="text-center">Cinema Hall</p>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.AdminProjections)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MovieName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProjectionTime)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CinemaHallId)
+                            </td>
+
+
+                            <td>
+                                <a class="text-danger" asp-action="DeleteProjection" asp-route-id="@item.Id">Delete</a>
+                                <a  asp-action="EditProjection" asp-route-id="@item.Id">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <p>
+                @*<a asp-action="AddProjection">Add Projection</a>*@
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='@Url.Action("AddProjection", "Administrator")'">Add Projection</button>
+            </p>
+        </div>
+    </div>
 </div>

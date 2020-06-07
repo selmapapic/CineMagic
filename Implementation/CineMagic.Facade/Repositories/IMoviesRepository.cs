@@ -13,5 +13,7 @@ namespace CineMagic.Facade.Repositories
         public Task<Boolean> AddMovie(Movie movie);
         public Task<Boolean> DeleteMovie(int id);
         public Task<Movie> GetMovieById(MovieGetDetailsReq req);
+        Task<Boolean> AddMovies(MovieRes movie);
+        Task<Boolean> DeleteMovies(int id);
     }
 }

@@ -170,7 +170,7 @@ namespace CineMagic.Facade.Efc.Repositories
 
             try
             {
-                _dbContext.Add(projection);
+                _dbContext.Projections.Add(projection);
                 await _dbContext.SaveChangesAsync();
                 return true;
             }
@@ -237,7 +237,7 @@ namespace CineMagic.Facade.Efc.Repositories
                 CinemaHall cinHall = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).FirstOrDefaultAsync();
                 Projection projection = new Projection
                 {
-                    Id=res.Id,
+                    
                     ProjectionTime = res.ProjectionTime,
                     MovieId = movie.Id,
                     Movie = movie,
@@ -262,8 +262,11 @@ namespace CineMagic.Facade.Efc.Repositories
                 CinemaHall cinHall = await _dbContext.CinemaHalls.Where(m => m.Id == res.CinemaHallId).FirstOrDefaultAsync();
                 Projection projection = new Projection
                 {
+                    Id=res.Id,
                     ProjectionTime = res.ProjectionTime,
+                    MovieId = movie.Id,
                     Movie = movie,
+                    CinemaHallId = cinHall.Id,
                     CinemaHall = cinHall
                 };
                 _dbContext.Update(projection);
