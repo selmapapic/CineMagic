@@ -142,6 +142,7 @@ namespace CineMagic.Controllers
             TheMovieDb theMovieDb = new TheMovieDb
             {
 
+
             };
 
 
