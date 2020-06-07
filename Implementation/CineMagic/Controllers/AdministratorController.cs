@@ -243,7 +243,6 @@ namespace CineMagic.Controllers
 
             movie.Director = directorName;
 
-            foreach(var actor in actors)
             foreach (var actor in actors)
             {
                 Actor ac = await _dbContext.Actors
