@@ -168,5 +168,41 @@ namespace CineMagic.Facade.Efc.Repositories
                 return false;
             }
         }
+
+        public async Task<Projection> GetProjectionEntityClassWithId(ProjectionGetDetailsReq req)
+        {
+            Projection projection = await _dbContext.Projections.Where(p => p.Id == req.Id).FirstOrDefaultAsync();
+            return projection;
+        }
+
+        public async Task<Boolean> DeleteProjection(int id)
+        {
+            Projection projection = await _dbContext.Projections.Where(p => p.Id == id).FirstOrDefaultAsync();
+            try
+            {
+
+                _dbContext.Projections.Remove(projection);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<Boolean> EditProjection(Projection projection)
+        {
+            try
+            {
+                _dbContext.Update(projection);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

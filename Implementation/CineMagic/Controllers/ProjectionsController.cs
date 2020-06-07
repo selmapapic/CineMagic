@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CineMagic.Dal.Entities;
+using CineMagic.Facade.Models.Projection;
 using CineMagic.Facade.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,24 +32,35 @@ namespace CineMagic.Controllers
             return View();
         }
 
+
+
         
-        // POST: ProjectionsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProjection([Bind("Id,ProjectionTime, MovieId, MOvie, CinemaHallId, CinemaHall, AvailableSeats")] Projection projection)
+        
+        public async Task<IActionResult> AddProjection([Bind("Id,ProjectionTime, MovieId, Movie, CinemaHallId, CinemaHall, AvailableSeats")] Projection projection)
         {
             if (ModelState.IsValid)
             {
                 await _projectionsRepository.AddProjection(projection);
+
                 return RedirectToAction("HomeAdmin", "Administrator");
+
+
             }
             return View(projection);
         }
 
-        // GET: ProjectionsController/Edit/5
-        public ActionResult EditProjection(int id)
+        
+        public async Task<IActionResult> EditProjection([Bind("Id,ProjectionTime, MovieId, Movie, CinemaHallId, CinemaHall, AvailableSeats")] Projection projection)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                await _projectionsRepository.EditProjection(projection);
+
+                return RedirectToAction("HomeAdmin", "Administrator");
+
+
+            }
+            return View(projection);
         }
 
         // POST:ProjectionsController/Edit/5
@@ -66,26 +78,45 @@ namespace CineMagic.Controllers
             }
         }
 
-        // GET:ProjectionsController/Delete/5
-        public ActionResult DeleteProjection(int id)
+        public async Task<IActionResult> DeleteProjection(int id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ProjectionGetDetailsReq req = new ProjectionGetDetailsReq();
+            req.Id = id;
+            Projection projection = await _projectionsRepository.GetProjectionEntityClassWithId(req);
+            if (projection == null)
+            {
+                return NotFound();
+            }
+
+            return View(projection);
+        }
+        [HttpPost, ActionName("DeleteProjection1")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteProjection1(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+       
+
+
+            if (ModelState.IsValid)
+            {
+                await _projectionsRepository.DeleteProjection(id);
+
+                return RedirectToAction("HomeAdmin", "Administrator");
+
+
+            }
             return View();
         }
-
-        // POST: ProjectionsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
         public ActionResult HomeAdmin()
         {
             return RedirectToAction("HomeAdmin", "Administrator");

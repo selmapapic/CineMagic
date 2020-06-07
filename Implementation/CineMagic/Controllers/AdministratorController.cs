@@ -65,6 +65,7 @@ namespace CineMagic.Controllers
         {
             return RedirectToAction("EditProjection", "Projections", new { @id = id });
         }
+        
         public ActionResult DeleteProjection(int id)
         {
             return RedirectToAction("DeleteProjection", "Projections", new { @id = id });
