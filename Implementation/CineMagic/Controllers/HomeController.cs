@@ -55,5 +55,10 @@ namespace CineMagic.Controllers
             PlayingNowGetDetailsRes projections = await _projectionsRepository.GetAllProjectionsByDaysAsync();
             return View(projections);
         }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
     }
 }
