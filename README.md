@@ -1,42 +1,35 @@
 ![](images/logo_normalno_vol2.png)
-# Grupa4-CineMagic
-### Tema: Kino
+# CineMagic
 
-## Članovi tima SiKTer 
-- [Šahović Tarik](https://github.com/tsahovic1 "Github")
+## Contributors 
 - [Đokić Kanita](https://github.com/kdokic1 "Github")
 - [Ćelosmanović Selma](https://github.com/scelosmano1 "Github")
+- [Šahović Tarik](https://github.com/tsahovic1 "Github")
 
-## Opis teme
+## Overview
 
-Aplikacija za kino korisnicima omogućava da jednostavno i bez muke naprave online rezervaciju karata za film koji žele gledati. Omogućen je prikaz filmova u programu 7 dana unaprijed, uključujući i satnice filmova, te njihova trajanja. Aplikacija nudi i mogućnost odabira mjesta, plaćanja putem kartice i obračunavanje određenih popusta za česte korisnike. Budite uvijek u toku sa aktuelnim filmova, uštedite vrijeme i izbjegnite čekanje u redovima. 
+This cinema web application allows users to easily and effortlessly make an online reservation of tickets for the movie they want to watch. The movie programme can be shown 7 days in advance, including movie schedules and their durations. This application also offers the possibility of choosing a seat, paying by card and calculating certain discounts for frequent users. 
 
-## Funkcionalnosti 
+By using CineMagic you stay up to date with current popular movies, save time and avoid waiting in lines. 🎞️🎟️
 
-- Mogućnost pregleda filmova koji se prikazuju u kinu 7 dana unaprijed
-- Mogućnost rezervacije karata putem aplikacije uz kreiranje naloga
--	Mogućnost odabira sjedišta u Sali 
--	Usluga pretraživanja filmova po raznim parametrima
--	Mogućnost plaćanja putem bankovnog računa
--	Mogućnost gledanja trailer-a filmova
--	Mogućnost povrata novca prilikom otkazivanja rezervacije, najkasnije 24h prije početka prikazivanja filma u kinu
--	Obračunavanje određenih popusta na cijene karata
+[This video](https://drive.google.com/file/d/1eDYLvyWgexlPym0c-__venboOx6y3IuL/view?usp=sharing) shows the app with all its features. 
 
-## Procesi
-#### Gost: 
-Gostu je omogućen pregled filmova koji se prikazuju u kinu sljedećih 7 dana, pretraga filmova po određenim parametrima, pregled trailer-a, te informacije o cijenama karata i broju slobodnih mjesta.
+## Features
 
-#### Korisnik sa nalogom:
-Ova vrsta korisnika ima kreiran nalog sa osnovnim podacima pomoću kojih se loguje i pristupa našem sistemu. Korisniku sa nalogom je omogućeno sve ono što i gostu uz mogućnost rezervacije karata, rezervacije sjedišta, te plaćanja rezervisanih karata putem bankovnog računa. Pored toga, omogućeno je i obračunavanje popusta.
+- View 7 day movie programme
+- Filter and search for movies
+- View movie trailers
+- Ticket reservation
+-	Seat selection
+-	Pay for tickets using CineMagic card
+-	Money refund in case of cancellation 24 hours before projection
+-	Movie ticket discount in certain cases
 
-#### Administrator:
-Administrator nema mogućnost rezervisanja karata. Ovaj akter dodaje i briše filmove, ažurira datum i vrijeme prikazivanja i eventualno mijenja cijene i popuste.
-
-#### Banka (sistem za kartično poslovanje):  
-Banka provjerava validnost bankovnog računa i stanje istog, obavlja transakcije vezane za kupovinu karata i povrat novca u slučaju otkazivanja rezervacije.
-
-## Akteri:
--	Gost
--	Korisnik sa nalogom
--	Administrator
--	Banka (sistem za kartično poslovanje)
+## Tech
+* .NET Core
+* HTML
+* CSS
+* Razor 
+* Entity Framework
+* Azure SQL Database
+* TMDB API Web Service
