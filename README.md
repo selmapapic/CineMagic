@@ -1,5 +1,4 @@
 ![](images/logo_normalno_vol2.png)
-# CineMagic
 
 ## Contributors 
 - [Đokić Kanita](https://github.com/kdokic1 "Github")
